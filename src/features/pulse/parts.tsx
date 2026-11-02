@@ -128,7 +128,7 @@ export interface TileSpec {
 }
 
 export function Tiles({ tiles }: { tiles: TileSpec[] }) {
-  const { fmt } = useT();
+  const { t, fmt } = useT();
   return (
     <div className="pl-tiles">
       {tiles.map((s) => {
@@ -136,7 +136,7 @@ export function Tiles({ tiles }: { tiles: TileSpec[] }) {
         const shown = format(s.value);
         return (
           <button type="button" key={s.k} data-k={s.k} className={`pl-tile${s.attn ? ` is-${s.attn.tone}` : ''}`}
-            aria-label={`${s.label}: ${shown}`} aria-pressed={s.pressed ?? undefined}
+            aria-label={`${s.label}: ${shown}${s.attn ? `${t('pl.comma')}${s.attn.label}` : ''}`} aria-pressed={s.pressed ?? undefined}
             data-tip={tipHtml(s.label, shown, s.verb, s.verbText)} onClick={s.onClick}>
             <span className="pl-tile-h"><Icon name={s.icon} size={16} /><span>{s.label}</span></span>
             <CountUp value={s.value} format={format} />

@@ -199,10 +199,13 @@ export function computePulse(db: DB, input: PulseInput): Pulse {
       return r ? [{ iso: x.id, value: x.value, rank: r, vs: vsAverage(x.value, values), party: x.party, ext: x.ext }] : [];
     }).sort((a, b) => a.rank.rank - b.rank.rank || a.iso.localeCompare(b.iso));
   };
+  // involvement = files a state is a party to or an external power in, each file once (as the country brief counts it):
+  // an external role counts only in files the state is not already a party to, so party + ext is the value
   const party = new Map<string, number>(), ext = new Map<string, number>();
   for (const c of conflicts) {
-    for (const iso of uniq(c.countries ?? [])) party.set(iso, (party.get(iso) ?? 0) + 1);
-    for (const iso of uniq((c.externalPowers ?? []).map((e) => e.iso3))) ext.set(iso, (ext.get(iso) ?? 0) + 1);
+    const parties = new Set(c.countries ?? []);
+    for (const iso of parties) party.set(iso, (party.get(iso) ?? 0) + 1);
+    for (const iso of uniq((c.externalPowers ?? []).map((e) => e.iso3))) if (!parties.has(iso)) ext.set(iso, (ext.get(iso) ?? 0) + 1);
   }
   const rankings: Pulse['rankings'] = {
     involvement: rank([...involved].filter((iso) => countryIn(iso) && db.countries.has(iso)).map((iso) => {

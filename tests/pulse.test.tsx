@@ -38,6 +38,8 @@ const en = () => act(() => { atlas.set({ lang: 'en' }); });
 const readLine = () => q('.pl-read')!.textContent ?? '';
 const count = (pred: (c: Conflict) => boolean, list = db.conflicts) => list.filter(pred).length;
 const allSev = () => new Set(SEVERITY.map((s) => s.id));
+/** Conflict involvement as the country brief counts it: files the state is a party to or an external power in, each once. */
+const involvement = (iso: string) => { const c = db.countries.get(iso)!; return new Set([...c.conflicts, ...c.external]).size; };
 
 /** Region with the most conflict files (first on a tie), as the read line names it. */
 function topRegion(list: Conflict[]) {
@@ -149,16 +151,45 @@ describe('filters', () => {
   });
 });
 
+describe('figures', () => {
+  test('conflict involvement counts each file once, as the country brief does', () => {
+    renderPulse();
+    en();
+    const usa = db.countries.get('USA')!;
+    const both = usa.conflicts.filter((id) => usa.external.includes(id)).length;
+    expect(both).toBeGreaterThan(0); // the case that used to double-count
+    const row = q<HTMLElement>('#pl-rank .pl-rk-row[data-iso="USA"]')!;
+    expect(row).toBeTruthy();
+    const value = involvement('USA');
+    expect(row.querySelector('.pl-rk-val')!.textContent).toBe(String(value));
+    // the breakdown adds up: party files, plus external roles in files it is not a party to
+    const party = new Set(usa.conflicts).size;
+    expect(row.textContent).toContain(`party to ${party}, external power in ${value - party}`);
+  });
+
+  test("an attention tile's accessible name includes its attention label", () => {
+    renderPulse();
+    en();
+    const chokes = db.chokepoints.filter((p) => p.status === 'crisis' || p.status === 'elevated').length;
+    const crisis = db.chokepoints.some((p) => p.status === 'crisis');
+    expect(q('.pl-tile[data-k="choke"]')).toHaveAttribute('aria-label', `Chokepoints in crisis or elevated: ${chokes}, ${crisis ? 'Crisis' : 'Needs attention'}`);
+    const unv = count((c) => db.isUnverified('conflict', c.id));
+    expect(q('.pl-tile[data-k="unverified"]')).toHaveAttribute('aria-label', `Unverified developments: ${unv}, Needs attention`);
+    // a plain tile keeps "label: value"
+    expect(q('.pl-tile[data-k="decade"]')!.getAttribute('aria-label')).toMatch(/^Events since \d{4}: \d+$/);
+  });
+});
+
 describe('linking', () => {
   test('pointing at a ranking row highlights that country; leaving clears it', () => {
     const spy = vi.fn();
     const off = on('highlight', spy);
     renderPulse();
-    // the most involved state (as party plus external power) leads the default tab
+    // the most involved state (files it is a party to or an external power in, each file once) leads the default tab
     const score = new Map<string, number>();
-    for (const c of db.conflicts) {
-      for (const iso of c.countries) score.set(iso, (score.get(iso) ?? 0) + 1);
-      for (const e of c.externalPowers ?? []) score.set(e.iso3, (score.get(e.iso3) ?? 0) + 1);
+    for (const c of db.countries.values()) {
+      const n = involvement(c.iso3);
+      if (n) score.set(c.iso3, n);
     }
     const best = Math.max(...score.values());
     const row = q<HTMLElement>('#pl-rank .pl-rk-row')!;

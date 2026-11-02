@@ -127,3 +127,4 @@ Notes:
 - The CSP keeps `worker-src blob:` (the worker is same-origin, so blob isn't strictly needed). Harmless; could tighten.
 - Shell palette label for G still says flat/globe.
 - A "map" icon would replace "route".
+Final: fixed (review 1, Important) Pulse double-counted conflict involvement — union like the Brief (USA 26) — pulse tests RED→GREEN 17/17. Fixed (review 9, minor, re-graded a11y) tile aria-label includes the attention pill.
