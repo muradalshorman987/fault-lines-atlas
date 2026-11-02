@@ -10,7 +10,7 @@ import { Pips, StackBar } from '../../ui/charts';
 import { esc } from '../../ui/dom';
 import { Icon } from '../../ui/Icon';
 import { resClassVar, traditionColor } from '../../ui/palette';
-import { gdpOf, gdpPerCapOf, popOf, type Shown } from '../dossier/brief/facts';
+import { gdpOf, gdpPerCapOf, popOf, type Shown } from '../../data/shown';
 import '../dossier/brief.css';
 import { SevIcon, UvMark } from './timeline/marks';
 import { LineKey } from './network';

@@ -8,7 +8,7 @@ import { edgeVar, traditionColor } from '../../../ui/palette';
 import type { Bi } from '../../../i18n/format';
 import type { Country } from '../../../data/types';
 import { CountryBrief } from '../brief/Brief';
-import { gdpOf, gdpPerCapOf, popOf } from '../brief/facts';
+import { gdpOf, gdpPerCapOf, popOf } from '../../../data/shown';
 import { extPowers, pickList, type ConflictX, type EdgeX, type EventX, type IntelX, type Panel, type ResEntryX } from '../model';
 import type { Kit } from '../parts';
 
