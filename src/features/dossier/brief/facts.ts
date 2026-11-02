@@ -2,13 +2,11 @@
 // The figures themselves (popOf, gdpOf, …) live in src/data/shown.ts, shared with the Compare view.
 
 import { displacedOf, gdpOf, gdpPerCapOf, popOf, sourceOf, figureMd, type Shown } from '../../../data/shown';
-import { rankBy, vsAverage, type Rank } from '../../../data/rank';
+import { rankBy, type Rank } from '../../../data/rank';
 import type { Country, DB } from '../../../data/types';
 import type { ChokeX } from '../model';
 
 export { displacedOf, gdpOf, gdpPerCapOf, popOf, sourceOf, figureMd, type Shown };
-
-const ok = (v: number | null | undefined): v is number => typeof v === 'number' && Number.isFinite(v);
 
 // ---- KPIs and their ranks
 
@@ -28,7 +26,7 @@ export function kpiValue(db: DB, id: KpiId, c: Country): number | null {
   }
 }
 
-interface Table { world: Map<string, Rank>; region: Map<string, Map<string, Rank>>; values: Map<string, number> }
+interface Table { world: Map<string, Rank>; region: Map<string, Map<string, Rank>> }
 const cache = new WeakMap<DB, Map<KpiId, Table>>();
 
 function table(db: DB, id: KpiId): Table {
@@ -43,25 +41,65 @@ function table(db: DB, id: KpiId): Table {
   const t: Table = {
     world: rankBy(all, value),
     region: new Map([...subs].map(([s, xs]) => [s, rankBy(xs, value)])),
-    values: new Map(all.filter((x) => ok(x.v)).map((x) => [x.id, x.v!])),
   };
   byKpi.set(id, t);
   return t;
 }
 
-/** "#n of N" in the world and in the state's subregion (missing when the state has no value). */
+/** "#n of N" among every state and territory with a value, in the world and in the subregion (missing without a value). */
 export function rankOf(db: DB, id: KpiId, c: Country): { world?: Rank; region?: Rank } {
   const t = table(db, id);
   return { world: t.world.get(c.iso3), region: c.subregion ? t.region.get(c.subregion)?.get(c.iso3) : undefined };
 }
 
-/** Signed % difference from the world and the subregion averages; the subregion needs at least two values. */
-export function benchOf(db: DB, id: KpiId, c: Country): { value: number; world: number | null; region: number | null } | null {
-  const t = table(db, id);
-  const v = t.values.get(c.iso3);
+// ---- comparison lines. A plain mean over entries lets microstates and dependencies dominate (Monaco, the Vatican),
+// so GDP per person is compared with the group's own figure (total GDP ÷ total population) and the other figures with
+// the median. Population gets no comparison.
+
+/** Median of finite values; null for none. */
+export function median(values: number[]): number | null {
+  const s = values.filter((x) => Number.isFinite(x)).sort((a, b) => a - b);
+  if (!s.length) return null;
+  const m = s.length >> 1;
+  return s.length % 2 ? s[m]! : (s[m - 1]! + s[m]!) / 2;
+}
+
+/** GDP per person of a group taken as one: total GDP ÷ total population over the members that have both. */
+export function weightedGdpPerCap(db: DB, members: Country[]): number | null {
+  let gdp = 0, pop = 0;
+  for (const c of members) {
+    const g = gdpOf(db, c), p = popOf(db, c);
+    if (g && p?.value) { gdp += g.value * 1e6; pop += p.value; }
+  }
+  return pop ? gdp / pop : null;
+}
+
+/** Signed, rounded % difference from a reference; null when the reference is missing or zero. */
+const diffFrom = (v: number, ref: number | null) => (ref ? Math.round(((v - ref) / ref) * 100) : null);
+
+export interface Bench { kpi: KpiId; kind: 'figure' | 'median'; world: number | null; region: number | null }
+
+/** The figure the median comparison reads: conflicts count every state, including those with none. */
+const benchValue = (db: DB, id: KpiId, c: Country) => (id === 'conflicts' ? involvement(c) : kpiValue(db, id, c));
+
+/** How a state's figure compares with the world and its subregion; null when nothing can be said. */
+export function benchOf(db: DB, id: KpiId, c: Country): Bench | null {
+  if (id === 'pop') return null;
+  const v = benchValue(db, id, c);
   if (v == null) return null;
-  const peers = [...db.countries.values()].filter((x) => x.subregion && x.subregion === c.subregion && t.values.has(x.iso3)).map((x) => t.values.get(x.iso3)!);
-  return { value: v, world: vsAverage(v, [...t.values.values()]), region: peers.length > 1 ? vsAverage(v, peers) : null };
+  const all = [...db.countries.values()];
+  const peers = c.subregion ? all.filter((x) => x.subregion === c.subregion) : [];
+  let world: number | null, region: number | null = null;
+  if (id === 'gdppc') {
+    world = diffFrom(v, weightedGdpPerCap(db, all));
+    if (peers.filter((x) => gdpOf(db, x) && popOf(db, x)?.value).length > 1) region = diffFrom(v, weightedGdpPerCap(db, peers));
+  } else {
+    const values = (xs: Country[]) => xs.flatMap((x) => { const y = benchValue(db, id, x); return y == null ? [] : [y]; });
+    world = diffFrom(v, median(values(all)));
+    const pv = values(peers);
+    if (pv.length > 1) region = diffFrom(v, median(pv));
+  }
+  return world == null && region == null ? null : { kpi: id, kind: id === 'gdppc' ? 'figure' : 'median', world, region };
 }
 
 // ---- "What stands out": data rules in priority order; the brief shows the first four that apply.

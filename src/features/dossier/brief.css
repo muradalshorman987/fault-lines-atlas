@@ -32,8 +32,10 @@
   font-size: var(--fs-xs); line-height: 1.6; color: var(--fg-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-/* benchmark line */
-.br-bench { max-width: 65ch; margin-top: 12px; font-size: var(--fs-md); line-height: 1.65; color: var(--fg-2); text-wrap: pretty; }
+/* comparison lines and the note on what the ranks count */
+.br-bench { display: grid; gap: 6px; max-width: 65ch; margin-top: 12px; }
+.br-bench > li { font-size: var(--fs-md); line-height: 1.65; color: var(--fg-2); text-wrap: pretty; }
+.br-bench + .dz-note, .br-kpis + .dz-note { margin-top: 10px; }
 
 /* ---------- what stands out ---------- */
 .br-out > li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; padding-block: 8px; font-size: var(--fs-md); line-height: 1.65; color: var(--fg); }

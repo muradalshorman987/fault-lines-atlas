@@ -102,13 +102,83 @@ describe('Country brief', () => {
     expect(document.getElementById('dz-a-near')).not.toBeNull();
   });
 
-  test('the benchmark line compares GDP per person with the world and subregion averages', () => {
+  // ---- comparison lines: GDP per person against total GDP ÷ total population; other figures against the median
+  const all = () => [...db.countries.values()];
+  const inSub = (c: Country) => all().filter((x) => x.subregion === c.subregion);
+  const weighted = (cs: Country[]) => {
+    let g = 0, p = 0;
+    for (const x of cs) if (x.gdp && x.pop) { g += x.gdp * 1e6; p += x.pop; }
+    return g / p;
+  };
+  const median = (xs: number[]) => {
+    const s = [...xs].sort((a, b) => a - b), m = Math.floor(s.length / 2);
+    return s.length % 2 ? s[m]! : (s[m - 1]! + s[m]!) / 2;
+  };
+  const pct = (v: number, ref: number) => Math.round(((v - ref) / ref) * 100);
+  const word = (d: number) => (Math.abs(d) <= 2 ? en('dz.br.level') : en(d > 0 ? 'dz.br.above' : 'dz.br.below', { p: `${Math.abs(d)}%` }));
+  const benchLine = (kpi: string) => document.querySelector(`#dz-panel .br-bench [data-bench="${kpi}"]`);
+  const involvement = (c: Country) => new Set([...c.conflicts, ...c.external]).size;
+
+  test('GDP per person compares with the population-weighted world and subregion figures, not a mean of entries', () => {
+    atlas.set({ lang: 'en' });
+    withDb(<Dossier />);
+    pick('country', 'DEU');
+    const deu = db.countries.get('DEU')!;
+    const w = pct(deu.gdpPerCap!, weighted(all())), r = pct(deu.gdpPerCap!, weighted(inSub(deu)));
+    const line = benchLine('gdppc');
+    expect(line?.textContent).toBe(en('dz.br.b.gdppc', { k: en('dz.br.bk.gdppc'), w: word(w), r: word(r), sub: 'Western Europe' }));
+    expect(line?.textContent).not.toMatch(/average/);
+    // a mean of entries would put Germany far below Western Europe because of Monaco; the weighted figure does not
+    expect(r).toBeGreaterThan(-20);
+    // population gets no comparison line
+    expect(benchLine('pop')).toBeNull();
+  });
+
+  test('religious diversity compares with the world and subregion medians, and says so', () => {
     atlas.set({ lang: 'en' });
     withDb(<Dossier />);
     pick('country', 'SAU');
-    const bench = document.querySelector('#dz-panel .br-bench');
-    expect(bench?.textContent).toMatch(/world average/);
-    expect(bench?.textContent).toMatch(/Western Asia/);
+    const sau = db.countries.get('SAU')!;
+    const div = (cs: Country[]) => cs.flatMap((x) => (x.religion ? [x.religion.diversity] : []));
+    const v = sau.religion!.diversity;
+    const line = benchLine('diversity');
+    expect(line?.textContent).toBe(en('dz.br.b.med', {
+      k: en('dz.br.bk.diversity'), w: word(pct(v, median(div(all())))), r: word(pct(v, median(div(inSub(sau))))), sub: 'Western Asia',
+    }));
+    expect(line?.textContent).toMatch(/median/);
+  });
+
+  test('a zero median gives no comparison', () => {
+    atlas.set({ lang: 'en' });
+    // most states take part in no tracked conflict, so the world median is zero
+    expect(median(all().map(involvement))).toBe(0);
+    const quiet = all().find((c) => c.subregion && inSub(c).length > 1 && median(inSub(c).map(involvement)) === 0)!;
+    expect(quiet).toBeDefined();
+    withDb(<Dossier />);
+    pick('country', quiet.iso3);
+    expect(benchLine('conflicts')).toBeNull();
+    // with a non-zero subregion median only the subregion half is said
+    const busy = all().find((c) => c.subregion && inSub(c).length > 1 && median(inSub(c).map(involvement)) > 0)!;
+    pick('country', busy.iso3);
+    const line = benchLine('conflicts');
+    expect(line?.textContent).toBe(en('dz.br.b.medR', {
+      k: en('dz.br.bk.conflicts'), r: word(pct(involvement(busy), median(inSub(busy).map(involvement)))), sub: busy.subregion!,
+    }));
+    expect(line?.textContent).not.toMatch(/world/);
+  });
+
+  test('rank badges say what is ranked: every state and territory with the figure', () => {
+    atlas.set({ lang: 'en' });
+    withDb(<Dossier />);
+    pick('country', 'SAU');
+    const sau = db.countries.get('SAU')!;
+    const w = rankBy(all().map((c) => ({ id: c.iso3, c })), (x) => x.c.pop).get('SAU')!;
+    const r = rankBy(inSub(sau).map((c) => ({ id: c.iso3, c })), (x) => x.c.pop).get('SAU')!;
+    const tile = panel().querySelector('[data-kpi="pop"]')!;
+    expect(tile.querySelector('[data-scope="world"]')).toHaveAttribute('data-tip', en('dz.br.rankWorldTip', { n: w.rank, of: w.of }));
+    expect(tile.querySelector('[data-scope="region"]')).toHaveAttribute('data-tip', en('dz.br.rankRegionTip', { n: r.rank, of: r.of, sub: 'Western Asia' }));
+    expect(en('dz.br.rankWorldTip', { n: w.rank, of: w.of })).toMatch(/states and territories/);
+    expect(document.querySelector('#dz-a-kpis .dz-note')?.textContent).toBe(en('dz.br.rankNote'));
   });
 
   test('clicking a nearby country selects it', () => {

@@ -59,12 +59,12 @@ function KpiTile({ tile, c, k }: { tile: Tile; c: Country; k: Kit }) {
       {r.region || r.world ? (
         <dd className="br-ranks">
           {r.region ? (
-            <span className="br-rank" data-scope="region" data-tip={esc(t('dz.br.rankRegionTip', { of: fmt.num(r.region.of), sub }))}>
+            <span className="br-rank" data-scope="region" data-tip={esc(t('dz.br.rankRegionTip', { n: fmt.num(r.region.rank), of: fmt.num(r.region.of), sub }))}>
               {t('dz.br.rankRegion', { n: fmt.num(r.region.rank), of: fmt.num(r.region.of) })}
             </span>
           ) : null}
           {r.world ? (
-            <span className="br-rank" data-scope="world" data-tip={esc(t('dz.br.rankWorldTip', { of: fmt.num(r.world.of) }))}>
+            <span className="br-rank" data-scope="world" data-tip={esc(t('dz.br.rankWorldTip', { n: fmt.num(r.world.rank), of: fmt.num(r.world.of) }))}>
               {t('dz.br.rankWorld', { n: fmt.num(r.world.rank), of: fmt.num(r.world.of) })}
             </span>
           ) : null}
@@ -101,20 +101,19 @@ function tiles(c: Country, k: Kit): Tile[] {
   return out;
 }
 
-// ---- benchmark: one line against the world and subregion averages (GDP per person, else population)
+// ---- comparison lines: GDP per person against the group's own figure, the rest against the median (facts.benchOf)
 
-function benchLine(c: Country, k: Kit): string | null {
+function benchLines(c: Country, k: Kit): { kpi: KpiId; text: string }[] {
   const { t, fmt, db } = k;
-  for (const id of ['gdppc', 'pop'] as const) {
+  const word = (d: number) => (Math.abs(d) <= 2 ? t('dz.br.level') : t(d > 0 ? 'dz.br.above' : 'dz.br.below', { p: fmt.pct(Math.abs(d)) }));
+  return (['gdppc', 'diversity', 'conflicts', 'displaced'] as const).flatMap((id) => {
     const b = benchOf(db, id, c);
-    if (!b || b.world == null) continue;
-    const word = (d: number) => (Math.abs(d) <= 2 ? t('dz.br.level') : t(d > 0 ? 'dz.br.above' : 'dz.br.below', { p: fmt.pct(Math.abs(d)) }));
-    const label = t(`dz.br.k.${id}`);
-    return b.region == null
-      ? t('dz.br.benchW', { k: label, w: word(b.world) })
-      : t('dz.br.bench', { k: label, w: word(b.world), r: word(b.region), sub: k.ne(c.subregion) });
-  }
-  return null;
+    if (!b) return [];
+    const base = b.kind === 'figure' ? 'dz.br.b.gdppc' : 'dz.br.b.med';
+    const key = b.world != null && b.region != null ? base : b.world != null ? `${base}W` : `${base}R`;
+    const vars = { k: t(`dz.br.bk.${id}`), w: b.world != null ? word(b.world) : '', r: b.region != null ? word(b.region) : '', sub: k.ne(c.subregion) };
+    return [{ kpi: id, text: t(key, vars) }];
+  });
 }
 
 // ---- what stands out
@@ -196,7 +195,7 @@ export function latestFigures(c: Country, k: Kit): ReactNode {
 
 export function CountryBrief({ c, k }: { c: Country; k: Kit }) {
   const { t, fmt, db, lang } = k;
-  const bench = benchLine(c, k);
+  const bench = benchLines(c, k);
   const lines = standouts(db, c).map((s) => ({ s, ...standoutLine(s, k) }));
 
   const near = [c.iso3, ...c.neighbors].flatMap((iso) => {
@@ -223,7 +222,8 @@ export function CountryBrief({ c, k }: { c: Country; k: Kit }) {
       </div>
       {k.sec(t('dz.br.kpis'), [
         <dl key="k" className="br-kpis">{tiles(c, k).map((tile) => <KpiTile key={tile.id} tile={tile} c={c} k={k} />)}</dl>,
-        bench ? <p key="b" className="br-bench">{bench}</p> : null,
+        bench.length ? <ul key="b" className="br-bench" role="list">{bench.map((b) => <li key={b.kpi} data-bench={b.kpi}>{b.text}</li>)}</ul> : null,
+        k.note(t('dz.br.rankNote')),
       ], { cls: 'first', id: 'kpis' })}
       {k.sec(t('dz.br.standout'), lines.length ? (
         <ul className="br-out" role="list">
