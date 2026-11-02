@@ -50,3 +50,11 @@ describe('event bus', () => {
     expect(got).toEqual(['x']);
   });
 });
+
+describe('sticky last payload', () => {
+  test('a view that mounts after the map settled can read the last viewport', async () => {
+    const { lastOf } = await import('../src/app/events');
+    emit('viewport', { iso3: ['SAU', 'YEM'] });
+    expect(lastOf('viewport')).toEqual({ iso3: ['SAU', 'YEM'] });
+  });
+});

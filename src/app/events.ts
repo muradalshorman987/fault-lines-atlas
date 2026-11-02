@@ -17,6 +17,13 @@ export interface Events {
 
 type Listener<E extends keyof Events> = (payload: Events[E]) => void;
 const listeners = new Map<keyof Events, Set<Listener<never>>>();
+// The last payload of each event, for late subscribers (e.g. a lazily mounted view reading the current viewport).
+const last = new Map<keyof Events, unknown>();
+
+/** The most recent payload emitted for an event, or undefined if it never fired. */
+export function lastOf<E extends keyof Events>(evt: E): Events[E] | undefined {
+  return last.get(evt) as Events[E] | undefined;
+}
 
 export function on<E extends keyof Events>(evt: E, fn: Listener<E>): () => void {
   let set = listeners.get(evt);
@@ -26,6 +33,7 @@ export function on<E extends keyof Events>(evt: E, fn: Listener<E>): () => void 
 }
 
 export function emit<E extends keyof Events>(evt: E, payload: Events[E]): void {
+  last.set(evt, payload);
   for (const fn of listeners.get(evt) ?? []) {
     try { (fn as Listener<E>)(payload); } catch (err) { console.error(`[atlas] listener for "${evt}" failed`, err); }
   }
