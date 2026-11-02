@@ -31,7 +31,7 @@ describe('Dossier frame', () => {
 
   // One real id per kind: [kind, id, default tab (null = single panel without tabs), a heading the default panel shows]
   const CASES: [Kind, string, string | null, string][] = [
-    ['country', 'SAU', 'summary', 'dz.x.title'],
+    ['country', 'SAU', 'brief', 'dz.br.kpis'],
     ['conflict', 'sudan', 'status', 'dz.cf.now'],
     ['group', 'kurds', 'overview', 'dz.p.family'],
     ['religion', 'sunni', 'spread', 'dz.rl.majorityIn'],
@@ -153,19 +153,19 @@ describe('Dossier tabs', () => {
   test('arrow keys move between tabs (forward is ArrowLeft in Arabic), Home and End jump', () => {
     withDb(<Dossier />);
     pick('country', 'SAU');
-    const first = document.getElementById('dz-tab-summary')!;
+    const first = document.getElementById('dz-tab-brief')!;
     fireEvent.keyDown(first, { key: 'ArrowLeft' });
-    expect(selectedTab()?.id).toBe('dz-tab-religion');
-    expect(document.activeElement?.id).toBe('dz-tab-religion');
+    expect(selectedTab()?.id).toBe('dz-tab-summary');
+    expect(document.activeElement?.id).toBe('dz-tab-summary');
     fireEvent.keyDown(selectedTab()!, { key: 'End' });
     expect(selectedTab()?.id).toBe('dz-tab-history');
     fireEvent.keyDown(selectedTab()!, { key: 'ArrowLeft' });
-    expect(selectedTab()?.id).toBe('dz-tab-summary');
+    expect(selectedTab()?.id).toBe('dz-tab-brief');
     act(() => { atlas.set({ lang: 'en' }); });
     fireEvent.keyDown(selectedTab()!, { key: 'ArrowRight' });
-    expect(selectedTab()?.id).toBe('dz-tab-religion');
+    expect(selectedTab()?.id).toBe('dz-tab-summary');
     expect(selectedTab()).toHaveAttribute('tabindex', '0');
-    expect(document.getElementById('dz-tab-summary')).toHaveAttribute('tabindex', '-1');
+    expect(document.getElementById('dz-tab-brief')).toHaveAttribute('tabindex', '-1');
   });
 
   test('each kind remembers its last tab across records', () => {
@@ -183,6 +183,7 @@ describe('Dossier tabs', () => {
     atlas.set({ lang: 'en' });
     withDb(<Dossier />);
     pick('country', 'SAU');
+    fireEvent.click(screen.getByRole('tab', { name: /^Summary/ }));
     fireEvent.click(screen.getByRole('button', { name: new RegExp(en('dz.x.ties')) }));
     expect(selectedTab()?.id).toBe('dz-tab-relations');
   });
@@ -193,6 +194,7 @@ describe('Dossier links', () => {
     atlas.set({ lang: 'en' });
     withDb(<Dossier />);
     pick('country', 'SAU');
+    fireEvent.click(screen.getByRole('tab', { name: /^Summary/ }));
     const blocs = document.getElementById('dz-a-blocs')!;
     fireEvent.click(within(blocs).getByRole('button', { name: 'Gulf Cooperation Council' }));
     expect(atlas.get().selection).toEqual({ kind: 'bloc', id: 'gcc' });
@@ -242,6 +244,7 @@ describe('Dossier with missing optional fields', () => {
     withDb(<Dossier />);
     pick('country', ISO);
     const panel = () => document.getElementById('dz-panel')!.textContent;
+    fireEvent.click(screen.getByRole('tab', { name: /^Summary/ }));
     expect(panel()).toContain(en('dz.noIntel'));
     const rel = screen.getByRole('tab', { name: /^Religion/ });
     expect(rel).toHaveClass('is-empty');

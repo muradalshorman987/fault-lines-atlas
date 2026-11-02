@@ -4,6 +4,7 @@ import { DIMENSIONS } from '../../../config';
 import { Icon } from '../../../ui/Icon';
 import { extPowers, pickList, type ChokeX, type ConflictX, type EventX, type Panel, type ResEntryX } from '../model';
 import type { Kit } from '../parts';
+import { DeathsChart } from '../brief/Deaths';
 
 const DIMS: Record<string, { ar: string; en: string }> = DIMENSIONS;
 
@@ -63,8 +64,10 @@ function status(cf: ConflictX, k: Kit) {
       </ol>
     )
     : k.empty(t('dz.cf.noRecent'));
+  const deaths = k.db.figures.conflictDeaths(cf.id);
   return <>
     {k.sec(t('dz.cf.now'), k.prose(L(cf.status)), { cls: 'first' })}
+    {deaths.length ? k.sec(t('dz.br.d.title'), <DeathsChart series={deaths} k={k} />, { id: 'deaths' }) : null}
     {k.sec(t('dz.cf.recent'), list, { count: recent.length || null })}
   </>;
 }

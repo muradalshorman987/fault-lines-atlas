@@ -1,4 +1,4 @@
-// Country dossier: summary, religion, peoples, conflicts, relations, resources and history tabs.
+// Country dossier: brief (the default), summary, religion, peoples, conflicts, relations, resources and history tabs.
 
 import { Fragment, type ReactNode } from 'react';
 import { BarList, Donut, Pips } from '../../../ui/charts';
@@ -7,6 +7,8 @@ import { Icon } from '../../../ui/Icon';
 import { edgeVar, traditionColor } from '../../../ui/palette';
 import type { Bi } from '../../../i18n/format';
 import type { Country } from '../../../data/types';
+import { CountryBrief } from '../brief/Brief';
+import { gdpOf, gdpPerCapOf, popOf } from '../brief/facts';
 import { extPowers, pickList, type ConflictX, type EdgeX, type EventX, type IntelX, type Panel, type ResEntryX } from '../model';
 import type { Kit } from '../parts';
 
@@ -31,6 +33,7 @@ export function countryPanel(id: string, k: Kit): Panel | null {
       ],
     },
     tabs: [
+      { id: 'brief', label: t('dz.br.tab'), render: () => <CountryBrief c={c} k={k} /> },
       { id: 'summary', label: t('dz.t.summary'), render: () => summary(c, k) },
       { id: 'religion', label: t('dz.t.religion'), count: c.religion ? null : 0, render: () => religion(c, k) },
       { id: 'peoples', label: t('dz.t.peoples'), count: c.groups.length, render: () => peoples(c, k) },
@@ -46,10 +49,13 @@ function summary(c: Country, k: Kit) {
   const { t, pick: L, fmt, db } = k;
   const intel = c.intel as IntelX | null;
   const money = (v: number) => k.numUnit(t('dz.u.usd', { v: fmt.num(v) }));
+  // D10: generated population and GDP win over Natural Earth's; the note names the source when one is in use
+  const pop = popOf(db, c), gdp = gdpOf(db, c), gdppc = gdpPerCapOf(db, c);
+  const gen = [...new Set([pop, gdp, gdppc].flatMap((x) => (x?.source ? [x.source] : [])))];
   const head = k.facts([
-    k.fact(t('dz.f.pop'), k.numUnit(fmt.compact(c.pop)), { year: c.popYear }),
-    k.fact(t('dz.f.gdp'), c.gdp ? k.numUnit(fmt.gdp(c.gdp)) : '—', { year: c.gdp ? c.gdpYear : null }),
-    k.fact(t('dz.f.gdppc'), c.gdpPerCap ? money(c.gdpPerCap) : '—', { year: c.gdpPerCap ? c.gdpYear : null }),
+    k.fact(t('dz.f.pop'), pop ? k.numUnit(fmt.compact(pop.value)) : '—', { year: pop?.year }),
+    k.fact(t('dz.f.gdp'), gdp ? k.numUnit(fmt.gdp(gdp.value)) : '—', { year: gdp?.year }),
+    k.fact(t('dz.f.gdppc'), gdppc ? money(gdppc.value) : '—', { year: gdppc?.year }),
     k.fact(t('dz.f.area'), <><span className="data">{fmt.num(c.areaKm2)}</span>{' '}<span className="dz-unit">{t('dz.u.km2')}</span></>, { tipText: t('dz.f.areaTip') }),
     k.fact(t('dz.f.density'), c.density ? <><span className="data">{fmt.num(c.density, c.density < 10 ? 1 : 0)}</span>{' '}<span className="dz-unit">{t('dz.u.perKm2')}</span></> : '—'),
     k.fact(t('dz.f.income'), k.ne(c.income), { text: true }),
@@ -97,7 +103,7 @@ function summary(c: Country, k: Kit) {
   }
 
   return <>
-    {k.sec(null, [head, k.note(t('dz.f.note'))], { cls: 'first' })}
+    {k.sec(null, [head, k.note(gen.length ? t('dz.br.noteGen', { s: k.listJoin(gen) }) : t('dz.f.note'))], { cls: 'first' })}
     {k.sec(t('dz.x.title'), exposure)}
     {k.sec(t('dz.s.blocs'), blocChips, { id: 'blocs', count: blocs.length })}
     {intelPart}

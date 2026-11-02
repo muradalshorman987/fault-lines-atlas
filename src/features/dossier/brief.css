@@ -1,0 +1,126 @@
+/* Country brief, "Latest figures", the conflict deaths chart and the compare source chips.
+   Same chart-room language as dossier.css: hairlines instead of boxes, numbers in the data face, brass only for
+   "this state" and the latest year. Logical properties only; tokens only (the print block redefines tokens). */
+
+/* ---------- tools: print and copy link ---------- */
+.br-tools { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; padding-top: 10px; }
+.br-tool { min-height: 30px; padding-inline: 8px; font-size: var(--fs-xs); color: var(--fg-2); }
+:lang(ar) .br-tool { font-size: var(--fs-sm); }
+.br-tool .ic { color: var(--fg-3); }
+.br-tools + .dz-sec { padding-top: 6px; }
+
+/* ---------- KPI strip: tiles divided by hairlines ---------- */
+.br-kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line-2); border-block: 1px solid var(--line-2); }
+.br-kpi { display: grid; align-content: start; gap: 4px; min-width: 0; padding: 10px 12px 12px; background: var(--surface); }
+.br-kpi:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.br-kpi-l { display: flex; align-items: center; gap: 5px; width: fit-content; font-size: var(--fs-xs); line-height: 1.4; color: var(--fg-3); }
+:lang(ar) .br-kpi-l { font-size: var(--fs-sm); }
+.br-kpi-l .ic { opacity: .8; }
+.br-kpi-v { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 4px; font-size: var(--fs-xl); line-height: 1.15; color: var(--fg); }
+.br-kpi-v .data { font-size: var(--fs-xl); }
+.br-kpi-v .br-none { color: var(--fg-3); }
+.br-kpi-s { min-height: 0; }
+.br-ranks { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.br-rank {
+  display: inline-block; max-width: 100%; padding: 1px 6px; border-radius: var(--r-1); background: var(--surface-2);
+  font-size: var(--fs-xs); line-height: 1.6; color: var(--fg-2); white-space: normal;
+}
+
+/* source-and-year chip */
+.br-src {
+  display: inline-block; max-width: 100%; padding: 0 6px; border: 1px solid var(--line); border-radius: var(--r-1);
+  font-size: var(--fs-xs); line-height: 1.6; color: var(--fg-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* benchmark line */
+.br-bench { max-width: 65ch; margin-top: 12px; font-size: var(--fs-md); line-height: 1.65; color: var(--fg-2); text-wrap: pretty; }
+
+/* ---------- what stands out ---------- */
+.br-out > li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; padding-block: 8px; font-size: var(--fs-md); line-height: 1.65; color: var(--fg); }
+.br-out > li + li { border-top: 1px solid var(--line-2); }
+.br-out > li:first-child { padding-top: 0; }
+.br-out-g { display: grid; place-items: center; block-size: 1.65em; color: var(--fg-3); }
+.br-link {
+  display: inline; font-weight: 500; color: var(--fg); text-align: start;
+  text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px;
+}
+.br-link:hover { text-decoration-color: var(--fg-3); }
+
+/* ---------- latest figures ---------- */
+.br-fig { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 4px 12px; padding-block: 8px; border-top: 1px solid var(--line-2); }
+.br-fig:first-child { border-top: 0; padding-top: 0; }
+.br-fig dt { font-size: var(--fs-sm); color: var(--fg-2); }
+.br-fig dd { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: flex-end; gap: 4px 8px; }
+.br-fig-v { font-size: var(--fs-lg); color: var(--fg); }
+.br-fig-v .data { font-size: var(--fs-lg); }
+
+.br-print-foot { display: none; }
+
+/* ---------- conflict deaths per year (time runs left to right, as in the timeline histogram) ---------- */
+.br-deaths { display: grid; }
+.br-d-read { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: var(--fs-sm); color: var(--fg-2); }
+.br-d-read b { font-size: var(--fs-md); font-weight: 500; color: var(--fg); }
+.br-d-y { font-family: var(--font-data); font-size: var(--fs-xs); color: var(--fg-3); }
+.br-d-plot {
+  display: flex; gap: 2px; block-size: 96px; margin-top: 10px; direction: ltr;
+  border-bottom: 1px solid var(--chart-axis);
+}
+.br-d-slot { display: flex; flex: 1 1 0; min-inline-size: 0; align-items: flex-end; justify-content: center; }
+.br-d-col {
+  display: block; inline-size: 100%; max-inline-size: 24px; background: var(--chart-bar);
+  border-start-start-radius: 4px; border-start-end-radius: 4px;
+  transform-origin: bottom; animation: br-grow .5s var(--ease) both;
+}
+.br-d-col.is-latest { background: var(--accent); }
+.br-d-slot:hover .br-d-col { filter: brightness(1.25); }
+@keyframes br-grow { from { transform: scaleY(0); } }
+.br-d-x { display: flex; justify-content: space-between; margin-top: 4px; direction: ltr; font-family: var(--font-data); font-size: var(--fs-xs); color: var(--fg-3); }
+.br-d-cap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; margin-top: 10px; }
+.br-d-toggle { min-height: 28px; padding-inline: 8px; font-size: var(--fs-xs); color: var(--fg-2); }
+.br-d-toggle[aria-expanded="true"] { color: var(--fg); }
+.br-d-table { inline-size: 100%; margin-top: 8px; border-collapse: collapse; font-size: var(--fs-sm); }
+.br-d-table th { padding: 4px 8px; font-weight: 500; font-size: var(--fs-xs); color: var(--fg-3); text-align: start; }
+.br-d-table td { padding: 4px 8px; border-top: 1px solid var(--line-2); color: var(--fg); }
+.br-d-table td + td, .br-d-table th + th { text-align: end; }
+.br-deaths .dz-note { margin-top: 10px; }
+
+/* ---------- compare: source chip under a figure bar ---------- */
+.cmp-src { grid-column: 1 / -1; width: fit-content; font-size: var(--fs-xs); line-height: 1.4; color: var(--fg-3); }
+.cmp-bar:has(.cmp-src) { row-gap: 2px; }
+.cmp-fig-b:has(.cmp-src) { gap: 9px; }
+
+/* ---------- touch and small phones ---------- */
+@media (pointer: coarse) {
+  .br-tool, .br-d-toggle { min-height: 44px; }
+}
+@media (max-width: 340px) {
+  .br-kpis { grid-template-columns: minmax(0, 1fr); }
+  .br-kpi:last-child:nth-child(odd) { grid-column: auto; }
+  .br-fig { grid-template-columns: minmax(0, 1fr); }
+  .br-fig dd { justify-content: flex-start; }
+}
+
+/* ---------- print: only the brief (with the record's name), always on light paper ---------- */
+@media print {
+  :root:has(#dossier .br) {
+    color-scheme: light;
+    --bg: #ffffff; --surface: #ffffff; --surface-2: #f2f5f5; --surface-3: #e6ecee; --line: #c5d0d6; --line-2: #dfe5e8;
+    --fg: #10202b; --fg-2: #3f5160; --fg-3: #5d7080; --accent: #8a6516;
+    --chart-bar: #7d93a2; --chart-axis: #a7b6bf; --chart-grid: #edf1f3;
+  }
+  :root:has(#dossier .br), :root:has(#dossier .br) body { height: auto; overflow: visible; background: var(--surface); }
+  body:has(#dossier .br) > :not(#root), #root:has(#dossier .br) > :not(#app),
+  #app:has(#dossier .br) > :not(#dossier) { display: none !important; }
+  #app:has(#dossier .br) { display: block; height: auto; }
+  #dossier:has(.br) {
+    display: block !important; position: static; inline-size: auto; block-size: auto; height: auto;
+    border: 0; border-radius: 0; box-shadow: none; overflow: visible; transform: none; opacity: 1;
+  }
+  #dossier:has(.br) .dz-grip, #dossier:has(.br) .dz-actions, #dossier:has(.br) .dz-tabs,
+  .br-tools, .br-d-toggle { display: none !important; }
+  #dossier:has(.br) .dz-meta { visibility: visible; opacity: 1; grid-template-rows: 1fr; }
+  #dossier:has(.br) .dz-head { padding: 0 8px 8px; }
+  #dossier:has(.br) .dz-body { overflow: visible; padding: 0 8px; }
+  .br .dz-sec, .br-kpi, .br-out > li, .br-fig { break-inside: avoid; }
+  .br-print-foot { display: block; margin-top: 16px; font-size: var(--fs-xs); color: var(--fg-3); overflow-wrap: anywhere; }
+}

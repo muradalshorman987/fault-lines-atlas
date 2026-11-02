@@ -10,6 +10,8 @@ import { Pips, StackBar } from '../../ui/charts';
 import { esc } from '../../ui/dom';
 import { Icon } from '../../ui/Icon';
 import { resClassVar, traditionColor } from '../../ui/palette';
+import { gdpOf, gdpPerCapOf, popOf, type Shown } from '../dossier/brief/facts';
+import '../dossier/brief.css';
 import { SevIcon, UvMark } from './timeline/marks';
 import { LineKey } from './network';
 import type { NetEdge } from './networkGraph';
@@ -32,6 +34,8 @@ registerStrings({
     'cp.perKm2': 'نسمة لكل كم²',
     'cp.usd': '{n} دولار',
     'cp.figNote': 'السكان والناتج تقديرات Natural Earth (سنة {y}). المساحة محسوبة من حدود الخريطة. كل صف بمقياسه الخاص.',
+    'cp.figNoteGen': 'بجوار كل رقم من البيانات المفتوحة مصدره وسنته، والباقي تقديرات Natural Earth. المساحة محسوبة من حدود الخريطة. كل صف بمقياسه الخاص.',
+    'cp.src': '{s} · {y}',
     'cp.profile': 'التصنيف',
     'cp.region': 'الإقليم',
     'cp.income': 'فئة الدخل',
@@ -84,6 +88,8 @@ registerStrings({
     'cp.perKm2': 'per km²',
     'cp.usd': '${n}',
     'cp.figNote': 'Population and GDP are Natural Earth estimates ({y}). Area is computed from the map outline. Each row has its own scale.',
+    'cp.figNoteGen': 'Open-data figures show their source and year; the rest are Natural Earth estimates. Area is computed from the map outline. Each row has its own scale.',
+    'cp.src': '{s} · {y}',
     'cp.profile': 'Classification',
     'cp.region': 'Region',
     'cp.income': 'Income group',
@@ -358,33 +364,39 @@ function Figures({ A, B }: { A: Country; B: Country }) {
   const db = useDb();
   const { t, fmt, lang } = useT();
   const usd = (v: number) => t('cp.usd', { n: fmt.num(v) });
-  const rows: [string, (c: Country) => number | null | undefined, (v: number) => string][] = [
-    [t('cp.pop'), (c) => c.pop, fmt.compact],
-    [t('cp.gdp'), (c) => c.gdp, fmt.gdp],
-    [t('cp.gdppc'), (c) => c.gdpPerCap, usd],
-    [t('cp.area'), (c) => c.areaKm2, (v) => `${v >= 1e4 ? fmt.compact(v) : fmt.num(v)} ${t('cp.km2')}`],
-    [t('cp.density'), (c) => c.density, (v) => `${fmt.num(v, v < 10 ? 1 : 0)} ${t('cp.perKm2')}`],
+  // D10: generated population and GDP (db.figures, or the build's popSource/gdpSource) replace Natural Earth's, with a chip
+  const plain = (v: number | null | undefined): Shown | null => (v == null ? null : { value: v, year: null, source: null, srcId: null });
+  const rows: [string, (c: Country) => Shown | null, (v: number) => string][] = [
+    [t('cp.pop'), (c) => popOf(db, c), fmt.compact],
+    [t('cp.gdp'), (c) => gdpOf(db, c), fmt.gdp],
+    [t('cp.gdppc'), (c) => gdpPerCapOf(db, c), usd],
+    [t('cp.area'), (c) => plain(c.areaKm2), (v) => `${v >= 1e4 ? fmt.compact(v) : fmt.num(v)} ${t('cp.km2')}`],
+    [t('cp.density'), (c) => plain(c.density), (v) => `${fmt.num(v, v < 10 ? 1 : 0)} ${t('cp.perKm2')}`],
   ];
-  const bar = (v: number | null | undefined, max: number, f: (v: number) => string, c: Country, i: number) => {
+  const bar = (x: Shown | null, max: number, f: (v: number) => string, c: Country, i: number) => {
+    const v = x?.value;
     const txt = v == null || Number.isNaN(v) ? '—' : f(v);
     const w = v ? Math.max(0.6, (v / max) * 100) : 0;
     return (
       <div className="cmp-bar" data-tip={`<b>${esc(txt)}</b> <span class="tip-sub">${esc(db.nameOf('country', c.iso3, lang))}</span>`}>
         <span className="cmp-track"><span className={`cmp-fill cmp-fill-${i}`} style={{ inlineSize: `${w.toFixed(2)}%` }} /></span>
         <span className="cmp-val"><NumUnit s={txt} /></span>
+        {x?.source ? <span className="cmp-src">{t('cp.src', { s: x.source, y: x.year ?? '—' })}</span> : null}
       </div>
     );
   };
-  const years = [...new Set([A.popYear, B.popYear, A.gdpYear, B.gdpYear].filter(Boolean))].sort().join('–');
+  const shown = rows.slice(0, 3).flatMap(([, get]) => [get(A), get(B)]);
+  const generated = shown.some((x) => x?.source);
+  const years = [...new Set(shown.flatMap((x) => (x && !x.source && x.year ? [x.year] : [])))].sort().join('–');
   return (
     <Section title={t('cp.figures')}>
       <div className="cmp-figs">
         {rows.map(([label, get, f]) => {
-          const va = get(A), vb = get(B), max = Math.max(va || 0, vb || 0) || 1;
+          const va = get(A), vb = get(B), max = Math.max(va?.value || 0, vb?.value || 0) || 1;
           return <div className="cmp-fig" key={label}><div className="cmp-fig-l">{label}</div><div className="cmp-fig-b">{bar(va, max, f, A, 0)}{bar(vb, max, f, B, 1)}</div></div>;
         })}
       </div>
-      <p className="vw-note">{t('cp.figNote', { y: years || '—' })}</p>
+      <p className="vw-note">{generated ? t('cp.figNoteGen') : t('cp.figNote', { y: years || '—' })}</p>
     </Section>
   );
 }

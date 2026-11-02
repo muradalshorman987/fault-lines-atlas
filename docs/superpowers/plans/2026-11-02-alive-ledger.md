@@ -15,3 +15,17 @@ Rulings:
 - Under "follow the map", a conflict counts if any party is in view.
 - "Unverified developments" counts conflict files only (23), matching the spec.
 - A verdict above +100% reads "N× the average".
+
+## brief-builder: complete
+- 13 brief and 24 dossier tests.
+- Browser: SAU in AR dark and EN light at 1280 and 390, with no errors. The print view shows only the brief, on light paper.
+- With the figures stubbed: Latest figures shows its chips, the Yemen deaths chart draws 34 bars, and Compare shows its chips.
+
+Rulings:
+- A zero conflict count is not ranked.
+- The "external power" line excludes conflicts where the country is already a party.
+- `figures.gdp` is plain US$; it is divided by 1e6 unless the unit says million.
+- Print forces light tokens.
+- "Displaced" = refugeesFrom + idps.
+
+Follow-up (lead, fix stage): `compare.tsx` imports `../dossier/brief/facts`, a feature-to-feature import. Move `facts.ts` to shared code (`src/data/facts.ts`).
