@@ -91,3 +91,20 @@ Owner setup:
 Follow-ups:
 - The overview lens still uses fixed POP_RANGE/GDP_RANGE (D10 asks for recomputed breaks). Map owner.
 - ci.yml uses actions v4, data-update.yml uses v6/v7/v8. Fine, but could be aligned.
+
+## living-builder: complete
+- 12 boot tests and 14 welcome tests.
+- world-lite.json is 32 KB.
+- Browser: Edge, AR/EN, dark/light, 1440/1280/390. All 4 stages captured. Reduced motion shows a static loader. The stall link appears. The static first frame matches. Start here: Esc, focus trap and reopen all work; deep links skip it. No errors.
+
+Rulings:
+- "Continue" restarts the load ("{done} of {total} files arrived"). The model loads all-or-nothing.
+- Share-link visits skip Start here and don't mark it seen.
+- The hand-off is a fade with a 3% zoom, not a same-extent match (the globe vs the Equal Earth loader).
+- The loader stops taking pointer events once the data is in, and is gone by 1.25 s.
+
+Lead:
+- Fixed `useCountUp`: t0 now comes from the first frame (regression test).
+- Added npm script `build:world-lite`.
+
+Note: the map's setup blocks the main thread at hand-off, so the count-up can jump to its final value.

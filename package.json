@@ -20,7 +20,8 @@
     "migrate-errata": "tsx scripts/migrate-errata.ts",
     "format-data": "tsx scripts/format-data.ts",
     "test:e2e": "playwright test",
-    "data:update": "tsx scripts/data/update.ts"
+    "data:update": "tsx scripts/data/update.ts",
+    "build:world-lite": "tsx scripts/build-world-lite.ts"
   },
   "dependencies": {
     "d3": "^7.9.0",

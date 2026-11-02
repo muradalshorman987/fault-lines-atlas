@@ -1,14 +1,23 @@
 // Loads the atlas, mirrors language and theme onto <html>, starts share-link sync, and owns the loading screen.
-// index.html paints a static copy of the loader before scripts run; Boot replaces it with this one on mount.
+// index.html paints a static copy of the loader's first frame before scripts run; Boot replaces it with the living
+// loader (LivingLoader.tsx) on mount, and hands off to the map once the model is built.
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { emit } from '../../app/events';
 import { startHashSync } from '../../app/hash';
 import { atlas, useAtlas } from '../../app/store';
 import { DbContext, useT } from '../../app/useT';
+import { FILES, GENERATED } from '../../data/files';
 import { loadAll } from '../../data/load';
 import type { DB } from '../../data/types';
 import '../../i18n/core';
+import { LivingLoader, stageOf } from './LivingLoader';
+import { loadWorldLite, type WorldLite } from './worldLite';
+
+const STALL_MS = 8000;   // nothing new for this long: offer to start loading again
+const HOLD_MS = 800;     // the figures count up (700 ms) before the hand-off
+const FADE_MS = 450;     // the loader fades into the map (loader.css)
+const TOTAL = Object.keys(FILES).length + Object.keys(GENERATED).length;
 
 function useDocumentLangTheme() {
   const { lang, t } = useT();
@@ -24,19 +33,26 @@ function useDocumentLangTheme() {
 }
 
 export function Boot({ children }: { children: ReactNode }) {
-  const { t } = useT();
   const [db, setDb] = useState<DB | null>(null);
   const [failed, setFailed] = useState(false);
   const [progress, setProgress] = useState(0);
   const [attempt, setAttempt] = useState(0);
-  const [loaderGone, setLoaderGone] = useState(false);
+  const [stalled, setStalled] = useState(false);
+  const [world, setWorld] = useState<WorldLite | null>(null);
+  const [phase, setPhase] = useState<'on' | 'leaving' | 'gone'>('on');
   useDocumentLangTheme();
 
   useEffect(() => { document.querySelector('body > #loader')?.remove(); }, []);
 
   useEffect(() => {
     let alive = true;
-    loadAll((p) => { if (alive) setProgress(p); })
+    void loadWorldLite().then((w) => { if (alive) setWorld(w); });
+    return () => { alive = false; };
+  }, []);
+
+  useEffect(() => {
+    let alive = true;
+    loadAll((p) => { if (alive) { setProgress(p); setStalled(false); } })
       .then((d) => { if (alive) setDb(d); })
       .catch((err: unknown) => {
         console.error('[atlas] data load failed', err);
@@ -45,38 +61,32 @@ export function Boot({ children }: { children: ReactNode }) {
     return () => { alive = false; };
   }, [attempt]);
 
+  // The stall clock restarts with every file that arrives and with every attempt.
+  useEffect(() => {
+    if (db || failed) return;
+    const id = setTimeout(() => setStalled(true), STALL_MS);
+    return () => clearTimeout(id);
+  }, [progress, attempt, db, failed]);
+
   useEffect(() => {
     if (!db) return;
     // The timeline filter starts with every category shown (null only means "not loaded yet").
     atlas.setFilter('timelineCats', new Set(db.timeline.categories.map((c) => c.id)));
     const stop = startHashSync(db);
     emit('ready', db);
-    const fade = setTimeout(() => setLoaderGone(true), 600);
-    return () => { stop(); clearTimeout(fade); };
+    const leave = setTimeout(() => setPhase('leaving'), HOLD_MS);
+    const gone = setTimeout(() => setPhase('gone'), HOLD_MS + FADE_MS);
+    return () => { stop(); clearTimeout(leave); clearTimeout(gone); };
   }, [db]);
 
-  const retry = () => { setFailed(false); setProgress(0); setAttempt((a) => a + 1); };
+  const restart = () => { setFailed(false); setStalled(false); setProgress(0); setAttempt((a) => a + 1); };
 
   return (
     <>
       {db && <DbContext.Provider value={db}>{children}</DbContext.Provider>}
-      {!loaderGone && (
-        <div id="loader" role="status" className={db ? 'done' : undefined}>
-          <svg className="mark" width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-            <circle cx="28" cy="28" r="25" /><circle cx="28" cy="28" r="17" strokeDasharray="2 4" />
-            <path d="M28 3v50M3 28h50" /><path d="M36 20l-5 11-11 5 5-11z" fill="currentColor" stroke="none" />
-          </svg>
-          <h1 id="loader-title">{t('appName')}</h1>
-          <div className="bar"><i id="loader-bar" style={{ width: `${Math.round(progress * 100)}%` }} /></div>
-          <p id="loader-msg">
-            {failed ? (
-              <>
-                {t('loadFailed')}<br />
-                <button className="btn primary" type="button" style={{ marginTop: 12 }} onClick={retry}>{t('retry')}</button>
-              </>
-            ) : t('loading')}
-          </p>
-        </div>
+      {phase !== 'gone' && (
+        <LivingLoader stage={stageOf(progress, !!db)} world={world} stats={db?.stats ?? null} done={!!db} leaving={phase === 'leaving'}
+          failed={failed} stalled={stalled && !db && !failed ? { done: Math.round(progress * TOTAL), total: TOTAL } : null} onRetry={restart} />
       )}
     </>
   );

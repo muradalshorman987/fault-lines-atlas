@@ -25,14 +25,33 @@
 <body>
 <div id="root"></div>
 
-<div id="loader" role="status">
-  <svg class="mark" width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-    <circle cx="28" cy="28" r="25"/><circle cx="28" cy="28" r="17" stroke-dasharray="2 4"/>
-    <path d="M28 3v50M3 28h50"/><path d="M36 20l-5 11-11 5 5-11z" fill="currentColor" stroke="none"/>
-  </svg>
-  <h1 id="loader-title">أطلس خطوط الصدع</h1>
-  <div class="bar"><i id="loader-bar"></i></div>
-  <p id="loader-msg">جارٍ تحميل الأطلس…</p>
+<!-- First frame of the living loader (src/features/boot/LivingLoader.tsx), painted before scripts run; Boot replaces it.
+     Same classes and text as stage 1; loader.css shows the span in the page's language. -->
+<div id="loader" class="ld" data-stage="1">
+  <link rel="preload" href="/world-lite.json" as="fetch" crossorigin>
+  <header class="ld-head">
+    <svg class="mark" width="44" height="44" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <circle cx="28" cy="28" r="25"/><circle cx="28" cy="28" r="17" stroke-dasharray="2 4"/>
+      <path d="M28 3v50M3 28h50"/><path d="M36 20l-5 11-11 5 5-11z" fill="currentColor" stroke="none"/>
+    </svg>
+    <h1 id="loader-title"><span lang="ar">أطلس خطوط الصدع</span><span lang="en">Fault Lines Atlas</span></h1>
+    <p class="ld-tag"><span lang="ar">الجغرافيا السياسية والعرقية والدينية للعالم</span><span lang="en">The political, ethnic and religious geography of the world</span></p>
+  </header>
+  <section class="ld-panel">
+    <ol class="ld-steps">
+      <li data-state="now"><i class="ld-dot"></i><span lang="ar">الحدود</span><span lang="en">Borders</span></li>
+      <li data-state="todo"><i class="ld-dot"></i><span lang="ar">التحالفات</span><span lang="en">Alliances</span></li>
+      <li data-state="todo"><i class="ld-dot"></i><span lang="ar">النزاعات</span><span lang="en">Conflicts</span></li>
+      <li data-state="todo"><i class="ld-dot"></i><span lang="ar">الأرقام</span><span lang="en">Figures</span></li>
+    </ol>
+    <ul class="ld-figs">
+      <li><b class="num">–</b><span><span lang="ar">الدول والأقاليم</span><span lang="en">Countries and territories</span></span></li>
+      <li><b class="num">–</b><span><span lang="ar">ملفات النزاع</span><span lang="en">Conflict files</span></span></li>
+      <li><b class="num">–</b><span><span lang="ar">العلاقات</span><span lang="en">Relations</span></span></li>
+      <li><b class="num">–</b><span><span lang="ar">الأحداث</span><span lang="en">Events</span></span></li>
+    </ul>
+    <p class="ld-msg"><span lang="ar">المرحلة 1 من 4: الحدود ترسم نفسها</span><span lang="en">Stage 1 of 4: Drawing the borders</span></p>
+  </section>
 </div>
 
 <script type="module" src="/src/main.tsx"></script>

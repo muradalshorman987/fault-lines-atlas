@@ -1,0 +1,144 @@
+/* The living loader (#loader.ld). The static copy in index.html uses the same classes, so its first frame matches.
+   Layers: the map (z 0), a vignette (z 1), the title and the stage panel (z 2).
+   Motion is declared only under prefers-reduced-motion: no-preference; otherwise every layer is drawn and still.
+   Map coordinates are physical (left/top) on purpose: a map does not mirror in RTL. */
+
+@property --ld-wake { syntax: "<length>"; inherits: false; initial-value: 4000px; }
+
+#loader.ld {
+  display: block; text-align: start; gap: 0; overflow: hidden;
+  background: var(--ocean); color: var(--fg-2);
+  transition: opacity .45s var(--ease);
+}
+/* base.css hides .done at once; here the data being in only stops pointer events, and .leaving fades. */
+#loader.ld.done { opacity: 1; pointer-events: none; }
+#loader.ld.leaving { opacity: 0; }
+/* The static first frame in index.html carries both languages; show the page's. */
+html[lang="en"] #loader [lang="ar"], html:not([lang="en"]) #loader [lang="en"] { display: none; }
+#loader.ld::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to bottom, var(--ocean) 0, transparent 24%, transparent 62%, var(--ocean) 100%);
+}
+
+/* ---------- title ---------- */
+.ld-head {
+  position: absolute; z-index: 2; inset-inline: 0; inset-block-start: max(5vh, 20px);
+  display: grid; justify-items: center; gap: 4px; padding-inline: 16px; text-align: center;
+}
+#loader.ld .mark { color: var(--accent); margin-block-end: 4px; }
+#loader.ld h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-2xl); color: var(--fg); }
+.ld-tag { max-width: 44ch; font-size: var(--fs-sm); color: var(--fg-3); }
+
+/* ---------- stage panel ---------- */
+.ld-panel {
+  position: absolute; z-index: 2; inset-inline: 0; inset-block-end: max(4vh, 16px); margin-inline: auto;
+  width: min(560px, calc(100% - 32px)); display: grid; justify-items: center; gap: 12px; text-align: center;
+  padding: 14px 18px; border-radius: var(--r-3); border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 84%, transparent); box-shadow: var(--shadow-sm);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.ld-steps { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font-size: var(--fs-sm); color: var(--fg-3); }
+.ld-steps li { display: inline-flex; align-items: center; gap: 7px; }
+.ld-steps li[data-state="done"] { color: var(--fg-2); }
+.ld-steps li[data-state="now"] { color: var(--fg); font-weight: 600; }
+.ld-dot { flex: none; display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid var(--line); }
+.ld-steps li[data-state="done"] .ld-dot { background: var(--accent); border-color: var(--accent); }
+.ld-steps li[data-state="now"] .ld-dot { border-color: var(--accent); border-block-start-color: transparent; }
+.ld-figs { width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.ld-figs li { display: grid; gap: 2px; align-content: start; }
+.ld-figs .num { font-size: var(--fs-xl); font-weight: 500; line-height: 1.2; color: var(--fg-3); }
+.ld[data-stage="4"] .ld-figs .num { color: var(--fg); }
+.ld-figs span { font-size: var(--fs-xs); line-height: 1.35; color: var(--fg-3); }
+.ld-msg { font-size: var(--fs-sm); color: var(--fg-2); }
+.ld-again {
+  font-size: var(--fs-sm); font-weight: 600; color: var(--accent-2);
+  text-decoration: underline; text-underline-offset: 3px; padding: 4px 6px; border-radius: var(--r-1);
+}
+:root[data-theme="light"] .ld-again { color: var(--accent); }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .ld-again { color: var(--accent); } }
+
+/* ---------- map ---------- */
+.ld-map { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+/* Full width on wide screens; on tall ones wider than the screen, centred on the focus (the Middle East) without showing an edge. */
+.ld-frame {
+  --wf: max(100vw, 112dvh);
+  position: absolute; top: 52%; translate: 0 -50%;
+  width: var(--wf); aspect-ratio: var(--ratio);
+  left: clamp(calc(100vw - var(--wf)), calc(50vw - var(--fx) * var(--wf)), 0px);
+  transition: scale .45s var(--ease);
+}
+.ld.leaving .ld-frame { scale: 1.03; }
+.ld-drift { position: absolute; inset: 0; }
+.ld-layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; opacity: 0; transition: opacity .6s var(--ease); }
+.ld-layer.is-on { opacity: 1; }
+
+.ld-grat { fill: none; stroke: var(--graticule); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.ld-land path { fill: var(--land); fill-rule: evenodd; stroke: var(--geo-border); stroke-width: .5; stroke-linejoin: round; }
+
+.ld-bloc { opacity: .75; transition: opacity .3s; }
+.ld-link { fill: none; stroke: var(--accent); stroke-width: .8; stroke-opacity: .6; stroke-linecap: round; }
+.ld-bloc circle { fill: var(--accent); }
+.ld-hit { fill: none; stroke: transparent; stroke-width: 9; pointer-events: stroke; }
+.ld.done .ld-hit { pointer-events: none; }
+/* Once the conflict pins are up, the constellations step back so brass stars and pins don't compete. */
+.ld[data-stage="3"] .ld-layer.ld-blocs.is-on, .ld[data-stage="4"] .ld-layer.ld-blocs.is-on { opacity: .5; }
+.ld-frame.has-hot .ld-bloc { opacity: .15; }
+.ld-frame.has-hot .ld-bloc.is-hot { opacity: 1; }
+.ld-frame.has-hot .ld-bloc.is-hot .ld-link { stroke-opacity: 1; }
+
+.ld-bname, .ld-name {
+  position: absolute; width: max-content; max-width: 150px; text-align: center; line-height: 1.3;
+  text-shadow: 0 0 2px var(--label-halo), 0 0 5px var(--label-halo), 0 0 9px var(--label-halo);
+}
+.ld-bname { translate: -50% calc(-100% - 8px); font-size: var(--fs-xs); font-weight: 600; color: var(--accent); opacity: 0; transition: opacity .3s; }
+.ld-frame.has-hot .ld-bname.is-hot { opacity: 1; }
+
+.ld-pin { position: absolute; width: 0; height: 0; }
+.ld-pin::before { content: ""; position: absolute; inset: -3.5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 1.5px var(--ocean); }
+.ld-pin.ring::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 1.5px solid currentColor; opacity: .45; }
+.ld-name { translate: -50% calc(-100% - 8px); font-size: var(--fs-xs); font-weight: 500; color: var(--fg); }
+.ld-name[data-side="below"] { translate: -50% 8px; }
+
+@media (max-width: 600px) {
+  .ld-panel { gap: 10px; padding: 12px; }
+  .ld-steps { gap: 4px 12px; }
+  .ld-figs .num { font-size: var(--fs-lg); }
+  .ld-name:nth-child(n + 4), .ld-bnames { display: none; }
+}
+
+/* ---------- motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .ld-drift { animation: ld-drift 48s ease-in-out infinite alternate; }
+  .ld-steps li[data-state="now"] .ld-dot { animation: ld-spin 1s linear infinite; }
+
+  /* 1 · borders: a wake spreads from the focus, the fill follows */
+  .ld-base.is-on {
+    -webkit-mask-image: radial-gradient(circle at var(--fxp) var(--fyp), #000 var(--ld-wake), transparent calc(var(--ld-wake) + 220px));
+    mask-image: radial-gradient(circle at var(--fxp) var(--fyp), #000 var(--ld-wake), transparent calc(var(--ld-wake) + 220px));
+    animation: ld-wake 2.8s cubic-bezier(.45, .05, .55, .95) both;
+  }
+  .ld-base.is-on .ld-land path { animation: ld-fill 1.4s ease calc(.5s + var(--i) * .1s) both; }
+
+  /* 2 · constellations draw in, stars pop, then each bloc glows in turn with its name */
+  .ld-blocs.is-on .ld-link { stroke-dasharray: 1; animation: ld-draw 1.4s var(--ease) calc(var(--i) * .2s) both; }
+  .ld-blocs.is-on circle { transform-box: fill-box; transform-origin: center; animation: ld-pop .5s var(--ease) calc(var(--i) * .2s + var(--j) * 25ms) both; }
+  .ld-blocs.is-on .ld-bloc { animation: ld-glow 12s ease-in-out calc(1.6s + var(--i) * 3s) infinite; }
+  .ld-bnames.is-on .ld-bname { animation: ld-say 12s ease-in-out calc(1.6s + var(--i) * 3s) infinite; }
+  .ld-frame.has-hot .ld-bloc, .ld-frame.has-hot .ld-bname { animation: none; }
+
+  /* 3 · conflict pins pop in with pulsing rings; a few names fade in */
+  .ld-pins.is-on .ld-pin::before { animation: ld-pop .45s var(--ease) calc(var(--i) * 35ms) both; }
+  .ld-pins.is-on .ld-pin.ring::after { animation: ld-ring 2.8s ease-out calc(.6s + var(--i) * 90ms) infinite; }
+  .ld-names.is-on .ld-name { animation: ld-in .6s ease calc(.5s + var(--i) * .12s) both; }
+}
+
+@keyframes ld-drift { from { transform: translate(-.6%, .4%) scale(1.01); } to { transform: translate(.7%, -.5%) scale(1.04); } }
+@keyframes ld-spin { to { rotate: 1turn; } }
+@keyframes ld-wake { from { --ld-wake: 0px; } to { --ld-wake: 2400px; } }
+@keyframes ld-fill { from { fill-opacity: 0; } }
+@keyframes ld-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes ld-pop { 0% { scale: 0; opacity: 0; } 60% { scale: 1.5; opacity: 1; } 100% { scale: 1; opacity: 1; } }
+@keyframes ld-ring { from { scale: .5; opacity: .8; } to { scale: 2.4; opacity: 0; } }
+@keyframes ld-in { from { opacity: 0; } }
+@keyframes ld-glow { 0%, 30%, 100% { opacity: .55; } 6%, 22% { opacity: 1; } }
+@keyframes ld-say { 0%, 30%, 100% { opacity: 0; } 6%, 22% { opacity: 1; } }
