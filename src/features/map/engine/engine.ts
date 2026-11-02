@@ -2,7 +2,9 @@
 // flights, labels and hit-testing. Two stacked canvases: the base (ocean, land, borders, lens polygons, labels)
 // is redrawn only when the view or the scene changes; the overlay (outlines, arcs, markers, hover) also redraws
 // on hover and while a marker pulses. A rAF loop runs only while something moves.
-// createMap() owns one map; destroy() removes every listener, observer, timer, frame and canvas it added.
+// createMap() owns one map; destroy() removes every listener, observer, timer, frame and canvas it added, and a
+// setup that throws half-way tears down what it had bound before rethrowing.
+// When the view settles it emits `viewport` with the countries it shows (debounced, only when the set changes).
 
 import * as d3 from 'd3';
 import type { Feature, Geometry } from 'geojson';
@@ -20,6 +22,7 @@ import {
   traceLinesGlobe, viewAngle, type Bounds, type FastQ, type LonLat, type Packed, type PackedRing,
 } from './geo';
 import { buildScene, emptyScene, eventAnchor, tipFor, type Arc, type Hit, type Marker, type Poly, type Scene } from './scene';
+import { scaleFromZoom, visibleCountries, zoomFromScale, type MapView, type ViewItem, type ViewSpec } from './viewport';
 
 registerStrings({
   ar: { 'map.aria': 'خريطة تفاعلية. اسحب لتحريكها، والأسهم للتنقّل، و+ و− للتكبير والتصغير، و0 لإعادة الضبط.' },
@@ -30,13 +33,24 @@ registerStrings({
 export interface MapApi {
   zoom(f: number): void;
   reset(): void;
+  /** The current camera, so another map (the detailed one) can open on the same place. */
+  view(): MapView;
   /** Removes every listener, observer, timer, frame, store subscription and canvas. Safe to call twice. */
   destroy(): void;
+}
+
+export interface MapOptions {
+  /** Open on this camera instead of the home view (kept only when it is zoomed in past the whole-world view). */
+  view?: MapView | null;
 }
 
 const TAU = Math.PI * 2;
 const DPR_CAP = 2;
 const K_MIN = 0.8, K_MAX = 60, K_FIT_MAX = 28;
+/** Below this zoom (relative to the whole-world view) a change of projection starts from the home view. */
+const K_KEEP = 1.35;
+/** Quiet time after the last frame before `viewport` is computed. */
+const VIEWPORT_MS = 250;
 const HOME: LonLat = [35, 25];
 const TOL_COARSE = 0.12, TOL_FINE = 0.02;
 const SCENE_KEYS = new Set<keyof AtlasState>(['lens', 'selection', 'filters', 'layers', 'year', 'yearFilter', 'theme', 'compare', 'view', 'lang']);
@@ -107,7 +121,7 @@ class Grid {
 }
 
 // ======================================================================= init
-export function createMap(mount: HTMLElement, db: DB): MapApi {
+export function createMap(mount: HTMLElement, db: DB, opts: MapOptions = {}): MapApi {
   const DB = db;
   const el = mount;
   // d3-geo draws into its context with moveTo/lineTo/arc/closePath and never calls beginPath, so a Path2D works
@@ -148,6 +162,9 @@ export function createMap(mount: HTMLElement, db: DB): MapApi {
   let drag: Drag | null = null;
   const ptrs = new Map<number, { x: number; y: number }>();
   let hoverReq: [number, number, number, number, boolean] | null = null, hoverRaf = 0;
+  let initialView = opts.view ?? null;
+  const vpItems: ViewItem[] = []; // coarse country shapes for the viewport test
+  let vpTimer: ReturnType<typeof setTimeout> | undefined, vpLast: string | null = null;
 
   // ---- teardown bookkeeping
   let destroyed = false;
@@ -173,21 +190,29 @@ export function createMap(mount: HTMLElement, db: DB): MapApi {
     throw new Error('[atlas] the map needs Canvas 2D');
   }
   const bctx: CanvasRenderingContext2D = ctx2d[0], octx: CanvasRenderingContext2D = ctx2d[1];
-  prepGeometry();
+  let unbindStore: () => void = () => undefined;
+  let ro: ResizeObserver | null = null;
 
-  bindInput();
-  const unbindStore = bindStore();
-  const ro = new ResizeObserver(() => resize());
-  ro.observe(el);
-  resize();
+  try {
+    prepGeometry();
+    bindInput();
+    unbindStore = bindStore();
+    ro = new ResizeObserver(() => resize());
+    ro.observe(el);
+    resize();
 
-  // canvas text needs the web fonts loaded before measuring; redraw once they arrive
-  const X0 = xc();
-  Promise.all([
-    document.fonts?.load(`500 12px ${X0.font}`, 'عربي Abc'),
-    document.fonts?.load(`600 12px ${X0.font}`, 'عربي Abc'),
-  ]).then(() => { if (destroyed) return; measure.clear(); request(true); }).catch(() => { /* fonts are optional: canvas text falls back to the system face */ });
-  document.fonts?.addEventListener?.('loadingdone', () => { measure.clear(); request(true); }, { signal });
+    // canvas text needs the web fonts loaded before measuring; redraw once they arrive
+    const X0 = xc();
+    Promise.all([
+      document.fonts?.load(`500 12px ${X0.font}`, 'عربي Abc'),
+      document.fonts?.load(`600 12px ${X0.font}`, 'عربي Abc'),
+    ]).then(() => { if (destroyed) return; measure.clear(); request(true); }).catch(() => { /* fonts are optional: canvas text falls back to the system face */ });
+    document.fonts?.addEventListener?.('loadingdone', () => { measure.clear(); request(true); }, { signal });
+  } catch (err) {
+    // listeners, the store subscription or the observer may already be bound: take everything back first
+    destroy();
+    throw err;
+  }
 
   function makeCanvas(cls: string) {
     const c = document.createElement('canvas');
@@ -219,6 +244,7 @@ export function createMap(mount: HTMLElement, db: DB): MapApi {
       };
       geoList.push(g);
       geoBy.set(c.iso3, g);
+      vpItems.push({ iso3: c.iso3, feature: coarse });
     }
     geoList.sort((a, b) => a.area - b.area);
     labelOrder = [...geoList].reverse().filter((g) => g.c.lon != null && g.iso3 !== 'ATA');
@@ -399,6 +425,29 @@ export function createMap(mount: HTMLElement, db: DB): MapApi {
     return pxPerDeg < 28 && geoList[0]?.fine ? 'fine' : 'full';
   }
 
+  // ===================================================================== viewport
+  function viewSpec(): ViewSpec {
+    return { mode, rotate: [V.rot[0], V.rot[1]], scale: proj.scale(), translate: proj.translate(), width: W, height: H };
+  }
+
+  /** Report the visible countries once the view has been still for a moment; `force` re-sends an unchanged set. */
+  function scheduleViewport(force = false) {
+    cancel(vpTimer);
+    vpTimer = later(() => {
+      vpTimer = undefined;
+      if (!force && (drag || motion || interacting)) return; // the next settled frame schedules again
+      const iso3 = visibleCountries(viewSpec(), vpItems);
+      const key = iso3.join(',');
+      if (!force && key === vpLast) return;
+      vpLast = key;
+      emit('viewport', { iso3 });
+    }, force ? 0 : VIEWPORT_MS);
+  }
+
+  function currentView(): MapView {
+    return { center: centerLL(), zoom: zoomFromScale(absScale()) };
+  }
+
   // ===================================================================== colors
   function xc(): Colors {
     const P = pal();
@@ -479,9 +528,11 @@ export function createMap(mount: HTMLElement, db: DB): MapApi {
     if (!scene) {
       try { scene = buildScene(DB, atlas.get(), pal()); } catch (err) { console.error('[atlas] map scene failed', err); scene = emptyScene(); }
     }
+    const based = needBase;
     if (needBase) renderBase(scene);
     if (needBase || needOver) renderOverlay(scene, now);
     needBase = needOver = false;
+    if (based && !moving && !interacting && !drag) scheduleViewport();
     if (moving) frame = requestAnimationFrame(loop);
     else if (pulsing()) { needOver = true; frame = requestAnimationFrame(loop); }
     else lastNow = 0;
@@ -1159,7 +1210,7 @@ export function createMap(mount: HTMLElement, db: DB): MapApi {
     const c = centerLL(), s = absScale(), k = s / baseScale();
     stopMotion();
     mode = to;
-    if (k < 1.35) {
+    if (k < K_KEEP) {
       if (to === 'flat') { V.cx = 0; V.cy = 0; V.fk = 1; }
       else { V.rot = [-HOME[0], -HOME[1]]; V.gk = 1; }
     } else {
@@ -1244,6 +1295,12 @@ export function createMap(mount: HTMLElement, db: DB): MapApi {
     }
     gBase = gBaseFor(w, h);
     s0 = s0For(w, h);
+    if (first && initialView) {
+      // another map handed over its camera: keep it unless it shows the whole world anyway
+      const s = scaleFromZoom(initialView.zoom);
+      if (Number.isFinite(s) && s / baseScale() >= K_KEEP) setView(initialView.center, s);
+      initialView = null;
+    }
     if (!first && !both) {
       // one side changed (a panel opened or closed): keep the map still, only the frame moves
       V.gk = clampK(absG / gBase);
@@ -1380,7 +1437,10 @@ export function createMap(mount: HTMLElement, db: DB): MapApi {
 
   // ===================================================================== store
   function bindStore(): () => void {
+    let inView = atlas.get().filters.inView;
     const offState = onStateChange((all, s) => {
+      // "figures follow the map" just turned on: whoever listens now needs the current set at once
+      if (s.filters.inView !== inView) { inView = s.filters.inView; if (inView && W) scheduleViewport(true); }
       // the year only matters to the timeline lens and to the conflicts filter; playback must not repaint every lens
       const yearMatters = s.lens === 'history' || s.yearFilter;
       const keys = all.filter((k) => (k === 'year' ? yearMatters : SCENE_KEYS.has(k) || k === 'projection' || k === 'theme'));
@@ -1430,7 +1490,7 @@ export function createMap(mount: HTMLElement, db: DB): MapApi {
     if (destroyed) return;
     destroyed = true;
     ac.abort();
-    ro.disconnect();
+    ro?.disconnect();
     unbindStore();
     if (frame) cancelAnimationFrame(frame);
     if (hoverRaf) cancelAnimationFrame(hoverRaf);
@@ -1451,5 +1511,5 @@ export function createMap(mount: HTMLElement, db: DB): MapApi {
     el.removeAttribute('aria-label');
   }
 
-  return { zoom: zoomButton, reset: resetView, destroy };
+  return { zoom: zoomButton, reset: resetView, view: currentView, destroy };
 }

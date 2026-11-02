@@ -222,8 +222,14 @@ export function eventAnchor(DB: DB, e: TimelineEvent): LonLat | null {
   return a;
 }
 
+/** Conflicts the year filter and the region filter keep (the pool the severity chips count). */
+export function conflictPool(DB: DB, S: Pick<AtlasState, 'filters' | 'yearFilter' | 'year'>) {
+  const region = S.filters.region;
+  return DB.conflicts.filter((c) => (!region || c.region === region) && !(S.yearFilter && c.startYear && c.startYear > S.year));
+}
+
 export function visibleConflicts(DB: DB, S: Pick<AtlasState, 'filters' | 'yearFilter' | 'year'>) {
-  return DB.conflicts.filter((c) => S.filters.severity.has(c.severity) && !(S.yearFilter && c.startYear && c.startYear > S.year));
+  return conflictPool(DB, S).filter((c) => S.filters.severity.has(c.severity));
 }
 
 export function decadeWindow(S: Pick<AtlasState, 'year'>): [number, number] { return [S.year - 9, S.year]; }

@@ -108,3 +108,22 @@ Lead:
 - Added npm script `build:world-lite`.
 
 Note: the map's setup blocks the main thread at hand-off, so the count-up can jump to its final value.
+
+## map-builder: complete
+- 50 new tests.
+- Styles: OpenFreeMap positron (light) and dark. The only host contacted is tiles.openfreemap.org: style, TileJSON, pbf tiles, fonts, sprites.
+- Browser, dev and prod: tiles render and Arabic labels shape correctly. Click selects; hover shows the tipFor text. Detailed → globe → detailed hands the camera over. #country-IRQ flies on load. The fallback works when WebGL is off and when OpenFreeMap is blocked (toast shown, pref set to globe).
+- Chunks: DetailedMap 10 KB and maplibre 298 KB gz, both lazy; nothing in index.
+
+Rulings:
+- No RTL text plugin: MapLibre 6.16 shapes Arabic natively (verified).
+- The map-type control is a 3-option popover.
+- Clicking on the detailed map selects with fly:false.
+- Viewport boxes are per polygon.
+- Detailed map: lens fills, selection/compare outlines and highlight; markers and arcs stay canvas-only (D7).
+- Region chip on the conflicts card.
+
+Notes:
+- The CSP keeps `worker-src blob:` (the worker is same-origin, so blob isn't strictly needed). Harmless; could tighten.
+- Shell palette label for G still says flat/globe.
+- A "map" icon would replace "route".

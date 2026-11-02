@@ -1,4 +1,4 @@
-// Strings of the lens card and the map controls (the legacy map-legend.js block, unchanged).
+// Strings of the lens card and the map controls (the legacy map-legend.js block, plus the detailed map and region filter).
 
 import { registerStrings } from '../../i18n/strings';
 
@@ -11,6 +11,13 @@ registerStrings({
     'map.toFlat': 'التبديل إلى خريطة مسطّحة',
     'map.toGlobe': 'التبديل إلى الكرة الأرضية',
     'map.layers': 'الطبقات',
+    'map.proj': 'نوع الخريطة',
+    'map.proj.globe': 'الكرة الأرضية',
+    'map.proj.flat': 'خريطة مسطّحة',
+    'map.proj.detailed': 'خريطة تفصيلية',
+    'map.proj.detailedNote': 'مدن وشوارع من OpenStreetMap، وتحتاج إلى اتصال بالإنترنت.',
+    'map.detailed.aria': 'خريطة تفصيلية تفاعلية. اسحب لتحريكها، والأسهم للتنقّل، و+ و− للتكبير والتصغير.',
+    'map.detailed.fail': 'تعذّر تحميل الخريطة التفصيلية، فعادت الكرة الأرضية.',
     'map.lyr.labels': 'أسماء الدول',
     'map.lyr.graticule': 'خطوط الطول والعرض',
     'map.lyr.boundaries': 'الحدود الدولية',
@@ -25,6 +32,8 @@ registerStrings({
     'map.ov.profile': 'نقطة نحاسية: يتوفّر ملف تعريفي للدولة',
     'map.ov.note': 'الحدود والسكان والناتج من Natural Earth، وسنة التقدير تختلف من دولة إلى أخرى.',
     'map.cf.sev': 'درجة الحدّة',
+    'map.cf.region': 'المنطقة',
+    'map.cf.regionClear': 'إلغاء تصفية المنطقة: {name}',
     'map.cf.ramp': 'عدد النزاعات التي تكون الدولة طرفاً فيها',
     'map.cf.asOf': 'الوضع محدّث حتى {d}.',
     'map.cf.yearOn': 'تظهر النزاعات التي بدأت حتى {y} فقط.',
@@ -74,6 +83,13 @@ registerStrings({
     'map.toFlat': 'Switch to flat map',
     'map.toGlobe': 'Switch to globe',
     'map.layers': 'Layers',
+    'map.proj': 'Map type',
+    'map.proj.globe': 'Globe',
+    'map.proj.flat': 'Flat map',
+    'map.proj.detailed': 'Detailed map',
+    'map.proj.detailedNote': 'Cities and streets from OpenStreetMap; needs a connection.',
+    'map.detailed.aria': 'Interactive detailed map. Drag to move it; arrow keys pan, + and − zoom.',
+    'map.detailed.fail': 'The detailed map could not load, so the globe is back.',
     'map.lyr.labels': 'Country names',
     'map.lyr.graticule': 'Graticule',
     'map.lyr.boundaries': 'Borders',
@@ -88,6 +104,8 @@ registerStrings({
     'map.ov.profile': 'Brass dot: a country profile is available',
     'map.ov.note': 'Borders, population and GDP from Natural Earth; the estimate year varies by country.',
     'map.cf.sev': 'Severity',
+    'map.cf.region': 'Region',
+    'map.cf.regionClear': 'Clear the region filter: {name}',
     'map.cf.ramp': 'Conflicts a state is party to',
     'map.cf.asOf': 'Status as of {d}.',
     'map.cf.yearOn': 'Showing only conflicts that began by {y}.',

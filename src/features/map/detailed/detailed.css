@@ -1,0 +1,19 @@
+/* The detailed map (MapLibre): its canvas fills #map; the attribution sits in the top inline-end corner (the
+   bottom corners belong to the lens card and the map controls) in the theme's colours, always expanded. */
+
+#map.map-detailed { background: var(--ocean); touch-action: none; }
+#map.map-detailed:focus { outline: none; }
+#map.map-detailed .maplibregl-canvas { outline: none; }
+#map.map-detailed .maplibregl-canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+
+#map.map-detailed .maplibregl-ctrl-top-right { right: auto; inset-inline-end: 0; }
+#map.map-detailed .maplibregl-ctrl-top-right .maplibregl-ctrl { float: none; margin: 8px; margin-inline-start: 0; }
+#map.map-detailed .maplibregl-ctrl-attrib {
+  direction: ltr; unicode-bidi: isolate;
+  max-width: min(520px, calc(100vw - 32px));
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  color: var(--fg-2); font: 11px/1.45 var(--font-ui);
+  border-radius: var(--r-1, 4px); padding: 2px 8px;
+}
+#map.map-detailed .maplibregl-ctrl-attrib a { color: var(--fg-2); text-decoration: underline; text-decoration-color: var(--line); }
+#map.map-detailed .maplibregl-ctrl-attrib a:hover { color: var(--fg); }

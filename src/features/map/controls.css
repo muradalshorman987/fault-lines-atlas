@@ -1,0 +1,6 @@
+/* The map-type popover (#mapctl-proj): three radio rows with the projection's icon, and a note under them. */
+
+#mapctl .ctl-radio .ic { flex: none; color: var(--fg-2); }
+#mapctl .ctl-radio input:checked ~ .ic { color: var(--accent-2); }
+:root[data-theme="light"] #mapctl .ctl-radio input:checked ~ .ic { color: var(--accent); }
+#mapctl .ctl-note { margin: 4px 0 2px; font-size: var(--fs-xs, 12px); line-height: 1.45; color: var(--fg-3); }

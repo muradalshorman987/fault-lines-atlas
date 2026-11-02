@@ -11,7 +11,7 @@ import { Icon } from '../../ui/Icon';
 import { catVar, edgeVar, pal, resClassVar, sevVar, traditionColor, type Palette } from '../../ui/palette';
 import {
   BLOC_T, CHOKE_T, CONTINENTS, ETHNIC_CLASSES, GDP_RANGE, INCOME, POP_RANGE, RES_SHAPE,
-  activeBloc, bi, decadeWindow, ethnicClass, landTint, seqFill, visibleConflicts, windowEvents,
+  activeBloc, bi, conflictPool, decadeWindow, ethnicClass, landTint, seqFill, visibleConflicts, windowEvents,
 } from './engine/scene';
 import './strings';
 
@@ -117,7 +117,8 @@ const BODY: Record<(typeof LENSES)[number]['id'], (c: Ctx) => ReactNode> = {
   },
 
   conflicts({ DB, S, P, T: { t, pick: L, fmt } }) {
-    const pool = DB.conflicts.filter((c) => !(S.yearFilter && c.startYear && c.startYear > S.year));
+    const pool = conflictPool(DB, S);
+    const region = S.filters.region ? DB.conflicts.find((c) => c.region === S.filters.region) : undefined;
     const items = SEVERITY.map((s) => (
       <Chip key={s.id} act="toggle" k="severity" val={s.id} pressed={S.filters.severity.has(s.id)} label={L(s)}
         n={pool.filter((c) => c.severity === s.id).length} lead={<Glyph shape={s.shape} color={sevVar(s.id)} />}
@@ -129,6 +130,16 @@ const BODY: Record<(typeof LENSES)[number]['id'], (c: Ctx) => ReactNode> = {
     const selC = S.selection?.kind === 'conflict' && DB.conflictById.has(S.selection.id);
     return (
       <>
+        {region && (
+          <Sec label={t('map.cf.region')}>
+            <Chips label={t('map.cf.region')}>
+              <button className="chip" type="button" aria-pressed="true" data-act="clear" data-key="region" data-val={region.region}
+                aria-label={t('map.cf.regionClear', { name: L(region.regionName) })} onClick={() => atlas.setFilter('region', null)}>
+                <span>{L(region.regionName)}</span><Icon name="close" size={14} />
+              </button>
+            </Chips>
+          </Sec>
+        )}
         <Sec label={t('map.cf.sev')} wrap="2"><Chips label={t('map.cf.sev')}>{items}</Chips></Sec>
         <Sec label={t('map.cf.ramp')}><Ramp lo="1" hi={fmt.num(max)} label={t('map.cf.ramp')} P={P} /></Sec>
         {selC && <Note text={t('map.cf.powers')} />}
