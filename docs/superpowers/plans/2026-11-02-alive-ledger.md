@@ -29,3 +29,21 @@ Rulings:
 - "Displaced" = refugeesFrom + idps.
 
 Follow-up (lead, fix stage): `compare.tsx` imports `../dossier/brief/facts`, a feature-to-feature import. Move `facts.ts` to shared code (`src/data/facts.ts`).
+
+## ask-builder: complete
+- 37 tests.
+- CSP browser check on a scratch build with the vercel.json headers: no violations. The inline-script hash matches.
+- A fake key against the real API: CORS preflight OK and the 401 message renders, in AR 1280 and EN light 390. The key is not stored and not in the URL.
+- MapLibre runs under the CSP: blob worker, OpenFreeMap style and tiles OK.
+- Models (claude-api skill table): claude-sonnet-5-5 (default), claude-haiku-5-5, claude-opus-5-5. API version 2026-10-21 (from the skill).
+- NOT verified: a real-key question end to end. The owner should run one before relying on it.
+
+Rulings:
+- Raw fetch + SSE, no SDK.
+- Server-side fallback beta header on Sonnet/Opus. If the API rejects it, flip the `fallback` flag in models.ts.
+- Append-only history, 10 questions per conversation.
+- Effort medium, max_tokens 16000, 5 tool rounds.
+- An unknown ref shows as plain text.
+- `sh.ask` string registered in ask/strings.ts.
+
+Coupling: `vercel.json` CSP holds the sha256 of index.html's inline pre-paint script. Changing that script requires updating the hash; tests/ask-csp.test.tsx guards it.
