@@ -71,7 +71,7 @@ registerStrings({
     'dz.br.d.table': 'اعرضها جدولاً',
     'dz.br.d.year': 'السنة',
     'dz.br.d.deaths': 'الوفيات',
-    'dz.br.d.note': 'أفضل تقديرات UCDP للوفيات في العنف المنظّم المرتبط بهذا الملف. السنوات بلا عمود لا رقم مسجّلاً لها.',
+    'dz.br.d.note': 'أفضل تقديرات UCDP للوفيات في العنف المنظّم المرتبط بهذا الملف، بالأرقام النهائية فقط. السنة بلا عمود لم تُسجَّل فيها وفيات.',
   },
   en: {
     'dz.br.tab': 'Brief',
@@ -141,6 +141,6 @@ registerStrings({
     'dz.br.d.table': 'Show as a table',
     'dz.br.d.year': 'Year',
     'dz.br.d.deaths': 'Deaths',
-    'dz.br.d.note': 'UCDP best estimates of deaths in organised violence linked to this file. Years without a bar have no recorded figure.',
+    'dz.br.d.note': 'UCDP best estimates of deaths in organised violence linked to this file, final figures only. A year without a bar had no recorded deaths.',
   },
 });

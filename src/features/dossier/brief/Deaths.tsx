@@ -31,7 +31,7 @@ export function DeathsChart({ series, k }: { series: Point[]; k: Kit }) {
   const peak = known.reduce((a, b) => (b.value > a.value ? b : a));
   const latest = known[known.length - 1]!;
   const first = bins[0]!.year, last = bins[bins.length - 1]!.year;
-  const src = db.figures.sources.find((s) => /ucdp/i.test(s.id));
+  const src = db.figures.sources.find((s) => s.id === 'ucdp');
   const range = first === last ? String(first) : `${first}–${last}`;
 
   return (
