@@ -22,4 +22,14 @@ export const FILES = {
 } as const;
 
 export type FileKey = keyof typeof FILES;
+
+/** Open-data files from the weekly pipeline (scripts/data). Optional: they load after the core files, and a missing one is skipped.
+ *  When two files carry the same figure, the earlier one here wins. */
+export const GENERATED = {
+  worldbank: 'generated/worldbank.json',
+  ucdp: 'generated/ucdp.json',
+  unhcr: 'generated/unhcr.json',
+  usgs: 'generated/usgs.json',
+  eia: 'generated/eia.json',
+} as const;
 export const CONFLICT_FILES = ['cMideast', 'cEurope', 'cAsia', 'cAfrica', 'cAmericas'] as const;

@@ -81,6 +81,8 @@ export interface Country {
   iso3: string; iso2?: string; nameAr?: string; nameEn?: string; nameLong?: string;
   type?: string; sovereign?: string; continent?: string; subregion?: string; regionWb?: string;
   pop?: number; popYear?: number; gdp?: number; gdpYear?: number; income?: string; economy?: string;
+  /** Generated source id (db.figures.sources) when pop/gdp come from the open-data pipeline (D10); absent = Natural Earth. */
+  popSource?: string; gdpSource?: string;
   lon?: number; lat?: number; wikidata?: string; areaKm2: number; feature: Feature<Geometry, CountryProps>;
   gdpPerCap: number | null; density: number | null;
   intel: Intel | null; religion: CountryReligion | null; resources: ResourceEntry[];

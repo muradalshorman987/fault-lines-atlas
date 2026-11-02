@@ -252,6 +252,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["icg", "acled", "mrg"],
+      "ucdp": [364, 218],
       "unverified": true
     },
     {
@@ -346,6 +347,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["icg", "unhcr", "acled"],
+      "ucdp": [11639],
       "unverified": true
     },
     {
@@ -458,6 +460,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["acled", "unhcr", "mrg"],
+      "ucdp": [222, 223, 231, 221, 253, 439, 264, 224, 422, 11475],
       "unverified": true
     },
     {
@@ -521,7 +524,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["mrg"]
+      "sourceRefs": ["mrg"],
+      "ucdp": [11349]
     },
     {
       "id": "tibet",
@@ -718,7 +722,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["acled", "mrg"]
+      "sourceRefs": ["acled", "mrg"],
+      "ucdp": [325]
     },
     {
       "id": "sri-lanka-tamil",
@@ -781,7 +786,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["mrg"]
+      "sourceRefs": ["mrg"],
+      "ucdp": [352]
     }
   ]
 }

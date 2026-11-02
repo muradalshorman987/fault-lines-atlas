@@ -94,6 +94,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["icg", "unhcr"],
+      "ucdp": [277],
       "unverified": true
     },
     {
@@ -276,6 +277,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["ocha-hdx", "unhcr", "acled"],
+      "ucdp": [381],
       "unverified": true
     },
     {
@@ -349,7 +351,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["acled", "unhcr", "icg"]
+      "sourceRefs": ["acled", "unhcr", "icg"],
+      "ucdp": [289]
     },
     {
       "id": "mexico-cartels",

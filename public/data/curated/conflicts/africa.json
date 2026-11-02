@@ -117,6 +117,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["ocha-hdx", "unhcr", "acled", "iom"],
+      "ucdp": [309],
       "unverified": true
     },
     {
@@ -221,6 +222,7 @@
       ],
       "confidence": "partial",
       "sourceRefs": ["acled", "unhcr", "ocha-hdx"],
+      "ucdp": [267, 16069, 413],
       "unverified": true
     },
     {
@@ -324,6 +326,7 @@
       ],
       "confidence": "partial",
       "sourceRefs": ["acled", "icg", "ocha-hdx"],
+      "ucdp": [11347, 14113, 16038, 360, 13840, 430, 13639, 15256, 358],
       "unverified": true
     },
     {
@@ -441,6 +444,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["acled", "unhcr", "ocha-hdx", "mrg"],
+      "ucdp": [283, 14692, 10771],
       "unverified": true
     },
     {
@@ -532,7 +536,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["acled", "ocha-hdx"]
+      "sourceRefs": ["acled", "ocha-hdx"],
+      "ucdp": [337, 14197]
     },
     {
       "id": "south-sudan",
@@ -603,6 +608,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["ocha-hdx", "unhcr", "acled"],
+      "ucdp": [11345],
       "unverified": true
     },
     {
@@ -674,7 +680,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["unhcr", "mrg"]
+      "sourceRefs": ["unhcr", "mrg"],
+      "ucdp": [331]
     },
     {
       "id": "nigeria",
@@ -757,7 +764,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["acled", "ocha-hdx", "mrg"]
+      "sourceRefs": ["acled", "ocha-hdx", "mrg"],
+      "ucdp": [297, 13641]
     },
     {
       "id": "rwanda-burundi-great-lakes",
@@ -815,7 +823,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["mrg", "unhcr"]
+      "sourceRefs": ["mrg", "unhcr"],
+      "ucdp": [374, 287]
     }
   ]
 }

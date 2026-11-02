@@ -5,7 +5,7 @@ import type { Feature, FeatureCollection } from 'geojson';
 import { RELIGION_FAMILIES, RESOURCE_CLASSES, SEVERITY_RANK } from '../config';
 import { normalize, type Lang } from '../i18n/format';
 import { CONFLICT_FILES } from './files';
-import { emptyFigures } from './figures';
+import { buildFigures, type GeneratedFile } from './join';
 import type { Conflict, Country, DB, Disputed, Group, IndexRow, Kind, RawData, SearchEntry } from './types';
 
 const EARTH_R = 6371;
@@ -38,10 +38,11 @@ function normalizeIsos(R: RawData) {
   R.religions.countries = Object.fromEntries(Object.entries(R.religions.countries).map(([k, v]) => [fix(k), v]));
 }
 
-export function build(input: RawData): DB {
+/** `generated` are the optional open-data files (src/data/join.ts); without them the model uses Natural Earth's figures. */
+export function build(input: RawData, generated: readonly GeneratedFile[] = []): DB {
   const R = structuredClone(input);
   normalizeIsos(R);
-  const DB = { raw: R, corrections: R.corrections ?? [], figures: emptyFigures() } as DB;
+  const DB = { raw: R, corrections: R.corrections ?? [], figures: buildFigures(generated) } as DB;
 
   // ---- countries (Natural Earth admin-0 + index)
   const idx = new Map(R.index.map((r) => [r.iso3, r]));
@@ -62,7 +63,14 @@ export function build(input: RawData): DB {
     });
   }
   for (const c of DB.countries.values()) {
-    c.gdpPerCap = c.gdp && c.pop ? (c.gdp * 1e6) / c.pop : null;
+    // D10: generated population and GDP replace Natural Earth's wherever they exist; GDP stays in million USD.
+    const f = DB.figures.country(c.iso3);
+    if (f.population) { c.pop = f.population.value; c.popYear = f.population.year; c.popSource = f.population.source; }
+    if (f.gdp) {
+      c.gdp = /million/i.test(f.gdp.unit ?? '') ? f.gdp.value : f.gdp.value / 1e6;
+      c.gdpYear = f.gdp.year; c.gdpSource = f.gdp.source;
+    }
+    c.gdpPerCap = f.gdpPerCapita?.value ?? (c.gdp && c.pop ? (c.gdp * 1e6) / c.pop : null);
     c.density = c.pop && c.areaKm2 > 1 ? c.pop / c.areaKm2 : null;
   }
   const C = (iso: string): Country | undefined => DB.countries.get(iso);

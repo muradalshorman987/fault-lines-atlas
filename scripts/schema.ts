@@ -1,4 +1,4 @@
-// Shapes of the curated data files, for check-data. Lives in scripts/ so zod never ships to the browser.
+// Shapes of the data files, for check-data and the open-data pipeline. Lives in scripts/ so zod never ships to the browser.
 // Only the fields the app relies on are checked; any other field is allowed.
 
 import { z } from 'zod';
@@ -17,6 +17,7 @@ export const conflictFile = z.looseObject({
     externalPowers: z.array(z.looseObject({ iso3: iso })).optional(),
     sourceRefs: z.array(id).optional(),
     unverified: z.boolean().optional(),
+    ucdp: z.array(z.number().int().positive()).optional(), // UCDP conflict ids (conflict_new_id) for the deaths series
   })),
 });
 
@@ -64,3 +65,46 @@ export const SCHEMAS: Record<string, z.ZodType> = {
   }),
   'corrections.json': z.array(z.object({ id, where: bi, what: bi })),
 };
+
+// ---- generated files (public/data/generated, written by scripts/data; spec §6)
+
+const year = z.number().int().min(1800).max(2200);
+const datetime = z.iso.datetime({ message: 'expected an ISO date-time such as 2026-11-02T04:00:00.000Z' });
+
+export const generatedFile = z.looseObject({
+  source: id,
+  name: z.string().min(1),
+  licence: z.string().min(1),
+  url: z.string().regex(/^https:\/\//, 'expected an https URL'),
+  fetchedAt: datetime,
+  keys: z.enum(['iso3', 'conflict']),
+  citation: z.string().optional(),
+  version: z.string().optional(),
+  indicators: z.record(id, z.looseObject({ label: bi, unit: z.string() })),
+  records: z.record(id, z.record(id, z.looseObject({
+    value: z.number(),
+    year,
+    series: z.array(z.object({ year, value: z.number() })).optional(),
+  }))),
+});
+
+const STATES = ['ok', 'unchanged', 'skipped', 'error', 'unavailable'] as const;
+export type SourceState = (typeof STATES)[number];
+
+/** _status.json: the last run of each source. `fetchedAt` is when the file in place was fetched (null: never). */
+export const statusFile = z.looseObject({
+  updatedAt: datetime,
+  sources: z.record(id, z.looseObject({
+    state: z.enum(STATES),
+    checkedAt: datetime,
+    fetchedAt: datetime.nullable(),
+    message: z.string().optional(),
+    records: z.number().int().min(0).optional(),
+  })),
+  drift: z.looseObject({
+    state: z.enum(['ok', 'error']),
+    checkedAt: datetime,
+    differences: z.number().int().min(0).optional(),
+    message: z.string().optional(),
+  }).optional(),
+});

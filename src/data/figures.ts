@@ -3,7 +3,7 @@
 
 export interface Figure { value: number; year: number; source: string; unit?: string }
 export type CountryFigureId = 'population' | 'gdp' | 'gdpPerCapita' | 'refugeesFrom' | 'refugeesIn' | 'idps';
-export interface FigureSource { id: string; name: string; licence: string; url: string; fetchedAt: string }
+export interface FigureSource { id: string; name: string; licence: string; url: string; fetchedAt: string; citation?: string }
 
 export interface Figures {
   country(iso3: string): Partial<Record<CountryFigureId, Figure>>;

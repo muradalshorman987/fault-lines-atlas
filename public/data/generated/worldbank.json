@@ -1,0 +1,1092 @@
+{
+  "source": "worldbank",
+  "name": "World Bank",
+  "licence": "CC BY 4.0",
+  "url": "https://data.worldbank.org/",
+  "fetchedAt": "2026-11-02T13:59:06.435Z",
+  "keys": "iso3",
+  "citation": "World Bank, World Development Indicators (SP.POP.TOTL, NY.GDP.MKTP.CD, NY.GDP.PCAP.CD), via the Indicators API v2.",
+  "indicators": {
+    "population": { "label": { "ar": "السكان", "en": "Population" }, "unit": "people" },
+    "gdp": {
+      "label": { "ar": "الناتج المحلي الإجمالي (دولار أمريكي جارٍ)", "en": "GDP (current US$)" },
+      "unit": "USD"
+    },
+    "gdpPerCapita": {
+      "label": {
+        "ar": "نصيب الفرد من الناتج (دولار أمريكي جارٍ)",
+        "en": "GDP per capita (current US$)"
+      },
+      "unit": "USD"
+    }
+  },
+  "records": {
+    "AFG": {
+      "population": { "value": 43844111, "year": 2025 },
+      "gdp": { "value": 17778508876, "year": 2024 },
+      "gdpPerCapita": { "value": 416.87, "year": 2024 }
+    },
+    "ALB": {
+      "population": { "value": 2349580, "year": 2025 },
+      "gdp": { "value": 30540188271, "year": 2025 },
+      "gdpPerCapita": { "value": 12998.15, "year": 2025 }
+    },
+    "DZA": {
+      "population": { "value": 47435312, "year": 2025 },
+      "gdp": { "value": 287031225988, "year": 2025 },
+      "gdpPerCapita": { "value": 6051, "year": 2025 }
+    },
+    "ASM": {
+      "population": { "value": 46029, "year": 2025 },
+      "gdp": { "value": 871000000, "year": 2022 },
+      "gdpPerCapita": { "value": 18017.46, "year": 2022 }
+    },
+    "AND": {
+      "population": { "value": 82904, "year": 2025 },
+      "gdp": { "value": 4500982732, "year": 2025 },
+      "gdpPerCapita": { "value": 54291.5, "year": 2025 }
+    },
+    "AGO": {
+      "population": { "value": 39040039, "year": 2025 },
+      "gdp": { "value": 122174889424, "year": 2025 },
+      "gdpPerCapita": { "value": 3129.48, "year": 2025 }
+    },
+    "ATG": {
+      "population": { "value": 94209, "year": 2025 },
+      "gdp": { "value": 2338196296, "year": 2025 },
+      "gdpPerCapita": { "value": 24819.25, "year": 2025 }
+    },
+    "ARG": {
+      "population": { "value": 45851378, "year": 2025 },
+      "gdp": { "value": 683097891619, "year": 2025 },
+      "gdpPerCapita": { "value": 14898.09, "year": 2025 }
+    },
+    "ARM": {
+      "population": { "value": 3086700, "year": 2025 },
+      "gdp": { "value": 29243452882, "year": 2025 },
+      "gdpPerCapita": { "value": 9474.02, "year": 2025 }
+    },
+    "ABW": {
+      "population": { "value": 108785, "year": 2025 },
+      "gdp": { "value": 4167588070, "year": 2024 },
+      "gdpPerCapita": { "value": 38590.57, "year": 2024 }
+    },
+    "AUS": {
+      "population": { "value": 27614411, "year": 2025 },
+      "gdp": { "value": 1798518933689, "year": 2025 },
+      "gdpPerCapita": { "value": 65129.72, "year": 2025 }
+    },
+    "AUT": {
+      "population": { "value": 9208163, "year": 2025 },
+      "gdp": { "value": 579470021095, "year": 2025 },
+      "gdpPerCapita": { "value": 62930.04, "year": 2025 }
+    },
+    "AZE": {
+      "population": { "value": 10246996, "year": 2025 },
+      "gdp": { "value": 75937647059, "year": 2025 },
+      "gdpPerCapita": { "value": 7410.72, "year": 2025 }
+    },
+    "BHS": {
+      "population": { "value": 403033, "year": 2025 },
+      "gdp": { "value": 15832800000, "year": 2024 },
+      "gdpPerCapita": { "value": 39455.45, "year": 2024 }
+    },
+    "BHR": {
+      "population": { "value": 1600366, "year": 2025 },
+      "gdp": { "value": 48965725532, "year": 2025 },
+      "gdpPerCapita": { "value": 30596.58, "year": 2025 }
+    },
+    "BGD": {
+      "population": { "value": 175686899, "year": 2025 },
+      "gdp": { "value": 456319229256, "year": 2025 },
+      "gdpPerCapita": { "value": 2597.34, "year": 2025 }
+    },
+    "BRB": {
+      "population": { "value": 282623, "year": 2025 },
+      "gdp": { "value": 8016550000, "year": 2025 },
+      "gdpPerCapita": { "value": 28364.82, "year": 2025 }
+    },
+    "BLR": {
+      "population": { "value": 9085991, "year": 2025 },
+      "gdp": { "value": 93397215864, "year": 2025 },
+      "gdpPerCapita": { "value": 10279.25, "year": 2025 }
+    },
+    "BEL": {
+      "population": { "value": 11941781, "year": 2025 },
+      "gdp": { "value": 725466462860, "year": 2025 },
+      "gdpPerCapita": { "value": 60750.27, "year": 2025 }
+    },
+    "BLZ": {
+      "population": { "value": 422924, "year": 2025 },
+      "gdp": { "value": 3326500000, "year": 2025 },
+      "gdpPerCapita": { "value": 7865.48, "year": 2025 }
+    },
+    "BEN": {
+      "population": { "value": 14814460, "year": 2025 },
+      "gdp": { "value": 24566420904, "year": 2025 },
+      "gdpPerCapita": { "value": 1658.27, "year": 2025 }
+    },
+    "BMU": {
+      "population": { "value": 64555, "year": 2025 },
+      "gdp": { "value": 9194499000, "year": 2024 },
+      "gdpPerCapita": { "value": 142250.43, "year": 2024 }
+    },
+    "BTN": {
+      "population": { "value": 796682, "year": 2025 },
+      "gdp": { "value": 3579320145, "year": 2025 },
+      "gdpPerCapita": { "value": 4492.78, "year": 2025 }
+    },
+    "BOL": {
+      "population": { "value": 12581843, "year": 2025 },
+      "gdp": { "value": 64768947525, "year": 2025 },
+      "gdpPerCapita": { "value": 5147.81, "year": 2025 }
+    },
+    "BIH": {
+      "population": { "value": 3140095, "year": 2025 },
+      "gdp": { "value": 32599982936, "year": 2025 },
+      "gdpPerCapita": { "value": 10381.85, "year": 2025 }
+    },
+    "BWA": {
+      "population": { "value": 2562122, "year": 2025 },
+      "gdp": { "value": 19928479839, "year": 2025 },
+      "gdpPerCapita": { "value": 7778.12, "year": 2025 }
+    },
+    "BRA": {
+      "population": { "value": 212812405, "year": 2025 },
+      "gdp": { "value": 2279920092492, "year": 2025 },
+      "gdpPerCapita": { "value": 10713.29, "year": 2025 }
+    },
+    "VGB": { "population": { "value": 39732, "year": 2025 } },
+    "BRN": {
+      "population": { "value": 466330, "year": 2025 },
+      "gdp": { "value": 15031980994, "year": 2025 },
+      "gdpPerCapita": { "value": 32234.64, "year": 2025 }
+    },
+    "BGR": {
+      "population": { "value": 6433302, "year": 2025 },
+      "gdp": { "value": 130777235530, "year": 2025 },
+      "gdpPerCapita": { "value": 20328.17, "year": 2025 }
+    },
+    "BFA": {
+      "population": { "value": 24074580, "year": 2025 },
+      "gdp": { "value": 27627297461, "year": 2025 },
+      "gdpPerCapita": { "value": 1147.57, "year": 2025 }
+    },
+    "BDI": {
+      "population": { "value": 14390003, "year": 2025 },
+      "gdp": { "value": 3364713864, "year": 2025 },
+      "gdpPerCapita": { "value": 233.82, "year": 2025 }
+    },
+    "CPV": {
+      "population": { "value": 527326, "year": 2025 },
+      "gdp": { "value": 3056630435, "year": 2025 },
+      "gdpPerCapita": { "value": 5796.47, "year": 2025 }
+    },
+    "KHM": {
+      "population": { "value": 17847982, "year": 2025 },
+      "gdp": { "value": 51267065843, "year": 2025 },
+      "gdpPerCapita": { "value": 2872.43, "year": 2025 }
+    },
+    "CMR": {
+      "population": { "value": 29879337, "year": 2025 },
+      "gdp": { "value": 58933453924, "year": 2025 },
+      "gdpPerCapita": { "value": 1972.38, "year": 2025 }
+    },
+    "CAN": {
+      "population": { "value": 41651653, "year": 2025 },
+      "gdp": { "value": 2319899772426, "year": 2025 },
+      "gdpPerCapita": { "value": 55697.66, "year": 2025 }
+    },
+    "CYM": {
+      "population": { "value": 75844, "year": 2025 },
+      "gdp": { "value": 7765336505, "year": 2024 },
+      "gdpPerCapita": { "value": 104292.9, "year": 2024 }
+    },
+    "CAF": {
+      "population": { "value": 5513282, "year": 2025 },
+      "gdp": { "value": 3066109226, "year": 2025 },
+      "gdpPerCapita": { "value": 556.13, "year": 2025 }
+    },
+    "TCD": {
+      "population": { "value": 21003705, "year": 2025 },
+      "gdp": { "value": 21472835225, "year": 2025 },
+      "gdpPerCapita": { "value": 1022.34, "year": 2025 }
+    },
+    "CHL": {
+      "population": { "value": 19859921, "year": 2025 },
+      "gdp": { "value": 357371159575, "year": 2025 },
+      "gdpPerCapita": { "value": 17994.59, "year": 2025 }
+    },
+    "CHN": {
+      "population": { "value": 1406585000, "year": 2025 },
+      "gdp": { "value": 19498039388043, "year": 2025 },
+      "gdpPerCapita": { "value": 13861.97, "year": 2025 }
+    },
+    "COL": {
+      "population": { "value": 53425635, "year": 2025 },
+      "gdp": { "value": 457410034203, "year": 2025 },
+      "gdpPerCapita": { "value": 8561.62, "year": 2025 }
+    },
+    "COM": {
+      "population": { "value": 882847, "year": 2025 },
+      "gdp": { "value": 1814920856, "year": 2025 },
+      "gdpPerCapita": { "value": 2055.76, "year": 2025 }
+    },
+    "COD": {
+      "population": { "value": 112832473, "year": 2025 },
+      "gdp": { "value": 91030531317, "year": 2025 },
+      "gdpPerCapita": { "value": 806.78, "year": 2025 }
+    },
+    "COG": {
+      "population": { "value": 6484437, "year": 2025 },
+      "gdp": { "value": 16306633779, "year": 2025 },
+      "gdpPerCapita": { "value": 2514.73, "year": 2025 }
+    },
+    "CRI": {
+      "population": { "value": 5152950, "year": 2025 },
+      "gdp": { "value": 102904921157, "year": 2025 },
+      "gdpPerCapita": { "value": 19970.1, "year": 2025 }
+    },
+    "CIV": {
+      "population": { "value": 32711547, "year": 2025 },
+      "gdp": { "value": 99773555666, "year": 2025 },
+      "gdpPerCapita": { "value": 3050.1, "year": 2025 }
+    },
+    "HRV": {
+      "population": { "value": 3876200, "year": 2025 },
+      "gdp": { "value": 105060182186, "year": 2025 },
+      "gdpPerCapita": { "value": 27103.91, "year": 2025 }
+    },
+    "CUB": {
+      "population": { "value": 10937203, "year": 2025 },
+      "gdp": { "value": 107352000000, "year": 2020 },
+      "gdpPerCapita": { "value": 9605.28, "year": 2020 }
+    },
+    "CUW": {
+      "population": { "value": 156263, "year": 2025 },
+      "gdp": { "value": 3561178212, "year": 2024 },
+      "gdpPerCapita": { "value": 22832.9, "year": 2024 }
+    },
+    "CYP": {
+      "population": { "value": 1370754, "year": 2025 },
+      "gdp": { "value": 41225787247, "year": 2025 },
+      "gdpPerCapita": { "value": 41783.09, "year": 2025 }
+    },
+    "CZE": {
+      "population": { "value": 10886878, "year": 2025 },
+      "gdp": { "value": 391026962800, "year": 2025 },
+      "gdpPerCapita": { "value": 35917.27, "year": 2025 }
+    },
+    "DNK": {
+      "population": { "value": 6009169, "year": 2025 },
+      "gdp": { "value": 462526660468, "year": 2025 },
+      "gdpPerCapita": { "value": 76970.15, "year": 2025 }
+    },
+    "DJI": {
+      "population": { "value": 1184076, "year": 2025 },
+      "gdp": { "value": 4624533092, "year": 2025 },
+      "gdpPerCapita": { "value": 3905.6, "year": 2025 }
+    },
+    "DMA": {
+      "population": { "value": 65871, "year": 2025 },
+      "gdp": { "value": 723859259, "year": 2025 },
+      "gdpPerCapita": { "value": 10989.04, "year": 2025 }
+    },
+    "DOM": {
+      "population": { "value": 11520487, "year": 2025 },
+      "gdp": { "value": 127407463759, "year": 2025 },
+      "gdpPerCapita": { "value": 11059.21, "year": 2025 }
+    },
+    "ECU": {
+      "population": { "value": 18289896, "year": 2025 },
+      "gdp": { "value": 130320560400, "year": 2025 },
+      "gdpPerCapita": { "value": 7125.28, "year": 2025 }
+    },
+    "EGY": {
+      "population": { "value": 118365995, "year": 2025 },
+      "gdp": { "value": 365254630180, "year": 2025 },
+      "gdpPerCapita": { "value": 3085.81, "year": 2025 }
+    },
+    "SLV": {
+      "population": { "value": 6365503, "year": 2025 },
+      "gdp": { "value": 36708110000, "year": 2025 },
+      "gdpPerCapita": { "value": 5766.73, "year": 2025 }
+    },
+    "GNQ": {
+      "population": { "value": 1938431, "year": 2025 },
+      "gdp": { "value": 12823210426, "year": 2025 },
+      "gdpPerCapita": { "value": 6615.25, "year": 2025 }
+    },
+    "ERI": {
+      "population": { "value": 3607003, "year": 2025 },
+      "gdp": { "value": 2065001626, "year": 2011 },
+      "gdpPerCapita": { "value": 688.68, "year": 2011 }
+    },
+    "EST": {
+      "population": { "value": 1366475, "year": 2025 },
+      "gdp": { "value": 47030833799, "year": 2025 },
+      "gdpPerCapita": { "value": 34417.63, "year": 2025 }
+    },
+    "SWZ": {
+      "population": { "value": 1256174, "year": 2025 },
+      "gdp": { "value": 5160679613, "year": 2025 },
+      "gdpPerCapita": { "value": 4108.25, "year": 2025 }
+    },
+    "ETH": {
+      "population": { "value": 135472051, "year": 2025 },
+      "gdp": { "value": 126358758448, "year": 2025 },
+      "gdpPerCapita": { "value": 932.73, "year": 2025 }
+    },
+    "FRO": {
+      "population": { "value": 54900, "year": 2025 },
+      "gdp": { "value": 4052937170, "year": 2024 },
+      "gdpPerCapita": { "value": 74175.28, "year": 2024 }
+    },
+    "FJI": {
+      "population": { "value": 933154, "year": 2025 },
+      "gdp": { "value": 6198013062, "year": 2025 },
+      "gdpPerCapita": { "value": 6642, "year": 2025 }
+    },
+    "FIN": {
+      "population": { "value": 5646436, "year": 2025 },
+      "gdp": { "value": 317039368820, "year": 2025 },
+      "gdpPerCapita": { "value": 56148.58, "year": 2025 }
+    },
+    "FRA": {
+      "population": { "value": 68720337, "year": 2025 },
+      "gdp": { "value": 3366315927447, "year": 2025 },
+      "gdpPerCapita": { "value": 48985.73, "year": 2025 }
+    },
+    "PYF": {
+      "population": { "value": 282465, "year": 2025 },
+      "gdp": { "value": 6323716355, "year": 2024 },
+      "gdpPerCapita": { "value": 22439.88, "year": 2024 }
+    },
+    "GAB": {
+      "population": { "value": 2593130, "year": 2025 },
+      "gdp": { "value": 21427119323, "year": 2025 },
+      "gdpPerCapita": { "value": 8263.03, "year": 2025 }
+    },
+    "GMB": {
+      "population": { "value": 2822093, "year": 2025 },
+      "gdp": { "value": 2593673988, "year": 2025 },
+      "gdpPerCapita": { "value": 919.06, "year": 2025 }
+    },
+    "GEO": {
+      "population": { "value": 3935766, "year": 2025 },
+      "gdp": { "value": 38143612855, "year": 2025 },
+      "gdpPerCapita": { "value": 9691.53, "year": 2025 }
+    },
+    "DEU": {
+      "population": { "value": 83491249, "year": 2025 },
+      "gdp": { "value": 5050922925047, "year": 2025 },
+      "gdpPerCapita": { "value": 60496.44, "year": 2025 }
+    },
+    "GHA": {
+      "population": { "value": 35064272, "year": 2025 },
+      "gdp": { "value": 114209905279, "year": 2025 },
+      "gdpPerCapita": { "value": 3257.16, "year": 2025 }
+    },
+    "GRC": {
+      "population": { "value": 10413962, "year": 2025 },
+      "gdp": { "value": 280635521324, "year": 2025 },
+      "gdpPerCapita": { "value": 26948.01, "year": 2025 }
+    },
+    "GRL": {
+      "population": { "value": 56831, "year": 2025 },
+      "gdp": { "value": 3326543974, "year": 2023 },
+      "gdpPerCapita": { "value": 58498.97, "year": 2023 }
+    },
+    "GRD": {
+      "population": { "value": 117303, "year": 2025 },
+      "gdp": { "value": 1420173229, "year": 2025 },
+      "gdpPerCapita": { "value": 12106.88, "year": 2025 }
+    },
+    "GUM": {
+      "population": { "value": 168999, "year": 2025 },
+      "gdp": { "value": 6910000000, "year": 2022 },
+      "gdpPerCapita": { "value": 41833.15, "year": 2022 }
+    },
+    "GTM": {
+      "population": { "value": 18687881, "year": 2025 },
+      "gdp": { "value": 123306008821, "year": 2025 },
+      "gdpPerCapita": { "value": 6598.18, "year": 2025 }
+    },
+    "GIN": {
+      "population": { "value": 15099727, "year": 2025 },
+      "gdp": { "value": 28346024753, "year": 2025 },
+      "gdpPerCapita": { "value": 1877.25, "year": 2025 }
+    },
+    "GNB": {
+      "population": { "value": 2249515, "year": 2025 },
+      "gdp": { "value": 2527930273, "year": 2025 },
+      "gdpPerCapita": { "value": 1123.77, "year": 2025 }
+    },
+    "GUY": {
+      "population": { "value": 835986, "year": 2025 },
+      "gdp": { "value": 27097477218, "year": 2025 },
+      "gdpPerCapita": { "value": 32413.79, "year": 2025 }
+    },
+    "HTI": {
+      "population": { "value": 11906095, "year": 2025 },
+      "gdp": { "value": 32077278409, "year": 2025 },
+      "gdpPerCapita": { "value": 2694.19, "year": 2025 }
+    },
+    "HND": {
+      "population": { "value": 11005850, "year": 2025 },
+      "gdp": { "value": 39601409103, "year": 2025 },
+      "gdpPerCapita": { "value": 3598.21, "year": 2025 }
+    },
+    "HKG": {
+      "population": { "value": 7498900, "year": 2025 },
+      "gdp": { "value": 427310315922, "year": 2025 },
+      "gdpPerCapita": { "value": 56983.07, "year": 2025 }
+    },
+    "HUN": {
+      "population": { "value": 9514251, "year": 2025 },
+      "gdp": { "value": 246490213513, "year": 2025 },
+      "gdpPerCapita": { "value": 25907.47, "year": 2025 }
+    },
+    "ISL": {
+      "population": { "value": 392404, "year": 2025 },
+      "gdp": { "value": 38582528789, "year": 2025 },
+      "gdpPerCapita": { "value": 98323.48, "year": 2025 }
+    },
+    "IND": {
+      "population": { "value": 1463865525, "year": 2025 },
+      "gdp": { "value": 3956067115772, "year": 2025 },
+      "gdpPerCapita": { "value": 2702.48, "year": 2025 }
+    },
+    "IDN": {
+      "population": { "value": 285721236, "year": 2025 },
+      "gdp": { "value": 1445642584164, "year": 2025 },
+      "gdpPerCapita": { "value": 5059.63, "year": 2025 }
+    },
+    "IRN": {
+      "population": { "value": 92417681, "year": 2025 },
+      "gdp": { "value": 362682115433, "year": 2025 },
+      "gdpPerCapita": { "value": 3924.38, "year": 2025 }
+    },
+    "IRQ": {
+      "population": { "value": 47020774, "year": 2025 },
+      "gdp": { "value": 254367293538, "year": 2025 },
+      "gdpPerCapita": { "value": 5409.68, "year": 2025 }
+    },
+    "IRL": {
+      "population": { "value": 5484367, "year": 2025 },
+      "gdp": { "value": 721701359046, "year": 2025 },
+      "gdpPerCapita": { "value": 131592.46, "year": 2025 }
+    },
+    "IMN": {
+      "population": { "value": 84118, "year": 2025 },
+      "gdp": { "value": 7576129933, "year": 2023 },
+      "gdpPerCapita": { "value": 90015.21, "year": 2023 }
+    },
+    "ISR": {
+      "population": { "value": 10122800, "year": 2025 },
+      "gdp": { "value": 610777842874, "year": 2025 },
+      "gdpPerCapita": { "value": 60336.85, "year": 2025 }
+    },
+    "ITA": {
+      "population": { "value": 58915656, "year": 2025 },
+      "gdp": { "value": 2551556954100, "year": 2025 },
+      "gdpPerCapita": { "value": 43308.64, "year": 2025 }
+    },
+    "JAM": {
+      "population": { "value": 2837077, "year": 2025 },
+      "gdp": { "value": 22704903218, "year": 2025 },
+      "gdpPerCapita": { "value": 8002.92, "year": 2025 }
+    },
+    "JPN": {
+      "population": { "value": 123366734, "year": 2025 },
+      "gdp": { "value": 4435162999977, "year": 2025 },
+      "gdpPerCapita": { "value": 35951.04, "year": 2025 }
+    },
+    "JOR": {
+      "population": { "value": 11520684, "year": 2025 },
+      "gdp": { "value": 61610052535, "year": 2025 },
+      "gdpPerCapita": { "value": 5347.78, "year": 2025 }
+    },
+    "KAZ": {
+      "population": { "value": 20843754, "year": 2025 },
+      "gdp": { "value": 306239209650, "year": 2025 },
+      "gdpPerCapita": { "value": 14692.13, "year": 2025 }
+    },
+    "KEN": {
+      "population": { "value": 57532493, "year": 2025 },
+      "gdp": { "value": 135941278879, "year": 2025 },
+      "gdpPerCapita": { "value": 2362.86, "year": 2025 }
+    },
+    "KIR": {
+      "population": { "value": 136488, "year": 2025 },
+      "gdp": { "value": 349227254, "year": 2025 },
+      "gdpPerCapita": { "value": 2558.67, "year": 2025 }
+    },
+    "PRK": { "population": { "value": 26571036, "year": 2025 } },
+    "KOR": {
+      "population": { "value": 51684564, "year": 2025 },
+      "gdp": { "value": 1872374961553, "year": 2025 },
+      "gdpPerCapita": { "value": 36226.97, "year": 2025 }
+    },
+    "KOS": {
+      "population": { "value": 1576876, "year": 2025 },
+      "gdp": { "value": 12456403307, "year": 2025 },
+      "gdpPerCapita": { "value": 7899.42, "year": 2025 }
+    },
+    "KWT": {
+      "population": { "value": 4865298, "year": 2025 },
+      "gdp": { "value": 157209026926, "year": 2025 },
+      "gdpPerCapita": { "value": 32312.31, "year": 2025 }
+    },
+    "KGZ": {
+      "population": { "value": 7343064, "year": 2025 },
+      "gdp": { "value": 22623752095, "year": 2025 },
+      "gdpPerCapita": { "value": 3080.97, "year": 2025 }
+    },
+    "LAO": {
+      "population": { "value": 7873046, "year": 2025 },
+      "gdp": { "value": 18302970219, "year": 2025 },
+      "gdpPerCapita": { "value": 2324.76, "year": 2025 }
+    },
+    "LVA": {
+      "population": { "value": 1847785, "year": 2025 },
+      "gdp": { "value": 48618869160, "year": 2025 },
+      "gdpPerCapita": { "value": 26311.97, "year": 2025 }
+    },
+    "LBN": {
+      "population": { "value": 5849421, "year": 2025 },
+      "gdp": { "value": 25971643441, "year": 2024 },
+      "gdpPerCapita": { "value": 4473.27, "year": 2024 }
+    },
+    "LSO": {
+      "population": { "value": 2363325, "year": 2025 },
+      "gdp": { "value": 2573572920, "year": 2025 },
+      "gdpPerCapita": { "value": 1088.96, "year": 2025 }
+    },
+    "LBR": {
+      "population": { "value": 5731206, "year": 2025 },
+      "gdp": { "value": 5245938900, "year": 2025 },
+      "gdpPerCapita": { "value": 915.33, "year": 2025 }
+    },
+    "LBY": {
+      "population": { "value": 7458555, "year": 2025 },
+      "gdp": { "value": 48098909614, "year": 2025 },
+      "gdpPerCapita": { "value": 6448.82, "year": 2025 }
+    },
+    "LIE": {
+      "population": { "value": 41024, "year": 2025 },
+      "gdp": { "value": 8905764270, "year": 2024 },
+      "gdpPerCapita": { "value": 220167.23, "year": 2024 }
+    },
+    "LTU": {
+      "population": { "value": 2888774, "year": 2025 },
+      "gdp": { "value": 95210150818, "year": 2025 },
+      "gdpPerCapita": { "value": 32958.67, "year": 2025 }
+    },
+    "LUX": {
+      "population": { "value": 686970, "year": 2025 },
+      "gdp": { "value": 101157829491, "year": 2025 },
+      "gdpPerCapita": { "value": 147252.18, "year": 2025 }
+    },
+    "MAC": {
+      "population": { "value": 685900, "year": 2025 },
+      "gdp": { "value": 52061007670, "year": 2025 },
+      "gdpPerCapita": { "value": 75901.75, "year": 2025 }
+    },
+    "MDG": {
+      "population": { "value": 32740678, "year": 2025 },
+      "gdp": { "value": 19620352036, "year": 2025 },
+      "gdpPerCapita": { "value": 599.27, "year": 2025 }
+    },
+    "MWI": {
+      "population": { "value": 22216120, "year": 2025 },
+      "gdp": { "value": 14918276698, "year": 2025 },
+      "gdpPerCapita": { "value": 671.51, "year": 2025 }
+    },
+    "MYS": {
+      "population": { "value": 35977838, "year": 2025 },
+      "gdp": { "value": 472193128645, "year": 2025 },
+      "gdpPerCapita": { "value": 13124.56, "year": 2025 }
+    },
+    "MDV": {
+      "population": { "value": 529676, "year": 2025 },
+      "gdp": { "value": 7741066861, "year": 2025 },
+      "gdpPerCapita": { "value": 14614.72, "year": 2025 }
+    },
+    "MLI": {
+      "population": { "value": 25198821, "year": 2025 },
+      "gdp": { "value": 30069148581, "year": 2025 },
+      "gdpPerCapita": { "value": 1193.28, "year": 2025 }
+    },
+    "MLT": {
+      "population": { "value": 579704, "year": 2025 },
+      "gdp": { "value": 27771821561, "year": 2025 },
+      "gdpPerCapita": { "value": 47906.9, "year": 2025 }
+    },
+    "MHL": {
+      "population": { "value": 36282, "year": 2025 },
+      "gdp": { "value": 308000000, "year": 2025 },
+      "gdpPerCapita": { "value": 8489.06, "year": 2025 }
+    },
+    "MRT": {
+      "population": { "value": 5315065, "year": 2025 },
+      "gdp": { "value": 11679910946, "year": 2025 },
+      "gdpPerCapita": { "value": 2197.51, "year": 2025 }
+    },
+    "MUS": {
+      "population": { "value": 1243741, "year": 2025 },
+      "gdp": { "value": 16157804492, "year": 2025 },
+      "gdpPerCapita": { "value": 12991.29, "year": 2025 }
+    },
+    "MEX": {
+      "population": { "value": 131946900, "year": 2025 },
+      "gdp": { "value": 1832641364776, "year": 2025 },
+      "gdpPerCapita": { "value": 13889.23, "year": 2025 }
+    },
+    "FSM": {
+      "population": { "value": 113683, "year": 2025 },
+      "gdp": { "value": 501797600, "year": 2025 },
+      "gdpPerCapita": { "value": 4414.01, "year": 2025 }
+    },
+    "MDA": {
+      "population": { "value": 2360527, "year": 2025 },
+      "gdp": { "value": 20351796275, "year": 2025 },
+      "gdpPerCapita": { "value": 8621.72, "year": 2025 }
+    },
+    "MCO": {
+      "population": { "value": 38341, "year": 2025 },
+      "gdp": { "value": 11125788838, "year": 2024 },
+      "gdpPerCapita": { "value": 288001.57, "year": 2024 }
+    },
+    "MNG": {
+      "population": { "value": 3568978, "year": 2025 },
+      "gdp": { "value": 25369107325, "year": 2025 },
+      "gdpPerCapita": { "value": 7108.23, "year": 2025 }
+    },
+    "MNE": {
+      "population": { "value": 623129, "year": 2025 },
+      "gdp": { "value": 9232801465, "year": 2025 },
+      "gdpPerCapita": { "value": 14816.84, "year": 2025 }
+    },
+    "MAR": {
+      "population": { "value": 38430770, "year": 2025 },
+      "gdp": { "value": 182374250612, "year": 2025 },
+      "gdpPerCapita": { "value": 4672.47, "year": 2025 }
+    },
+    "MOZ": {
+      "population": { "value": 35631653, "year": 2025 },
+      "gdp": { "value": 22337997046, "year": 2025 },
+      "gdpPerCapita": { "value": 626.91, "year": 2025 }
+    },
+    "MMR": {
+      "population": { "value": 54850648, "year": 2025 },
+      "gdp": { "value": 81665773810, "year": 2025 },
+      "gdpPerCapita": { "value": 1488.88, "year": 2025 }
+    },
+    "NAM": {
+      "population": { "value": 3092816, "year": 2025 },
+      "gdp": { "value": 15080340654, "year": 2025 },
+      "gdpPerCapita": { "value": 4875.93, "year": 2025 }
+    },
+    "NRU": {
+      "population": { "value": 12025, "year": 2025 },
+      "gdp": { "value": 176040044, "year": 2025 },
+      "gdpPerCapita": { "value": 14639.5, "year": 2025 }
+    },
+    "NPL": {
+      "population": { "value": 29618118, "year": 2025 },
+      "gdp": { "value": 45489810283, "year": 2025 },
+      "gdpPerCapita": { "value": 1535.88, "year": 2025 }
+    },
+    "NLD": {
+      "population": { "value": 18087633, "year": 2025 },
+      "gdp": { "value": 1332767651100, "year": 2025 },
+      "gdpPerCapita": { "value": 73683.92, "year": 2025 }
+    },
+    "NCL": {
+      "population": { "value": 295333, "year": 2025 },
+      "gdp": { "value": 8548919387, "year": 2024 },
+      "gdpPerCapita": { "value": 29213.19, "year": 2024 }
+    },
+    "NZL": {
+      "population": { "value": 5324700, "year": 2025 },
+      "gdp": { "value": 264057413740, "year": 2025 },
+      "gdpPerCapita": { "value": 49591.04, "year": 2025 }
+    },
+    "NIC": {
+      "population": { "value": 7007502, "year": 2025 },
+      "gdp": { "value": 22237167113, "year": 2025 },
+      "gdpPerCapita": { "value": 3173.34, "year": 2025 }
+    },
+    "NER": {
+      "population": { "value": 27917831, "year": 2025 },
+      "gdp": { "value": 21646191388, "year": 2025 },
+      "gdpPerCapita": { "value": 775.35, "year": 2025 }
+    },
+    "NGA": {
+      "population": { "value": 237527782, "year": 2025 },
+      "gdp": { "value": 290794361542, "year": 2025 },
+      "gdpPerCapita": { "value": 1224.25, "year": 2025 }
+    },
+    "MKD": {
+      "population": { "value": 1820909, "year": 2025 },
+      "gdp": { "value": 19101199817, "year": 2025 },
+      "gdpPerCapita": { "value": 10489.93, "year": 2025 }
+    },
+    "MNP": {
+      "population": { "value": 43541, "year": 2025 },
+      "gdp": { "value": 1096000000, "year": 2022 },
+      "gdpPerCapita": { "value": 23785.75, "year": 2022 }
+    },
+    "NOR": {
+      "population": { "value": 5610870, "year": 2025 },
+      "gdp": { "value": 530755719439, "year": 2025 },
+      "gdpPerCapita": { "value": 94594.19, "year": 2025 }
+    },
+    "OMN": {
+      "population": { "value": 5494691, "year": 2025 },
+      "gdp": { "value": 109604780696, "year": 2025 },
+      "gdpPerCapita": { "value": 19947.4, "year": 2025 }
+    },
+    "PAK": {
+      "population": { "value": 255219554, "year": 2025 },
+      "gdp": { "value": 407307214476, "year": 2025 },
+      "gdpPerCapita": { "value": 1595.91, "year": 2025 }
+    },
+    "PLW": {
+      "population": { "value": 17663, "year": 2025 },
+      "gdp": { "value": 345000000, "year": 2025 },
+      "gdpPerCapita": { "value": 19532.36, "year": 2025 }
+    },
+    "PAN": {
+      "population": { "value": 4571189, "year": 2025 },
+      "gdp": { "value": 90462600000, "year": 2025 },
+      "gdpPerCapita": { "value": 19789.73, "year": 2025 }
+    },
+    "PNG": {
+      "population": { "value": 10762817, "year": 2025 },
+      "gdp": { "value": 32498658654, "year": 2025 },
+      "gdpPerCapita": { "value": 3019.53, "year": 2025 }
+    },
+    "PRY": {
+      "population": { "value": 7013078, "year": 2025 },
+      "gdp": { "value": 49278227554, "year": 2025 },
+      "gdpPerCapita": { "value": 7026.62, "year": 2025 }
+    },
+    "PER": {
+      "population": { "value": 34576665, "year": 2025 },
+      "gdp": { "value": 334854659182, "year": 2025 },
+      "gdpPerCapita": { "value": 9684.41, "year": 2025 }
+    },
+    "PHL": {
+      "population": { "value": 116786962, "year": 2025 },
+      "gdp": { "value": 487086123720, "year": 2025 },
+      "gdpPerCapita": { "value": 4170.72, "year": 2025 }
+    },
+    "POL": {
+      "population": { "value": 36435861, "year": 2025 },
+      "gdp": { "value": 1035491784197, "year": 2025 },
+      "gdpPerCapita": { "value": 28419.58, "year": 2025 }
+    },
+    "PRT": {
+      "population": { "value": 10804871, "year": 2025 },
+      "gdp": { "value": 346639825142, "year": 2025 },
+      "gdpPerCapita": { "value": 32081.81, "year": 2025 }
+    },
+    "PRI": {
+      "population": { "value": 3184835, "year": 2025 },
+      "gdp": { "value": 129368484000, "year": 2025 },
+      "gdpPerCapita": { "value": 40620.15, "year": 2025 }
+    },
+    "QAT": {
+      "population": { "value": 2972215, "year": 2025 },
+      "gdp": { "value": 215559615385, "year": 2025 },
+      "gdpPerCapita": { "value": 72524.91, "year": 2025 }
+    },
+    "ROU": {
+      "population": { "value": 19020271, "year": 2025 },
+      "gdp": { "value": 428677977855, "year": 2025 },
+      "gdpPerCapita": { "value": 22537.95, "year": 2025 }
+    },
+    "RUS": {
+      "population": { "value": 143513328, "year": 2025 },
+      "gdp": { "value": 2561310169359, "year": 2025 },
+      "gdpPerCapita": { "value": 17546.61, "year": 2025 }
+    },
+    "RWA": {
+      "population": { "value": 14569341, "year": 2025 },
+      "gdp": { "value": 16372132990, "year": 2025 },
+      "gdpPerCapita": { "value": 1123.74, "year": 2025 }
+    },
+    "WSM": {
+      "population": { "value": 219306, "year": 2025 },
+      "gdp": { "value": 1287936622, "year": 2025 },
+      "gdpPerCapita": { "value": 5872.78, "year": 2025 }
+    },
+    "SMR": {
+      "population": { "value": 34109, "year": 2025 },
+      "gdp": { "value": 2027243194, "year": 2023 },
+      "gdpPerCapita": { "value": 59871.33, "year": 2023 }
+    },
+    "STP": {
+      "population": { "value": 240254, "year": 2025 },
+      "gdp": { "value": 981293587, "year": 2025 },
+      "gdpPerCapita": { "value": 4084.4, "year": 2025 }
+    },
+    "SAU": {
+      "population": { "value": 36973555, "year": 2025 },
+      "gdp": { "value": 1276942933333, "year": 2025 },
+      "gdpPerCapita": { "value": 34536.66, "year": 2025 }
+    },
+    "SEN": {
+      "population": { "value": 18931966, "year": 2025 },
+      "gdp": { "value": 37006536238, "year": 2025 },
+      "gdpPerCapita": { "value": 1954.71, "year": 2025 }
+    },
+    "SRB": {
+      "population": { "value": 6549143, "year": 2025 },
+      "gdp": { "value": 99953324473, "year": 2025 },
+      "gdpPerCapita": { "value": 15262.05, "year": 2025 }
+    },
+    "SYC": {
+      "population": { "value": 122730, "year": 2025 },
+      "gdp": { "value": 2387022853, "year": 2025 },
+      "gdpPerCapita": { "value": 19449.38, "year": 2025 }
+    },
+    "SLE": {
+      "population": { "value": 8819794, "year": 2025 },
+      "gdp": { "value": 7464157904, "year": 2025 },
+      "gdpPerCapita": { "value": 846.3, "year": 2025 }
+    },
+    "SGP": {
+      "population": { "value": 6111175, "year": 2025 },
+      "gdp": { "value": 603869516999, "year": 2025 },
+      "gdpPerCapita": { "value": 98813.98, "year": 2025 }
+    },
+    "SXM": {
+      "population": { "value": 43923, "year": 2025 },
+      "gdp": { "value": 1887728480, "year": 2025 },
+      "gdpPerCapita": { "value": 42978.13, "year": 2025 }
+    },
+    "SVK": {
+      "population": { "value": 5413813, "year": 2025 },
+      "gdp": { "value": 154530066507, "year": 2025 },
+      "gdpPerCapita": { "value": 28543.67, "year": 2025 }
+    },
+    "SVN": {
+      "population": { "value": 2130986, "year": 2025 },
+      "gdp": { "value": 79648204979, "year": 2025 },
+      "gdpPerCapita": { "value": 37376.22, "year": 2025 }
+    },
+    "SLB": {
+      "population": { "value": 838645, "year": 2025 },
+      "gdp": { "value": 1749572443, "year": 2025 },
+      "gdpPerCapita": { "value": 2086.19, "year": 2025 }
+    },
+    "SOM": {
+      "population": { "value": 19654739, "year": 2025 },
+      "gdp": { "value": 12995200000, "year": 2025 },
+      "gdpPerCapita": { "value": 661.17, "year": 2025 }
+    },
+    "ZAF": {
+      "population": { "value": 64747319, "year": 2025 },
+      "gdp": { "value": 427184325997, "year": 2025 },
+      "gdpPerCapita": { "value": 6597.71, "year": 2025 }
+    },
+    "SSD": {
+      "population": { "value": 12188788, "year": 2025 },
+      "gdp": { "value": 11997800760, "year": 2015 },
+      "gdpPerCapita": { "value": 1080.15, "year": 2015 }
+    },
+    "ESP": {
+      "population": { "value": 49355143, "year": 2025 },
+      "gdp": { "value": 1906453309986, "year": 2025 },
+      "gdpPerCapita": { "value": 38627.25, "year": 2025 }
+    },
+    "LKA": {
+      "population": { "value": 21756000, "year": 2025 },
+      "gdp": { "value": 108825231671, "year": 2025 },
+      "gdpPerCapita": { "value": 5002.08, "year": 2025 }
+    },
+    "KNA": {
+      "population": { "value": 46922, "year": 2025 },
+      "gdp": { "value": 1183514815, "year": 2025 },
+      "gdpPerCapita": { "value": 25223.03, "year": 2025 }
+    },
+    "LCA": {
+      "population": { "value": 180149, "year": 2025 },
+      "gdp": { "value": 2656444444, "year": 2025 },
+      "gdpPerCapita": { "value": 14745.82, "year": 2025 }
+    },
+    "MAF": {
+      "population": { "value": 24941, "year": 2025 },
+      "gdp": { "value": 649206263, "year": 2021 },
+      "gdpPerCapita": { "value": 21668.38, "year": 2021 }
+    },
+    "VCT": {
+      "population": { "value": 99924, "year": 2025 },
+      "gdp": { "value": 1255222222, "year": 2025 },
+      "gdpPerCapita": { "value": 12561.77, "year": 2025 }
+    },
+    "SDN": {
+      "population": { "value": 51662147, "year": 2025 },
+      "gdp": { "value": 60162634574, "year": 2025 },
+      "gdpPerCapita": { "value": 1164.54, "year": 2025 }
+    },
+    "SUR": {
+      "population": { "value": 639850, "year": 2025 },
+      "gdp": { "value": 4523657797, "year": 2025 },
+      "gdpPerCapita": { "value": 7069.87, "year": 2025 }
+    },
+    "SWE": {
+      "population": { "value": 10596620, "year": 2025 },
+      "gdp": { "value": 668998664082, "year": 2025 },
+      "gdpPerCapita": { "value": 63133.21, "year": 2025 }
+    },
+    "CHE": {
+      "population": { "value": 9092436, "year": 2025 },
+      "gdp": { "value": 1043529899251, "year": 2025 },
+      "gdpPerCapita": { "value": 114769.01, "year": 2025 }
+    },
+    "SYR": {
+      "population": { "value": 25620427, "year": 2025 },
+      "gdp": { "value": 23737634644, "year": 2022 },
+      "gdpPerCapita": { "value": 1056.78, "year": 2022 }
+    },
+    "TJK": {
+      "population": { "value": 10786734, "year": 2025 },
+      "gdp": { "value": 17660626562, "year": 2025 },
+      "gdpPerCapita": { "value": 1637.25, "year": 2025 }
+    },
+    "TZA": {
+      "population": { "value": 70545865, "year": 2025 },
+      "gdp": { "value": 90143496090, "year": 2025 },
+      "gdpPerCapita": { "value": 1318.82, "year": 2025 }
+    },
+    "THA": {
+      "population": { "value": 71619863, "year": 2025 },
+      "gdp": { "value": 577009981112, "year": 2025 },
+      "gdpPerCapita": { "value": 8056.56, "year": 2025 }
+    },
+    "TLS": {
+      "population": { "value": 1418517, "year": 2025 },
+      "gdp": { "value": 1902180258, "year": 2025 },
+      "gdpPerCapita": { "value": 1340.96, "year": 2025 }
+    },
+    "TGO": {
+      "population": { "value": 8591626, "year": 2025 },
+      "gdp": { "value": 11889949067, "year": 2025 },
+      "gdpPerCapita": { "value": 1383.9, "year": 2025 }
+    },
+    "TON": {
+      "population": { "value": 103742, "year": 2025 },
+      "gdp": { "value": 679218219, "year": 2025 },
+      "gdpPerCapita": { "value": 6547.19, "year": 2025 }
+    },
+    "TTO": {
+      "population": { "value": 1367764, "year": 2025 },
+      "gdp": { "value": 25942749718, "year": 2025 },
+      "gdpPerCapita": { "value": 18967.27, "year": 2025 }
+    },
+    "TUN": {
+      "population": { "value": 12348573, "year": 2025 },
+      "gdp": { "value": 57502836548, "year": 2025 },
+      "gdpPerCapita": { "value": 4656.64, "year": 2025 }
+    },
+    "TUR": {
+      "population": { "value": 85878556, "year": 2025 },
+      "gdp": { "value": 1597293229287, "year": 2025 },
+      "gdpPerCapita": { "value": 18599.44, "year": 2025 }
+    },
+    "TKM": {
+      "population": { "value": 7618847, "year": 2025 },
+      "gdp": { "value": 49828621356, "year": 2025 },
+      "gdpPerCapita": { "value": 6540.18, "year": 2025 }
+    },
+    "TCA": {
+      "population": { "value": 46855, "year": 2025 },
+      "gdp": { "value": 1745378000, "year": 2024 },
+      "gdpPerCapita": { "value": 37506.78, "year": 2024 }
+    },
+    "TUV": {
+      "population": { "value": 9492, "year": 2025 },
+      "gdp": { "value": 57345435, "year": 2025 },
+      "gdpPerCapita": { "value": 6041.45, "year": 2025 }
+    },
+    "UGA": {
+      "population": { "value": 51384894, "year": 2025 },
+      "gdp": { "value": 61985829288, "year": 2025 },
+      "gdpPerCapita": { "value": 1206.3, "year": 2025 }
+    },
+    "UKR": {
+      "population": { "value": 38980376, "year": 2025 },
+      "gdp": { "value": 214233312784, "year": 2025 },
+      "gdpPerCapita": { "value": 5865.88, "year": 2025 }
+    },
+    "ARE": {
+      "population": { "value": 11513149, "year": 2025 },
+      "gdp": { "value": 552324919096, "year": 2024 },
+      "gdpPerCapita": { "value": 50273.51, "year": 2024 }
+    },
+    "GBR": {
+      "population": { "value": 69487000, "year": 2025 },
+      "gdp": { "value": 4002587541846, "year": 2025 },
+      "gdpPerCapita": { "value": 57601.96, "year": 2025 }
+    },
+    "USA": {
+      "population": { "value": 341784857, "year": 2025 },
+      "gdp": { "value": 30769700000000, "year": 2025 },
+      "gdpPerCapita": { "value": 90026.52, "year": 2025 }
+    },
+    "URY": {
+      "population": { "value": 3384688, "year": 2025 },
+      "gdp": { "value": 85347696278, "year": 2025 },
+      "gdpPerCapita": { "value": 25215.82, "year": 2025 }
+    },
+    "UZB": {
+      "population": { "value": 37053428, "year": 2025 },
+      "gdp": { "value": 147038081129, "year": 2025 },
+      "gdpPerCapita": { "value": 3968.27, "year": 2025 }
+    },
+    "VUT": {
+      "population": { "value": 335169, "year": 2025 },
+      "gdp": { "value": 1353658841, "year": 2025 },
+      "gdpPerCapita": { "value": 4038.74, "year": 2025 }
+    },
+    "VEN": {
+      "population": { "value": 28516896, "year": 2025 },
+      "gdp": { "value": 99661244156, "year": 2025 },
+      "gdpPerCapita": { "value": 3494.81, "year": 2025 }
+    },
+    "VNM": {
+      "population": { "value": 101598527, "year": 2025 },
+      "gdp": { "value": 514697215165, "year": 2025 },
+      "gdpPerCapita": { "value": 5065.99, "year": 2025 }
+    },
+    "VIR": {
+      "population": { "value": 103792, "year": 2025 },
+      "gdp": { "value": 4672000000, "year": 2022 },
+      "gdpPerCapita": { "value": 44320.91, "year": 2022 }
+    },
+    "PSE": {
+      "population": { "value": 5413596, "year": 2025 },
+      "gdp": { "value": 17167100000, "year": 2025 },
+      "gdpPerCapita": { "value": 3171.11, "year": 2025 }
+    },
+    "YEM": {
+      "population": { "value": 41773878, "year": 2025 },
+      "gdp": { "value": 21606160663, "year": 2018 },
+      "gdpPerCapita": { "value": 633.89, "year": 2018 }
+    },
+    "ZMB": {
+      "population": { "value": 21913874, "year": 2025 },
+      "gdp": { "value": 28879806220, "year": 2025 },
+      "gdpPerCapita": { "value": 1317.88, "year": 2025 }
+    },
+    "ZWE": {
+      "population": { "value": 16950795, "year": 2025 },
+      "gdp": { "value": 51215643906, "year": 2025 },
+      "gdpPerCapita": { "value": 3021.43, "year": 2025 }
+    }
+  }
+}

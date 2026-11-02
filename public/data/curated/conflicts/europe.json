@@ -106,6 +106,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["acled", "ucdp", "unhcr"],
+      "ucdp": [13243, 13306, 13246, 13247],
       "unverified": true
     },
     {
@@ -196,6 +197,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["icg", "mrg"],
+      "ucdp": [388],
       "unverified": true
     },
     {
@@ -267,7 +269,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["icg", "mrg"]
+      "sourceRefs": ["icg", "mrg"],
+      "ucdp": [412]
     },
     {
       "id": "bosnia",
@@ -338,7 +341,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["icg", "mrg"]
+      "sourceRefs": ["icg", "mrg"],
+      "ucdp": [389, 398, 397]
     },
     {
       "id": "transnistria",
@@ -409,7 +413,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["icg"]
+      "sourceRefs": ["icg"],
+      "ucdp": [394]
     },
     {
       "id": "georgia-breakaway",
@@ -475,7 +480,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["icg", "unhcr"]
+      "sourceRefs": ["icg", "unhcr"],
+      "ucdp": [392, 393]
     },
     {
       "id": "basque-catalonia",
@@ -533,7 +539,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["mrg"]
+      "sourceRefs": ["mrg"],
+      "ucdp": [342]
     },
     {
       "id": "northern-ireland",
@@ -596,7 +603,8 @@
       "statusAsOf": "2026-10-30",
       "recent": [],
       "confidence": "partial",
-      "sourceRefs": ["mrg"]
+      "sourceRefs": ["mrg"],
+      "ucdp": [315]
     }
   ]
 }

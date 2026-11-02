@@ -101,6 +101,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["icg", "ocha-hdx", "acled"],
+      "ucdp": [234],
       "unverified": true
     },
     {
@@ -201,6 +202,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["icg", "eia", "acled"],
+      "ucdp": [16905],
       "unverified": true
     },
     {
@@ -321,6 +323,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["icg", "unhcr", "ocha-hdx"],
+      "ucdp": [299, 13809],
       "unverified": true
     },
     {
@@ -413,6 +416,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["icg", "acled"],
+      "ucdp": [426],
       "unverified": true
     },
     {
@@ -524,6 +528,7 @@
       ],
       "confidence": "verified",
       "sourceRefs": ["acled", "eia", "ocha-hdx"],
+      "ucdp": [230, 16099, 16470],
       "unverified": true
     },
     {
@@ -606,6 +611,7 @@
       "recent": [],
       "confidence": "partial",
       "sourceRefs": ["icg", "mrg"],
+      "ucdp": [271],
       "unverified": true
     },
     {
@@ -681,6 +687,7 @@
       ],
       "confidence": "partial",
       "sourceRefs": ["icg", "mrg"],
+      "ucdp": [354],
       "unverified": true
     },
     {

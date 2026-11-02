@@ -1,11 +1,12 @@
-// Validates the curated data: file shapes, links between records, unique ids and the canonical layout.
+// Validates the data: curated file shapes, links between records, unique ids and the canonical layout, then the
+// generated open-data files (shape, keys, declared indicators) and _status.json.
 // Run `npm run check-data`. Each problem prints as: <file> › <json path> › <message> (got <value>)
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { formatJson } from './format-json';
-import { conflictFile, SCHEMAS } from './schema';
+import { conflictFile, generatedFile, SCHEMAS, statusFile } from './schema';
 
 export interface Problem { file: string; path: string; message: string; value?: unknown }
 
@@ -105,13 +106,68 @@ export function checkData(dataDir: string): Problem[] {
   dupes('chokepoints.json', (files['chokepoints.json'] as { points: Rec[] }).points, 'points');
   dupes('relations.json', rel.blocs, 'blocs');
   dupes('resources.json', resources.sites, 'sites');
+  if (problems.length) return [...layout, ...problems];
+
+  // 4. Generated open-data files (optional folder).
+  problems.push(...checkGeneratedDir(dataDir, { isos, conflictIds, resourceTypes }));
   return [...layout, ...problems];
+}
+
+/** What generated files are checked against. */
+export interface GeneratedRefs { isos: Set<string>; conflictIds: Set<string>; resourceTypes: Set<string> }
+
+export function checkGeneratedDir(dataDir: string, refs: GeneratedRefs): Problem[] {
+  const dir = path.join(dataDir, 'generated');
+  if (!fs.existsSync(dir)) return [];
+  const out: Problem[] = [];
+  for (const name of fs.readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
+    const file = `generated/${name}`;
+    let data: unknown;
+    try { data = JSON.parse(fs.readFileSync(path.join(dir, name), 'utf8')); } catch (err) { out.push({ file, path: '', message: `not valid JSON: ${(err as Error).message}` }); continue; }
+    if (name === '_status.json') {
+      const res = statusFile.safeParse(data);
+      if (!res.success) for (const issue of res.error.issues) out.push({ file, path: pathOf(issue.path), message: issue.message, value: at(data, issue.path) });
+      continue;
+    }
+    out.push(...checkGenerated(file, data, refs));
+  }
+  return out;
+}
+
+/** One generated file: its shape, its name, its keys (atlas countries or conflicts) and its indicator ids. */
+export function checkGenerated(file: string, data: unknown, refs: GeneratedRefs): Problem[] {
+  const out: Problem[] = [];
+  const res = generatedFile.safeParse(data);
+  if (!res.success) for (const issue of res.error.issues) out.push({ file, path: pathOf(issue.path), message: issue.message, value: at(data, issue.path) });
+  type Rec = Record<string, unknown>;
+  const obj = (x: unknown): Rec => (x && typeof x === 'object' && !Array.isArray(x) ? (x as Rec) : {});
+  const d = obj(data);
+  const base = path.basename(file, '.json');
+  if (typeof d.source === 'string' && d.source !== base) out.push({ file, path: 'source', message: `must match the file name ("${base}")`, value: d.source });
+  const indicators = obj(d.indicators);
+  for (const ind of Object.keys(indicators)) {
+    const m = /^(?:prod|reserves):(.+)$/.exec(ind);
+    if (m && !refs.resourceTypes.has(m[1]!)) out.push({ file, path: `indicators.${ind}`, message: 'unknown resource type' });
+  }
+  const byConflict = d.keys === 'conflict';
+  for (const [key, rec] of Object.entries(obj(d.records))) {
+    const known = byConflict ? refs.conflictIds.has(key) : refs.isos.has(ISO_ALIAS[key] ?? key);
+    if (!known) out.push({ file, path: `records.${key}`, message: byConflict ? 'unknown conflict id' : 'unknown country code' });
+    for (const [ind, v] of Object.entries(obj(rec))) {
+      if (!(ind in indicators)) out.push({ file, path: `records.${key}.${ind}`, message: 'indicator not declared in "indicators"' });
+      const series = obj(v).series;
+      if (Array.isArray(series) && series.some((p: { year?: unknown }, i) => i > 0 && !(Number(p?.year) > Number((series[i - 1] as { year?: unknown })?.year)))) {
+        out.push({ file, path: `records.${key}.${ind}.series`, message: 'years must rise without repeats' });
+      }
+    }
+  }
+  return out;
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const dir = path.resolve(import.meta.dirname, '../public/data');
   const problems = checkData(dir);
   for (const p of problems) console.log(`${p.file} › ${p.path || '(file)'} › ${p.message}${p.value !== undefined ? ` (got ${JSON.stringify(p.value)})` : ''}`);
-  console.log(problems.length ? `\n${problems.length} problem(s) in public/data/curated` : 'public/data/curated: all checks passed');
+  console.log(problems.length ? `\n${problems.length} problem(s) in public/data` : 'public/data: all checks passed');
   process.exit(problems.length ? 1 : 0);
 }

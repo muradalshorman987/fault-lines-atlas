@@ -1,11 +1,13 @@
 import * as d3 from 'd3';
+import fs from 'node:fs';
+import path from 'node:path';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { initialState, type AtlasState } from '../src/app/store';
 import { build } from '../src/data/build';
 import type { DB } from '../src/data/types';
 import { buildScene, tipFor } from '../src/features/map/engine/scene';
 import type { Palette } from '../src/ui/palette';
-import { readRaw } from './helpers/readRaw';
+import { DATA_DIR, readRaw } from './helpers/readRaw';
 
 let db: DB;
 let base: AtlasState;
@@ -94,5 +96,52 @@ describe('tipFor', () => {
   });
   test('an unknown hit gives no tooltip', () => {
     expect(tipFor({ kind: 'country', id: 'XXX' }, db, base)).toBe('');
+  });
+});
+
+// Expected sets are read straight from the curated conflict files, not through build() or the scene.
+type RawFile = { region: string; conflicts: { id: string; severity: string; countries?: string[] }[] };
+const regionFile = (id: string): RawFile => JSON.parse(fs.readFileSync(path.join(DATA_DIR, `curated/conflicts/${id}.json`), 'utf8')) as RawFile;
+const REGIONS = ['africa', 'americas', 'asia', 'europe', 'middle-east'];
+
+describe('the conflicts lens respects filters.region', () => {
+  const inRegion = (region: string | null, extra: Partial<AtlasState> = {}): AtlasState =>
+    ({ ...base, lens: 'conflicts', ...extra, filters: { ...base.filters, region, ...(extra.filters ?? {}) } });
+
+  test("only the region's conflicts keep their markers", () => {
+    for (const r of REGIONS) {
+      const want = regionFile(r).conflicts.map((c) => c.id).sort();
+      expect(buildScene(db, inRegion(r), P).markers.map((m) => m.id).sort()).toEqual(want);
+    }
+  });
+
+  test("states are shaded only for the region's conflicts", () => {
+    const want = new Set(regionFile('africa').conflicts.flatMap((c) => c.countries ?? []).filter((iso) => db.countries.has(iso)));
+    const got = new Set([...buildScene(db, inRegion('africa'), P).fill.keys()].filter((iso) => db.countries.has(iso)));
+    expect(got).toEqual(want);
+  });
+
+  test('region and severity filters combine', () => {
+    const want = regionFile('africa').conflicts.filter((c) => c.severity === 'war').map((c) => c.id).sort();
+    const s = inRegion('africa', { filters: { ...base.filters, region: 'africa', severity: new Set(['war']) } });
+    expect(buildScene(db, s, P).markers.map((m) => m.id).sort()).toEqual(want);
+  });
+
+  test('a selected conflict outside the region keeps its marker, as with severity', () => {
+    const sc = buildScene(db, inRegion('africa', { selection: { kind: 'conflict', id: 'russia-ukraine' } }), P);
+    expect(sc.markers.map((m) => m.id)).toContain('russia-ukraine');
+    expect(sc.markers).toHaveLength(regionFile('africa').conflicts.length + 1);
+  });
+
+  test('without a region every region shows', () => {
+    const all = REGIONS.flatMap((r) => regionFile(r).conflicts.map((c) => c.id)).sort();
+    expect(buildScene(db, inRegion(null), P).markers.map((m) => m.id).sort()).toEqual(all);
+  });
+
+  test("the hover line counts only the region's conflicts", () => {
+    const african = new Set(regionFile('africa').conflicts.flatMap((c) => c.countries ?? []));
+    expect(african.has('UKR')).toBe(false);
+    expect(tipFor({ kind: 'country', id: 'UKR' }, db, inRegion('africa'))).toContain('ليست طرفاً في أي ملف نزاع مرصود');
+    expect(tipFor({ kind: 'country', id: 'UKR' }, db, inRegion(null))).not.toContain('ليست طرفاً');
   });
 });

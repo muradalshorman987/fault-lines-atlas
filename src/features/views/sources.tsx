@@ -1,5 +1,6 @@
 // Sources & method: every dataset with publisher, licence, dates, resolution, method and limits; references; credit;
-// the corrections this edition applied (db.corrections, all applied) and the counts of records it did not verify.
+// the corrections this edition applied (db.corrections, all applied) and the counts of records it did not verify;
+// and the open-data sources the weekly pipeline fetched (db.figures.sources), with licence, link and fetch date.
 
 import { Fragment, type ReactNode } from 'react';
 import { useDb, useT } from '../../app/useT';
@@ -39,6 +40,10 @@ registerStrings({
     'sr.uvTitle': 'علامة «لم تتحقّق منها هذه النسخة»',
     'sr.unverified': 'تنقل هذه النسخة الوضع الحالي وأحدث التطوّرات من الأطلس الأصلي (حتى {d}) دون أن تدقّقها بصورة مستقلة مقابل مصادر أولية، وتضع هذه العلامة على كل سجلّ يتضمّن تطوّرات من هذا النوع: في لوحة التفاصيل شارة، وفي الخط الزمني حدّ متقطّع حول نقطة الحدث. عدد السجلات المعلَّمة: {list}.',
     'sr.k.conflict': 'نزاعات', 'sr.k.event': 'أحداث', 'sr.k.choke': 'مضائق وممرات', 'sr.k.country': 'دول',
+    'sr.gen': 'بيانات مفتوحة تُحدَّث أسبوعياً',
+    'sr.genLede': 'أرقام السكان والناتج المحلي واللاجئين والنازحين وضحايا النزاعات تأتي من هذه المصادر المفتوحة عبر تحديث آلي أسبوعي يراجعه المحرّرون قبل نشره، ويظهر بجانب كل رقم مصدره وسنته. حين لا يتوفّر رقم من هذه المصادر يعرض الأطلس رقم Natural Earth.',
+    'sr.fetched': 'تاريخ الجلب',
+    'sr.cite': 'طريقة الاستشهاد',
   },
   en: {
     'sr.credit': 'Credit and licence',
@@ -70,6 +75,10 @@ registerStrings({
     'sr.uvTitle': 'The “not independently verified” mark',
     'sr.unverified': 'This edition carries the current status and recent developments over from the original atlas (as of {d}) without checking them independently against primary sources, and marks every record that includes such developments: a badge in the details panel, a dashed outline around the event’s dot in the timeline. Marked records: {list}.',
     'sr.k.conflict': 'conflicts', 'sr.k.event': 'events', 'sr.k.choke': 'chokepoints', 'sr.k.country': 'states',
+    'sr.gen': 'Open data, refreshed weekly',
+    'sr.genLede': 'Population, GDP, refugee, displacement and conflict-death figures come from these open sources through an automatic weekly update that the editors review before it is published. Every figure shows its source and year. Where these sources have no figure, the atlas shows Natural Earth’s.',
+    'sr.fetched': 'Fetched',
+    'sr.cite': 'How to cite',
   },
 });
 
@@ -143,6 +152,29 @@ function Card({ d }: { d: DatasetMeta }) {
   );
 }
 
+/** The generated open-data sources (db.figures.sources); nothing until the pipeline has produced a file. */
+function OpenData() {
+  const db = useDb();
+  const { t, fmt } = useT();
+  const list = db.figures.sources;
+  if (!list.length) return null;
+  return (
+    <section aria-labelledby="src-gen-h">
+      <h3 className="vw-h3" id="src-gen-h">{t('sr.gen')} <span className="n">{list.length}</span></h3>
+      <p className="vw-note">{t('sr.genLede')}</p>
+      <ul className="src-refs src-gen">
+        {list.map((s) => (
+          <li key={s.id}>
+            <span className="src-ref-n"><Ext url={s.url} label={s.name} /></span>
+            <span className="src-ref-r">{t('sr.license')}: {s.licence} · {t('sr.fetched')}: {fmt.date(s.fetchedAt.slice(0, 10))}</span>
+            {s.citation && <span className="src-ref-r" lang="en" dir="ltr">{t('sr.cite')}: {s.citation}</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export function SourcesView() {
   const db = useDb();
   const { t, fmt, pick, lang } = useT();
@@ -161,6 +193,7 @@ export function SourcesView() {
         <p>{pre}<a href={ORIGINAL.url} target="_blank" rel="noopener" lang="ar">«{ORIGINAL.title}»</a>{post}</p>
         <p>{t('sr.asOf', { date: fmt.date(db.conflictsAsOf) })} {t('sr.edition')}</p>
       </section>
+      <OpenData />
       {uv.length > 0 && (
         <section className="src-uv" aria-labelledby="src-uv-h">
           <h3 className="vw-h3" id="src-uv-h"><Icon name="info" size={15} />{t('sr.uvTitle')}</h3>

@@ -40,6 +40,66 @@ describe('check-data', () => {
     test('does not break the model build', () => expect(() => build(readRaw(dir))).not.toThrow());
   });
 
+  describe('generated files and the ucdp field', () => {
+    let dir: string;
+    beforeAll(() => {
+      dir = fs.mkdtempSync(path.join(os.tmpdir(), 'atlas-check-'));
+      fs.cpSync(DATA_DIR, dir, { recursive: true });
+      fs.mkdirSync(path.join(dir, 'generated'), { recursive: true });
+    });
+    afterAll(() => fs.rmSync(dir, { recursive: true, force: true }));
+    const write = (rel: string, data: unknown) => fs.writeFileSync(path.join(dir, rel), typeof data === 'string' ? data : formatJson(data));
+    const lines = () => checkData(dir).map((p) => `${p.file} › ${p.path} › ${p.message}`);
+    const good = {
+      source: 'test', name: 'Test', licence: 'CC BY 4.0', url: 'https://example.org/', fetchedAt: '2026-11-02T04:00:00.000Z', keys: 'iso3',
+      indicators: { population: { label: { ar: 'السكان', en: 'Population' }, unit: 'people' } },
+      records: { SAU: { population: { value: 1, year: 2025 } } },
+    };
+
+    test('a well-formed generated file passes', () => {
+      write('generated/test.json', good);
+      expect(lines().filter((l) => l.startsWith('generated/'))).toEqual([]);
+    });
+
+    test('a malformed generated file is reported with file and path', () => {
+      write('generated/test.json', {
+        ...good,
+        records: { SDX: { population: { value: 1, year: 2025 } }, SAU: { population: { value: 'many', year: 2025 }, area: { value: 2, year: 2025 } } },
+      });
+      expect(lines()).toEqual(expect.arrayContaining([
+        'generated/test.json › records.SAU.population.value › Invalid input: expected number, received string',
+      ]));
+      write('generated/test.json', { ...good, records: { SDX: { population: { value: 1, year: 2025 } }, SAU: { area: { value: 2, year: 2025 } } } });
+      expect(lines()).toEqual(expect.arrayContaining([
+        'generated/test.json › records.SDX › unknown country code',
+        'generated/test.json › records.SAU.area › indicator not declared in "indicators"',
+      ]));
+    });
+
+    test('a generated file named after another source, or not JSON, is reported', () => {
+      write('generated/test.json', { ...good, source: 'other' });
+      expect(lines()).toContain('generated/test.json › source › must match the file name ("test")');
+      write('generated/test.json', '{ nope');
+      expect(lines().some((l) => l.startsWith('generated/test.json ›  › not valid JSON'))).toBe(true);
+      fs.rmSync(path.join(dir, 'generated/test.json'));
+    });
+
+    test('a conflict file keyed by an unknown conflict, and a bad ucdp id, are reported', () => {
+      write('generated/conf.json', { ...good, source: 'conf', keys: 'conflict', records: { nope: { population: { value: 1, year: 2025 } } } });
+      const af = path.join(dir, 'curated/conflicts/africa.json');
+      const africa = JSON.parse(fs.readFileSync(af, 'utf8'));
+      const i = africa.conflicts.findIndex((c: { id: string }) => c.id === 'sudan');
+      const before = africa.conflicts[i].ucdp;
+      africa.conflicts[i].ucdp = ['309'];
+      write('curated/conflicts/africa.json', africa);
+      expect(lines()).toContain(`conflicts/africa.json › conflicts[${i}].ucdp[0] › Invalid input: expected number, received string`);
+      africa.conflicts[i].ucdp = before;
+      write('curated/conflicts/africa.json', africa);
+      expect(lines()).toContain('generated/conf.json › records.nope › unknown conflict id');
+      fs.rmSync(path.join(dir, 'generated/conf.json'));
+    });
+  });
+
   test('a hand-edited file still gets its link errors reported', () => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'atlas-check-'));
     try {

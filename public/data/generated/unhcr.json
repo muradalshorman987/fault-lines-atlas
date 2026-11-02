@@ -1,0 +1,749 @@
+{
+  "source": "unhcr",
+  "name": "UNHCR",
+  "licence": "CC BY 4.0",
+  "url": "https://www.unhcr.org/refugee-statistics/",
+  "fetchedAt": "2026-11-02T13:55:22.698Z",
+  "keys": "iso3",
+  "citation": "UNHCR Refugee Data Finder (Refugee Population Statistics Database), via the UNHCR population API.",
+  "indicators": {
+    "refugeesFrom": {
+      "label": { "ar": "اللاجئون من هذه الدولة", "en": "Refugees from this state" },
+      "unit": "people"
+    },
+    "refugeesIn": {
+      "label": { "ar": "اللاجئون في هذه الدولة", "en": "Refugees hosted" },
+      "unit": "people"
+    },
+    "idps": {
+      "label": { "ar": "النازحون داخلياً", "en": "Internally displaced people" },
+      "unit": "people"
+    }
+  },
+  "records": {
+    "AFG": {
+      "refugeesFrom": { "value": 2671560, "year": 2025 },
+      "idps": { "value": 3199023, "year": 2025 },
+      "refugeesIn": { "value": 20869, "year": 2025 }
+    },
+    "ALB": {
+      "refugeesFrom": { "value": 21447, "year": 2025 },
+      "refugeesIn": { "value": 4673, "year": 2025 }
+    },
+    "DZA": {
+      "refugeesFrom": { "value": 9174, "year": 2025 },
+      "refugeesIn": { "value": 180575, "year": 2025 }
+    },
+    "AND": { "refugeesFrom": { "value": 5, "year": 2025 } },
+    "AGO": {
+      "refugeesFrom": { "value": 13433, "year": 2025 },
+      "refugeesIn": { "value": 25396, "year": 2025 }
+    },
+    "ATG": { "refugeesFrom": { "value": 97, "year": 2025 } },
+    "EGY": {
+      "refugeesFrom": { "value": 23763, "year": 2025 },
+      "refugeesIn": { "value": 220033, "year": 2025 }
+    },
+    "ARG": {
+      "refugeesFrom": { "value": 542, "year": 2025 },
+      "refugeesIn": { "value": 4941, "year": 2025 }
+    },
+    "ARM": {
+      "refugeesFrom": { "value": 15578, "year": 2025 },
+      "refugeesIn": { "value": 123087, "year": 2025 }
+    },
+    "AUS": {
+      "refugeesFrom": { "value": 41, "year": 2025 },
+      "refugeesIn": { "value": 33415, "year": 2025 }
+    },
+    "AUT": {
+      "refugeesFrom": { "value": 33, "year": 2025 },
+      "refugeesIn": { "value": 286651, "year": 2025 }
+    },
+    "AZE": {
+      "refugeesFrom": { "value": 130983, "year": 2025 },
+      "idps": { "value": 657155, "year": 2025 },
+      "refugeesIn": { "value": 6389, "year": 2025 }
+    },
+    "BHR": {
+      "refugeesFrom": { "value": 267, "year": 2025 },
+      "refugeesIn": { "value": 240, "year": 2025 }
+    },
+    "BRB": {
+      "refugeesFrom": { "value": 577, "year": 2025 },
+      "refugeesIn": { "value": 5, "year": 2025 }
+    },
+    "BDI": {
+      "refugeesFrom": { "value": 318291, "year": 2025 },
+      "idps": { "value": 6815, "year": 2025 },
+      "refugeesIn": { "value": 110800, "year": 2025 }
+    },
+    "BEL": {
+      "refugeesFrom": { "value": 113, "year": 2025 },
+      "refugeesIn": { "value": 186393, "year": 2025 }
+    },
+    "BEN": {
+      "refugeesFrom": { "value": 1279, "year": 2025 },
+      "idps": { "value": 27294, "year": 2025 },
+      "refugeesIn": { "value": 16974, "year": 2025 }
+    },
+    "BMU": { "refugeesFrom": { "value": 6, "year": 2025 } },
+    "BGD": {
+      "refugeesFrom": { "value": 31862, "year": 2025 },
+      "refugeesIn": { "value": 1178038, "year": 2025 }
+    },
+    "BHS": {
+      "refugeesFrom": { "value": 1598, "year": 2025 },
+      "refugeesIn": { "value": 10, "year": 2025 }
+    },
+    "BTN": { "refugeesFrom": { "value": 7257, "year": 2025 } },
+    "BFA": {
+      "refugeesFrom": { "value": 351209, "year": 2025 },
+      "idps": { "value": 2062534, "year": 2025 },
+      "refugeesIn": { "value": 40996, "year": 2025 }
+    },
+    "BLR": {
+      "refugeesFrom": { "value": 19462, "year": 2025 },
+      "refugeesIn": { "value": 40794, "year": 2025 }
+    },
+    "BOL": {
+      "refugeesFrom": { "value": 710, "year": 2025 },
+      "refugeesIn": { "value": 1147, "year": 2025 }
+    },
+    "BWA": {
+      "refugeesFrom": { "value": 384, "year": 2025 },
+      "refugeesIn": { "value": 847, "year": 2025 }
+    },
+    "BRA": {
+      "refugeesFrom": { "value": 6306, "year": 2025 },
+      "refugeesIn": { "value": 278966, "year": 2025 }
+    },
+    "BRN": { "refugeesFrom": { "value": 5, "year": 2025 } },
+    "BIH": {
+      "refugeesFrom": { "value": 24653, "year": 2025 },
+      "idps": { "value": 94796, "year": 2025 },
+      "refugeesIn": { "value": 586, "year": 2025 }
+    },
+    "BGR": {
+      "refugeesFrom": { "value": 533, "year": 2025 },
+      "refugeesIn": { "value": 105596, "year": 2025 }
+    },
+    "BLZ": {
+      "refugeesFrom": { "value": 108, "year": 2025 },
+      "refugeesIn": { "value": 347, "year": 2025 }
+    },
+    "KHM": {
+      "refugeesFrom": { "value": 11332, "year": 2025 },
+      "idps": { "value": 517555, "year": 2025 },
+      "refugeesIn": { "value": 23, "year": 2025 }
+    },
+    "CAN": {
+      "refugeesFrom": { "value": 360, "year": 2025 },
+      "refugeesIn": { "value": 416028, "year": 2025 }
+    },
+    "CAF": {
+      "refugeesFrom": { "value": 674222, "year": 2025 },
+      "idps": { "value": 427479, "year": 2025 },
+      "refugeesIn": { "value": 55307, "year": 2025 }
+    },
+    "TCD": {
+      "refugeesFrom": { "value": 15281, "year": 2025 },
+      "idps": { "value": 219595, "year": 2025 },
+      "refugeesIn": { "value": 1502263, "year": 2025 }
+    },
+    "CHN": {
+      "refugeesFrom": { "value": 153962, "year": 2025 },
+      "refugeesIn": { "value": 230, "year": 2025 }
+    },
+    "CHL": {
+      "refugeesFrom": { "value": 5358, "year": 2025 },
+      "refugeesIn": { "value": 2631, "year": 2025 }
+    },
+    "CMR": {
+      "refugeesFrom": { "value": 140366, "year": 2025 },
+      "idps": { "value": 1004257, "year": 2025 },
+      "refugeesIn": { "value": 408613, "year": 2025 }
+    },
+    "COG": {
+      "refugeesFrom": { "value": 13134, "year": 2025 },
+      "refugeesIn": { "value": 62500, "year": 2025 }
+    },
+    "COD": {
+      "refugeesFrom": { "value": 1176489, "year": 2025 },
+      "idps": { "value": 5669479, "year": 2025 },
+      "refugeesIn": { "value": 503732, "year": 2025 }
+    },
+    "COM": {
+      "refugeesFrom": { "value": 2338, "year": 2025 },
+      "refugeesIn": { "value": 5, "year": 2025 }
+    },
+    "COL": {
+      "refugeesFrom": { "value": 79669, "year": 2025 },
+      "idps": { "value": 7157716, "year": 2025 },
+      "refugeesIn": { "value": 1464, "year": 2025 }
+    },
+    "CRI": {
+      "refugeesFrom": { "value": 367, "year": 2025 },
+      "refugeesIn": { "value": 36395, "year": 2025 }
+    },
+    "CUB": {
+      "refugeesFrom": { "value": 29395, "year": 2025 },
+      "refugeesIn": { "value": 115, "year": 2025 }
+    },
+    "CUW": { "refugeesFrom": { "value": 8, "year": 2025 } },
+    "CPV": { "refugeesFrom": { "value": 15, "year": 2025 } },
+    "CYP": {
+      "refugeesFrom": { "value": 15, "year": 2025 },
+      "refugeesIn": { "value": 48207, "year": 2025 }
+    },
+    "CZE": {
+      "refugeesFrom": { "value": 794, "year": 2025 },
+      "refugeesIn": { "value": 395559, "year": 2025 }
+    },
+    "DNK": {
+      "refugeesFrom": { "value": 21, "year": 2025 },
+      "refugeesIn": { "value": 95007, "year": 2025 }
+    },
+    "DJI": {
+      "refugeesFrom": { "value": 2223, "year": 2025 },
+      "refugeesIn": { "value": 24899, "year": 2025 }
+    },
+    "DMA": { "refugeesFrom": { "value": 97, "year": 2025 } },
+    "DOM": {
+      "refugeesFrom": { "value": 1240, "year": 2025 },
+      "refugeesIn": { "value": 20, "year": 2025 }
+    },
+    "ECU": {
+      "refugeesFrom": { "value": 5723, "year": 2025 },
+      "refugeesIn": { "value": 26428, "year": 2025 }
+    },
+    "GNQ": { "refugeesFrom": { "value": 424, "year": 2025 } },
+    "ERI": {
+      "refugeesFrom": { "value": 554891, "year": 2025 },
+      "refugeesIn": { "value": 119, "year": 2025 }
+    },
+    "EST": {
+      "refugeesFrom": { "value": 86, "year": 2025 },
+      "refugeesIn": { "value": 41299, "year": 2025 }
+    },
+    "ETH": {
+      "refugeesFrom": { "value": 164215, "year": 2025 },
+      "idps": { "value": 2378000, "year": 2025 },
+      "refugeesIn": { "value": 1010466, "year": 2025 }
+    },
+    "FJI": {
+      "refugeesFrom": { "value": 343, "year": 2025 },
+      "refugeesIn": { "value": 15, "year": 2025 }
+    },
+    "FIN": {
+      "refugeesFrom": { "value": 5, "year": 2025 },
+      "refugeesIn": { "value": 102544, "year": 2025 }
+    },
+    "FRA": {
+      "refugeesFrom": { "value": 166, "year": 2025 },
+      "refugeesIn": { "value": 788419, "year": 2025 }
+    },
+    "GAB": {
+      "refugeesFrom": { "value": 984, "year": 2025 },
+      "refugeesIn": { "value": 166, "year": 2025 }
+    },
+    "GMB": {
+      "refugeesFrom": { "value": 6728, "year": 2025 },
+      "refugeesIn": { "value": 4108, "year": 2025 }
+    },
+    "PSE": { "refugeesFrom": { "value": 48323, "year": 2025 } },
+    "GBR": {
+      "refugeesFrom": { "value": 517, "year": 2025 },
+      "refugeesIn": { "value": 581072, "year": 2025 }
+    },
+    "GEO": {
+      "refugeesFrom": { "value": 17302, "year": 2025 },
+      "idps": { "value": 300439, "year": 2025 },
+      "refugeesIn": { "value": 26522, "year": 2025 }
+    },
+    "DEU": {
+      "refugeesFrom": { "value": 327, "year": 2025 },
+      "refugeesIn": { "value": 2655191, "year": 2025 }
+    },
+    "GHA": {
+      "refugeesFrom": { "value": 16030, "year": 2025 },
+      "refugeesIn": { "value": 21050, "year": 2025 }
+    },
+    "GNB": {
+      "refugeesFrom": { "value": 1800, "year": 2025 },
+      "refugeesIn": { "value": 24, "year": 2025 }
+    },
+    "GRC": {
+      "refugeesFrom": { "value": 94, "year": 2025 },
+      "refugeesIn": { "value": 134563, "year": 2025 }
+    },
+    "GRD": { "refugeesFrom": { "value": 117, "year": 2025 } },
+    "GTM": {
+      "refugeesFrom": { "value": 34994, "year": 2025 },
+      "idps": { "value": 573000, "year": 2025 },
+      "refugeesIn": { "value": 1586, "year": 2025 }
+    },
+    "GIN": {
+      "refugeesFrom": { "value": 47692, "year": 2025 },
+      "refugeesIn": { "value": 2154, "year": 2025 }
+    },
+    "GUY": {
+      "refugeesFrom": { "value": 342, "year": 2025 },
+      "refugeesIn": { "value": 35, "year": 2025 }
+    },
+    "HTI": {
+      "refugeesFrom": { "value": 180702, "year": 2025 },
+      "idps": { "value": 1430903, "year": 2025 }
+    },
+    "HKG": {
+      "refugeesFrom": { "value": 245, "year": 2025 },
+      "refugeesIn": { "value": 236, "year": 2025 }
+    },
+    "HND": {
+      "refugeesFrom": { "value": 94449, "year": 2025 },
+      "idps": { "value": 423845, "year": 2025 },
+      "refugeesIn": { "value": 270, "year": 2025 }
+    },
+    "HRV": {
+      "refugeesFrom": { "value": 17207, "year": 2025 },
+      "refugeesIn": { "value": 29748, "year": 2025 }
+    },
+    "HUN": {
+      "refugeesFrom": { "value": 2055, "year": 2025 },
+      "refugeesIn": { "value": 71332, "year": 2025 }
+    },
+    "CIV": {
+      "refugeesFrom": { "value": 32506, "year": 2025 },
+      "refugeesIn": { "value": 74630, "year": 2025 }
+    },
+    "IND": {
+      "refugeesFrom": { "value": 42610, "year": 2025 },
+      "refugeesIn": { "value": 238643, "year": 2025 }
+    },
+    "IDN": {
+      "refugeesFrom": { "value": 9215, "year": 2025 },
+      "refugeesIn": { "value": 7374, "year": 2025 }
+    },
+    "IRL": {
+      "refugeesFrom": { "value": 69, "year": 2025 },
+      "refugeesIn": { "value": 137869, "year": 2025 }
+    },
+    "IRN": {
+      "refugeesFrom": { "value": 157912, "year": 2025 },
+      "refugeesIn": { "value": 770514, "year": 2025 }
+    },
+    "IRQ": {
+      "refugeesFrom": { "value": 270671, "year": 2025 },
+      "idps": { "value": 997334, "year": 2025 },
+      "refugeesIn": { "value": 322345, "year": 2025 }
+    },
+    "ISR": {
+      "refugeesFrom": { "value": 1265, "year": 2025 },
+      "refugeesIn": { "value": 1274, "year": 2025 }
+    },
+    "ITA": {
+      "refugeesFrom": { "value": 266, "year": 2025 },
+      "refugeesIn": { "value": 192914, "year": 2025 }
+    },
+    "JAM": { "refugeesFrom": { "value": 2642, "year": 2025 } },
+    "JOR": {
+      "refugeesFrom": { "value": 5471, "year": 2025 },
+      "refugeesIn": { "value": 436226, "year": 2025 }
+    },
+    "JPN": {
+      "refugeesFrom": { "value": 56, "year": 2025 },
+      "refugeesIn": { "value": 42450, "year": 2025 }
+    },
+    "KAZ": {
+      "refugeesFrom": { "value": 4144, "year": 2025 },
+      "refugeesIn": { "value": 4377, "year": 2025 }
+    },
+    "KEN": {
+      "refugeesFrom": { "value": 13325, "year": 2025 },
+      "refugeesIn": { "value": 617125, "year": 2025 }
+    },
+    "KGZ": {
+      "refugeesFrom": { "value": 3337, "year": 2025 },
+      "refugeesIn": { "value": 1150, "year": 2025 }
+    },
+    "KIR": { "refugeesFrom": { "value": 5, "year": 2025 } },
+    "KOR": {
+      "refugeesFrom": { "value": 117, "year": 2025 },
+      "refugeesIn": { "value": 4407, "year": 2025 }
+    },
+    "PRK": { "refugeesFrom": { "value": 263, "year": 2025 } },
+    "KWT": {
+      "refugeesFrom": { "value": 3369, "year": 2025 },
+      "refugeesIn": { "value": 386, "year": 2025 }
+    },
+    "LAO": { "refugeesFrom": { "value": 6489, "year": 2025 } },
+    "LBR": {
+      "refugeesFrom": { "value": 5117, "year": 2025 },
+      "refugeesIn": { "value": 1172, "year": 2025 }
+    },
+    "LBY": {
+      "refugeesFrom": { "value": 17161, "year": 2025 },
+      "idps": { "value": 32791, "year": 2025 },
+      "refugeesIn": { "value": 552523, "year": 2025 }
+    },
+    "LCA": {
+      "refugeesFrom": { "value": 199, "year": 2025 },
+      "refugeesIn": { "value": 5, "year": 2025 }
+    },
+    "LBN": {
+      "refugeesFrom": { "value": 9568, "year": 2025 },
+      "idps": { "value": 64417, "year": 2025 },
+      "refugeesIn": { "value": 535168, "year": 2025 }
+    },
+    "LSO": {
+      "refugeesFrom": { "value": 27, "year": 2025 },
+      "refugeesIn": { "value": 478, "year": 2025 }
+    },
+    "LKA": {
+      "refugeesFrom": { "value": 148369, "year": 2025 },
+      "idps": { "value": 4099, "year": 2025 },
+      "refugeesIn": { "value": 213, "year": 2025 }
+    },
+    "LTU": {
+      "refugeesFrom": { "value": 101, "year": 2025 },
+      "refugeesIn": { "value": 54381, "year": 2025 }
+    },
+    "LUX": {
+      "refugeesFrom": { "value": 20, "year": 2025 },
+      "refugeesIn": { "value": 10284, "year": 2025 }
+    },
+    "LVA": {
+      "refugeesFrom": { "value": 189, "year": 2025 },
+      "refugeesIn": { "value": 32454, "year": 2025 }
+    },
+    "MAC": { "refugeesFrom": { "value": 15, "year": 2025 } },
+    "MDG": {
+      "refugeesFrom": { "value": 637, "year": 2025 },
+      "refugeesIn": { "value": 87, "year": 2025 }
+    },
+    "MRT": {
+      "refugeesFrom": { "value": 43906, "year": 2025 },
+      "refugeesIn": { "value": 301490, "year": 2025 }
+    },
+    "MKD": {
+      "refugeesFrom": { "value": 1886, "year": 2025 },
+      "refugeesIn": { "value": 20822, "year": 2025 }
+    },
+    "MDA": {
+      "refugeesFrom": { "value": 5846, "year": 2025 },
+      "refugeesIn": { "value": 149324, "year": 2025 }
+    },
+    "MDV": { "refugeesFrom": { "value": 62, "year": 2025 } },
+    "MEX": {
+      "refugeesFrom": { "value": 41307, "year": 2025 },
+      "idps": { "value": 262411, "year": 2025 },
+      "refugeesIn": { "value": 152002, "year": 2025 }
+    },
+    "MLI": {
+      "refugeesFrom": { "value": 519738, "year": 2025 },
+      "idps": { "value": 414524, "year": 2025 },
+      "refugeesIn": { "value": 286715, "year": 2025 }
+    },
+    "MYS": {
+      "refugeesFrom": { "value": 2477, "year": 2025 },
+      "refugeesIn": { "value": 150164, "year": 2025 }
+    },
+    "MWI": {
+      "refugeesFrom": { "value": 551, "year": 2025 },
+      "refugeesIn": { "value": 35241, "year": 2025 }
+    },
+    "MNE": {
+      "refugeesFrom": { "value": 696, "year": 2025 },
+      "refugeesIn": { "value": 12269, "year": 2025 }
+    },
+    "MNG": {
+      "refugeesFrom": { "value": 2403, "year": 2025 },
+      "refugeesIn": { "value": 11, "year": 2025 }
+    },
+    "MAR": {
+      "refugeesFrom": { "value": 10400, "year": 2025 },
+      "refugeesIn": { "value": 7304, "year": 2025 }
+    },
+    "MOZ": {
+      "refugeesFrom": { "value": 119, "year": 2025 },
+      "idps": { "value": 461745, "year": 2025 },
+      "refugeesIn": { "value": 5105, "year": 2025 }
+    },
+    "MLT": {
+      "refugeesFrom": { "value": 11, "year": 2025 },
+      "refugeesIn": { "value": 8306, "year": 2025 }
+    },
+    "MUS": {
+      "refugeesFrom": { "value": 283, "year": 2025 },
+      "refugeesIn": { "value": 24, "year": 2025 }
+    },
+    "MMR": {
+      "refugeesFrom": { "value": 1524378, "year": 2025 },
+      "idps": { "value": 3628840, "year": 2025 }
+    },
+    "NAM": {
+      "refugeesFrom": { "value": 685, "year": 2025 },
+      "refugeesIn": { "value": 5470, "year": 2025 }
+    },
+    "NPL": {
+      "refugeesFrom": { "value": 8019, "year": 2025 },
+      "refugeesIn": { "value": 19613, "year": 2025 }
+    },
+    "NLD": {
+      "refugeesFrom": { "value": 159, "year": 2025 },
+      "refugeesIn": { "value": 283935, "year": 2025 }
+    },
+    "NER": {
+      "refugeesFrom": { "value": 85591, "year": 2025 },
+      "idps": { "value": 459585, "year": 2025 },
+      "refugeesIn": { "value": 385986, "year": 2025 }
+    },
+    "NIC": { "refugeesFrom": { "value": 35341, "year": 2025 } },
+    "NGA": {
+      "refugeesFrom": { "value": 478150, "year": 2025 },
+      "idps": { "value": 3544519, "year": 2025 },
+      "refugeesIn": { "value": 123848, "year": 2025 }
+    },
+    "NIU": { "refugeesFrom": { "value": 5, "year": 2025 } },
+    "NOR": {
+      "refugeesFrom": { "value": 20, "year": 2025 },
+      "refugeesIn": { "value": 124006, "year": 2025 }
+    },
+    "NRU": {
+      "refugeesFrom": { "value": 5, "year": 2025 },
+      "refugeesIn": { "value": 5, "year": 2025 }
+    },
+    "NZL": {
+      "refugeesFrom": { "value": 58, "year": 2025 },
+      "refugeesIn": { "value": 2148, "year": 2025 }
+    },
+    "OMN": {
+      "refugeesFrom": { "value": 133, "year": 2025 },
+      "refugeesIn": { "value": 289, "year": 2025 }
+    },
+    "PAK": {
+      "refugeesFrom": { "value": 90497, "year": 2025 },
+      "refugeesIn": { "value": 1159038, "year": 2025 }
+    },
+    "PAN": {
+      "refugeesFrom": { "value": 375, "year": 2025 },
+      "refugeesIn": { "value": 2694, "year": 2025 }
+    },
+    "PRY": {
+      "refugeesFrom": { "value": 162, "year": 2025 },
+      "refugeesIn": { "value": 4621, "year": 2025 }
+    },
+    "PER": {
+      "refugeesFrom": { "value": 7885, "year": 2025 },
+      "refugeesIn": { "value": 6788, "year": 2025 }
+    },
+    "PHL": {
+      "refugeesFrom": { "value": 807, "year": 2025 },
+      "idps": { "value": 43500, "year": 2025 },
+      "refugeesIn": { "value": 1032, "year": 2025 }
+    },
+    "PNG": {
+      "refugeesFrom": { "value": 644, "year": 2025 },
+      "idps": { "value": 70124, "year": 2025 },
+      "refugeesIn": { "value": 7727, "year": 2025 }
+    },
+    "POL": {
+      "refugeesFrom": { "value": 1368, "year": 2025 },
+      "refugeesIn": { "value": 990469, "year": 2025 }
+    },
+    "PRT": {
+      "refugeesFrom": { "value": 109, "year": 2025 },
+      "refugeesIn": { "value": 70349, "year": 2025 }
+    },
+    "QAT": {
+      "refugeesFrom": { "value": 73, "year": 2025 },
+      "refugeesIn": { "value": 195, "year": 2025 }
+    },
+    "ROU": {
+      "refugeesFrom": { "value": 3130, "year": 2025 },
+      "refugeesIn": { "value": 206671, "year": 2025 }
+    },
+    "ZAF": {
+      "refugeesFrom": { "value": 1319, "year": 2025 },
+      "refugeesIn": { "value": 55177, "year": 2025 }
+    },
+    "RUS": {
+      "refugeesFrom": { "value": 99360, "year": 2025 },
+      "refugeesIn": { "value": 11811, "year": 2025 }
+    },
+    "RWA": {
+      "refugeesFrom": { "value": 244415, "year": 2025 },
+      "refugeesIn": { "value": 115794, "year": 2025 }
+    },
+    "SLV": {
+      "refugeesFrom": { "value": 68182, "year": 2025 },
+      "idps": { "value": 71500, "year": 2025 },
+      "refugeesIn": { "value": 182, "year": 2025 }
+    },
+    "SAU": {
+      "refugeesFrom": { "value": 2368, "year": 2025 },
+      "refugeesIn": { "value": 448, "year": 2025 }
+    },
+    "SEN": {
+      "refugeesFrom": { "value": 13028, "year": 2025 },
+      "refugeesIn": { "value": 17259, "year": 2025 }
+    },
+    "SYC": { "refugeesFrom": { "value": 10, "year": 2025 } },
+    "SGP": { "refugeesFrom": { "value": 43, "year": 2025 } },
+    "SLE": { "refugeesFrom": { "value": 8925, "year": 2025 } },
+    "SLB": { "refugeesFrom": { "value": 73, "year": 2025 } },
+    "SOM": {
+      "refugeesFrom": { "value": 892037, "year": 2025 },
+      "idps": { "value": 3347408, "year": 2025 },
+      "refugeesIn": { "value": 20967, "year": 2025 }
+    },
+    "ESP": {
+      "refugeesFrom": { "value": 186, "year": 2025 },
+      "refugeesIn": { "value": 511079, "year": 2025 }
+    },
+    "SRB": {
+      "refugeesFrom": { "value": 29665, "year": 2025 },
+      "idps": { "value": 209453, "year": 2025 },
+      "refugeesIn": { "value": 40863, "year": 2025 }
+    },
+    "VNM": {
+      "refugeesFrom": { "value": 20636, "year": 2025 },
+      "refugeesIn": { "value": 13, "year": 2025 }
+    },
+    "SSD": {
+      "refugeesFrom": { "value": 2386499, "year": 2025 },
+      "idps": { "value": 1277527, "year": 2025 },
+      "refugeesIn": { "value": 601818, "year": 2025 }
+    },
+    "KNA": {
+      "refugeesFrom": { "value": 36, "year": 2025 },
+      "refugeesIn": { "value": 5, "year": 2025 }
+    },
+    "STP": { "refugeesFrom": { "value": 8, "year": 2025 } },
+    "SDN": {
+      "refugeesFrom": { "value": 2820737, "year": 2025 },
+      "idps": { "value": 9139309, "year": 2025 },
+      "refugeesIn": { "value": 809816, "year": 2025 }
+    },
+    "SUR": {
+      "refugeesFrom": { "value": 56, "year": 2025 },
+      "refugeesIn": { "value": 24, "year": 2025 }
+    },
+    "SVK": {
+      "refugeesFrom": { "value": 625, "year": 2025 },
+      "refugeesIn": { "value": 140885, "year": 2025 }
+    },
+    "SVN": {
+      "refugeesFrom": { "value": 12, "year": 2025 },
+      "refugeesIn": { "value": 12513, "year": 2025 }
+    },
+    "SWZ": {
+      "refugeesFrom": { "value": 220, "year": 2025 },
+      "refugeesIn": { "value": 1414, "year": 2025 }
+    },
+    "SWE": {
+      "refugeesFrom": { "value": 128, "year": 2025 },
+      "refugeesIn": { "value": 144116, "year": 2025 }
+    },
+    "CHE": {
+      "refugeesFrom": { "value": 6, "year": 2025 },
+      "refugeesIn": { "value": 208287, "year": 2025 }
+    },
+    "SYR": {
+      "refugeesFrom": { "value": 4865764, "year": 2025 },
+      "idps": { "value": 5542227, "year": 2025 },
+      "refugeesIn": { "value": 9885, "year": 2025 }
+    },
+    "TZA": {
+      "refugeesFrom": { "value": 1592, "year": 2025 },
+      "refugeesIn": { "value": 171142, "year": 2025 }
+    },
+    "TCA": {
+      "refugeesFrom": { "value": 14, "year": 2025 },
+      "refugeesIn": { "value": 8, "year": 2025 }
+    },
+    "THA": {
+      "refugeesFrom": { "value": 327, "year": 2025 },
+      "refugeesIn": { "value": 84017, "year": 2025 }
+    },
+    "TJK": {
+      "refugeesFrom": { "value": 4163, "year": 2025 },
+      "refugeesIn": { "value": 8620, "year": 2025 }
+    },
+    "TKM": {
+      "refugeesFrom": { "value": 1864, "year": 2025 },
+      "refugeesIn": { "value": 9, "year": 2025 }
+    },
+    "TLS": { "refugeesFrom": { "value": 15, "year": 2025 } },
+    "TGO": {
+      "refugeesFrom": { "value": 12661, "year": 2025 },
+      "idps": { "value": 10171, "year": 2025 },
+      "refugeesIn": { "value": 54167, "year": 2025 }
+    },
+    "TON": { "refugeesFrom": { "value": 65, "year": 2025 } },
+    "TTO": {
+      "refugeesFrom": { "value": 576, "year": 2025 },
+      "refugeesIn": { "value": 1877, "year": 2025 }
+    },
+    "TUN": {
+      "refugeesFrom": { "value": 3711, "year": 2025 },
+      "refugeesIn": { "value": 2386, "year": 2025 }
+    },
+    "TUR": {
+      "refugeesFrom": { "value": 149405, "year": 2025 },
+      "refugeesIn": { "value": 2390414, "year": 2025 }
+    },
+    "ARE": {
+      "refugeesFrom": { "value": 252, "year": 2025 },
+      "refugeesIn": { "value": 1377, "year": 2025 }
+    },
+    "UGA": {
+      "refugeesFrom": { "value": 12792, "year": 2025 },
+      "refugeesIn": { "value": 1936719, "year": 2025 }
+    },
+    "UKR": {
+      "refugeesFrom": { "value": 5224131, "year": 2025 },
+      "idps": { "value": 3712000, "year": 2025 },
+      "refugeesIn": { "value": 2370, "year": 2025 }
+    },
+    "URY": {
+      "refugeesFrom": { "value": 126, "year": 2025 },
+      "refugeesIn": { "value": 3195, "year": 2025 }
+    },
+    "USA": {
+      "refugeesFrom": { "value": 3667, "year": 2025 },
+      "refugeesIn": { "value": 457647, "year": 2025 }
+    },
+    "UZB": {
+      "refugeesFrom": { "value": 5164, "year": 2025 },
+      "refugeesIn": { "value": 5, "year": 2025 }
+    },
+    "VUT": { "refugeesFrom": { "value": 13, "year": 2025 } },
+    "VCT": { "refugeesFrom": { "value": 194, "year": 2025 } },
+    "VEN": {
+      "refugeesFrom": { "value": 417010, "year": 2025 },
+      "refugeesIn": { "value": 14333, "year": 2025 }
+    },
+    "WSM": { "refugeesFrom": { "value": 17, "year": 2025 } },
+    "ESH": { "refugeesFrom": { "value": 174607, "year": 2025 } },
+    "YEM": {
+      "refugeesFrom": { "value": 57327, "year": 2025 },
+      "idps": { "value": 4795983, "year": 2025 },
+      "refugeesIn": { "value": 49107, "year": 2025 }
+    },
+    "ZMB": {
+      "refugeesFrom": { "value": 346, "year": 2025 },
+      "refugeesIn": { "value": 83225, "year": 2025 }
+    },
+    "ZWE": {
+      "refugeesFrom": { "value": 6632, "year": 2025 },
+      "refugeesIn": { "value": 8570, "year": 2025 }
+    },
+    "ISL": { "refugeesIn": { "value": 8459, "year": 2025 } },
+    "LIE": { "refugeesIn": { "value": 987, "year": 2025 } },
+    "SXM": { "refugeesIn": { "value": 17, "year": 2025 } },
+    "CYM": { "refugeesIn": { "value": 53, "year": 2025 } },
+    "VGB": { "refugeesIn": { "value": 6, "year": 2025 } },
+    "MCO": { "refugeesIn": { "value": 17, "year": 2025 } }
+  }
+}

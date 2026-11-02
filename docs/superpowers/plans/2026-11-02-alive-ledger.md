@@ -66,3 +66,28 @@ Follow-ups (lead):
 - README should link CONTRIBUTING and ARCHITECTURE.
 - The Ask chunk loads at startup (askReady is set on mount).
 - Owner, on GitHub: enable private vulnerability reporting; create a `data` label.
+
+## data-builder: complete
+- 56 new tests.
+- Generated: worldbank 215 countries, ucdp 33 conflicts (GED 26.1 plus candidate events to Sep 2026), unhcr 199 countries (2025).
+- USGS blocked: ScienceBase returned a Cloudflare 403. EIA skipped: no key.
+- Wikidata drift report: 7 blocs differ (report only).
+- UCDP mapping: 33 of 40 conflicts. Unmapped: gulf-security, taiwan-strait, south-china-sea, tibet, korean-peninsula, essequibo, mexico-cartels.
+
+Rulings:
+- The seed maps only state-based UCDP conflicts. Sudan's one-sided violence is not included.
+- Series start at the atlas `started` year; quiet years are 0.
+- Candidate events are kept apart as `deathsPreliminary`.
+- EIA: oil and gas production only.
+- The workflow has a read-only fetch job and a PR job (no npm with the write token). A PR opens only on changed values or a new failure.
+- Unchanged values leave files untouched.
+
+Lead: added npm script `data:update`.
+
+Owner setup:
+- GitHub → Settings → Actions → "Allow GitHub Actions to create and approve pull requests".
+- Optional secrets: EIA_API_KEY, DATA_PR_TOKEN.
+
+Follow-ups:
+- The overview lens still uses fixed POP_RANGE/GDP_RANGE (D10 asks for recomputed breaks). Map owner.
+- ci.yml uses actions v4, data-update.yml uses v6/v7/v8. Fine, but could be aligned.

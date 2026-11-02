@@ -1,0 +1,36 @@
+{
+  "updatedAt": "2026-11-02T13:59:06.435Z",
+  "sources": {
+    "worldbank": {
+      "state": "ok",
+      "checkedAt": "2026-11-02T13:59:06.435Z",
+      "fetchedAt": "2026-11-02T13:59:06.435Z",
+      "records": 215
+    },
+    "ucdp": {
+      "state": "unchanged",
+      "checkedAt": "2026-11-02T13:59:06.435Z",
+      "fetchedAt": "2026-11-02T13:55:22.698Z",
+      "records": 33
+    },
+    "unhcr": {
+      "state": "unchanged",
+      "checkedAt": "2026-11-02T13:59:06.435Z",
+      "fetchedAt": "2026-11-02T13:55:22.698Z",
+      "records": 199
+    },
+    "usgs": {
+      "state": "unavailable",
+      "checkedAt": "2026-11-02T13:59:06.435Z",
+      "fetchedAt": null,
+      "message": "ScienceBase answers scripts with a Cloudflare challenge (HTTP 403); set USGS_MCS_CSV to a downloaded copy"
+    },
+    "eia": {
+      "state": "skipped",
+      "checkedAt": "2026-11-02T13:59:06.435Z",
+      "fetchedAt": null,
+      "message": "EIA_API_KEY is not set"
+    }
+  },
+  "drift": { "state": "ok", "checkedAt": "2026-11-02T13:59:06.435Z", "differences": 11 }
+}
