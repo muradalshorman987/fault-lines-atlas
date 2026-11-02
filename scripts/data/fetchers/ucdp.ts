@@ -16,15 +16,20 @@ export interface UcdpLinks {
   candidate: { url: string; year: number; through: string } | null;
 }
 
+// Only files served by UCDP itself over https are fetched: a tampered page cannot point the run elsewhere.
+const trusted = (u: string) => { try { const x = new URL(u); return x.protocol === 'https:' && x.hostname === 'ucdp.uu.se'; } catch { return false; } };
+
 /** The newest GED CSV zip, and the newest cumulative candidate file (GEDEvent_vYY_01_YY_MM.csv), on the downloads page. */
 export function findUcdpLinks(html: string): UcdpLinks {
   let ged: UcdpLinks['ged'] = null, gedN = -1;
   for (const m of html.matchAll(/https?:\/\/[^"'\s<>]*\/ged(\d{2})(\d)-csv\.zip/gi)) {
+    if (!trusted(m[0])) continue;
     const n = Number(m[1]) * 10 + Number(m[2]);
     if (n > gedN) { gedN = n; ged = { url: m[0], version: `${m[1]}.${m[2]}` }; }
   }
   let candidate: UcdpLinks['candidate'] = null, candN = -1;
   for (const m of html.matchAll(/https?:\/\/[^"'\s<>]*\/GEDEvent_v(\d{2})_01_(\d{2})_(\d{2})\.csv/gi)) {
+    if (!trusted(m[0])) continue;
     const n = Number(m[2]) * 100 + Number(m[3]);
     if (n > candN) { candN = n; candidate = { url: m[0], year: 2000 + Number(m[2]), through: `${2000 + Number(m[2])}-${m[3]}` }; }
   }

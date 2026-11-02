@@ -31,7 +31,7 @@ describe('vercel.json', () => {
     expect(dir('connect-src')).toContain('https://api.anthropic.com');
     expect(dir('connect-src')).toContain("'self'");
     for (const src of dir('connect-src')) {
-      expect(["'self'", 'https://api.anthropic.com', 'https://tiles.openfreemap.org', 'https://*.openfreemap.org']).toContain(src);
+      expect(["'self'", 'https://api.anthropic.com', 'https://tiles.openfreemap.org']).toContain(src);
     }
   });
 
@@ -59,8 +59,10 @@ describe('vercel.json', () => {
     expect(dir('style-src')).toEqual(["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com']);
     expect(dir('font-src')).toEqual(["'self'", 'https://fonts.gstatic.com']);
     expect(dir('img-src')).toEqual(["'self'", 'data:', 'blob:']);
-    expect(dir('worker-src')).toEqual(["'self'", 'blob:']);
-    expect(dir('child-src')).toEqual(['blob:']);
+    // MapLibre's worker is a same-origin module asset (no blob: needed); the site has no frames.
+    expect(dir('worker-src')).toEqual(["'self'"]);
+    expect(dir('frame-src')).toEqual(["'none'"]);
+    expect(dir('child-src')).toEqual([]);
   });
 
   test('the other security headers', () => {

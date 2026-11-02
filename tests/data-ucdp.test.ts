@@ -90,3 +90,17 @@ describe('UCDP', () => {
     await expect(ucdp.run(fakeCtx({ http, conflicts: [{ id: 'x' }] }))).rejects.toThrow(/no curated conflict has a ucdp/);
   });
 });
+
+describe('UCDP download links are only trusted from ucdp.uu.se over https', () => {
+  test('newer-looking links on other hosts or over http are ignored', () => {
+    const html = `
+      <a href="https://ucdp.uu.se/downloads/ged/ged261-csv.zip">GED 26.1</a>
+      <a href="https://evil.example/downloads/ged/ged991-csv.zip">fake</a>
+      <a href="http://ucdp.uu.se/downloads/ged/ged981-csv.zip">plain http</a>
+      <a href="https://ucdp.uu.se.evil.example/GEDEvent_v99_01_99_12.csv">lookalike</a>
+      <a href="https://ucdp.uu.se/downloads/candidateged/GEDEvent_v26_01_26_09.csv">to September</a>`;
+    const links = findUcdpLinks(html);
+    expect(links.ged?.url).toBe('https://ucdp.uu.se/downloads/ged/ged261-csv.zip');
+    expect(links.candidate?.url).toBe('https://ucdp.uu.se/downloads/candidateged/GEDEvent_v26_01_26_09.csv');
+  });
+});

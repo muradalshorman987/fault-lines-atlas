@@ -4,6 +4,7 @@ import { useState, type KeyboardEvent, type ReactNode, type Ref } from 'react';
 import { atlas } from '../../app/store';
 import { useDb, useT } from '../../app/useT';
 import { CHOKE_STATUS, DIMENSIONS, SEVERITY } from '../../config';
+import { esc } from '../../ui/dom';
 import { useCountUp } from '../../ui/motion';
 import { Icon } from '../../ui/Icon';
 import { sevVar } from '../../ui/palette';
@@ -102,7 +103,7 @@ export function FilterRow({ P, severity, region, inView, viewport, dimension, se
         {chips.length > 1 && <button type="button" className="btn ghost pl-clear" onClick={clearAll}>{t('pl.f.clearAll')}</button>}
       </div>
       <div className="pl-follow-wrap">
-        <button type="button" className="btn pl-follow" aria-pressed={inView} data-tip={T.t('pl.f.followTip')}
+        <button type="button" className="btn pl-follow" aria-pressed={inView} data-tip={esc(T.t('pl.f.followTip'))}
           onClick={() => atlas.setFilter('inView', !inView)}>
           <span className="pl-switch" aria-hidden="true" />{t('pl.f.follow')}
         </button>
