@@ -130,3 +130,17 @@ Notes:
 Final: fixed (review 1, Important) Pulse double-counted conflict involvement — union like the Brief (USA 26) — pulse tests RED→GREEN 17/17. Fixed (review 9, minor, re-graded a11y) tile aria-label includes the attention pill.
 Final: fixed (review 2, Important) Brief vs-average misled (microstates) — GDP per person vs total GDP ÷ total population (DEU −1% vs W. Europe, CHN −11% vs world), other KPIs vs median (no line at median 0), population no comparison, ranks labelled 'of N states and territories' — brief tests RED→GREEN, brief+dossier 40/40.
 Final: fixed (review 3, Important) UNHCR refugees omitted 'oip' — refugeesFrom/In = refugees + oip (VEN 0.42M → 6.46M; world displaced 92.5M → 99.6M), labels say so, UNRWA exclusion stated in citation and DATA.md — parser test RED→GREEN. Fixed (review 6, minor) shrink guard keeps previous file on >20% record drop. Fixed: --only run kept the Wikidata drift summary in _status.json.
+
+## Final review: deferred minors
+- Review 5: GDP unit test duplicated (build.ts `/million/i` vs shown.ts `figureMd`). Use `figureMd` in both.
+- Review 7:
+  - `compare.tsx` imports `../dossier/brief.css`.
+  - `emptyFigures` is unused.
+  - `pulse/model.ts` duplicates `displacedOf`.
+  - `deathsPreliminary` is fetched but never read.
+- Review 8: the Ask streaming answer lacks `aria-busy`.
+- Review 10: Pulse resets its local filters, tab and table toggles on a language or theme switch (the view body remounts).
+- Review 11:
+  - The Ask chunk loads at startup.
+  - `POP_RANGE`/`GDP_RANGE` are fixed (D10 asks for recomputed breaks).
+- Security L1/L2/L4/L5 fixed (80f991d). L3: CSP checked on the Vercel preview before the production switch.
