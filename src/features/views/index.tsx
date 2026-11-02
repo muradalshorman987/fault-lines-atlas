@@ -1,4 +1,4 @@
-// View host: one full panel over the stage (network, timeline, compare, sources). Layout mounts the year scrubber itself.
+// View host: one full panel over the stage (pulse, network, timeline, compare, sources). Layout mounts the year scrubber itself.
 // Esc is the shell's job; this file owns opening, closing, focus and re-rendering on state changes.
 
 import { Component, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
@@ -9,6 +9,7 @@ import { registerStrings } from '../../i18n/strings';
 import { esc, reducedMotion } from '../../ui/dom';
 import { Icon } from '../../ui/Icon';
 import { hideTip } from '../../ui/tooltip';
+import { PulseView } from '../pulse';
 import { CompareView } from './compare';
 import { NetworkView } from './network';
 import { SourcesView } from './sources';
@@ -16,12 +17,14 @@ import { TimelineView } from './timeline';
 
 registerStrings({
   ar: {
+    'vw.sub.pulse': 'حال العالم الآن: النزاعات حسب الشدة والمنطقة، وما يستحق الانتباه، والترتيب',
     'vw.sub.network': 'من يتحالف مع من، ومن ينافس من — {n} علاقة موثّقة أو مقدّرة',
     'vw.sub.timeline': 'كل حدث في مسار فئته، والنزاعات الجارية بمددها، من 1900 إلى اليوم',
     'vw.sub.compare': 'الأرقام والتركيب والعضويات والعلاقة المباشرة جنباً إلى جنب',
     'vw.sub.sources': 'مصدر كل مجموعة بيانات وترخيصها وطريقة جمعها وحدودها',
   },
   en: {
+    'vw.sub.pulse': 'The world right now: conflicts by severity and region, what needs attention, and rankings',
     'vw.sub.network': 'Who is allied with whom, and who competes — {n} documented or assessed ties',
     'vw.sub.timeline': 'Each event in its category lane, and running conflicts by duration, 1900 to today',
     'vw.sub.compare': 'Figures, composition, memberships and the direct relationship side by side',
@@ -46,6 +49,7 @@ const themeSnapshot = () => `${document.documentElement.dataset.theme ?? 'system
 
 function ViewBody({ id }: { id: ViewId }) {
   switch (id) {
+    case 'pulse': return <PulseView />;
     case 'network': return <NetworkView />;
     case 'timeline': return <TimelineView />;
     case 'compare': return <CompareView />;

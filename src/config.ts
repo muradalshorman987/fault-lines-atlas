@@ -14,6 +14,7 @@ export const LENSES = [
 
 // Full-panel views that open over the stage.
 export const VIEWS = [
+  { id: 'pulse',    ar: 'نبض العالم',             en: 'World pulse',        icon: 'pulse' },
   { id: 'network',  ar: 'شبكة العلاقات',          en: 'Relations network', icon: 'network' },
   { id: 'timeline', ar: 'الخط الزمني الكامل',      en: 'Full timeline',     icon: 'clock' },
   { id: 'compare',  ar: 'قارن بين دولتين',         en: 'Compare two states', icon: 'compare' },
@@ -121,6 +122,7 @@ export const ICONS: Record<string, string> = {
   menu:    '<path d="M4 7h16M4 12h16M4 17h16"/>',
   compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
   swap:    '<path d="M7 7h12l-3.5-3.5M17 17H5l3.5 3.5"/>',
+  pulse:   '<path d="M3 12h4l2.2-5 3.6 10 2.4-6.5 1.6 1.5H21"/>',
   spark:   '<path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',
 };
 

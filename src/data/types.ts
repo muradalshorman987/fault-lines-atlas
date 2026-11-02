@@ -5,6 +5,7 @@ import type { Feature, FeatureCollection, Geometry } from 'geojson';
 import type { Bi, Lang } from '../i18n/format';
 import type { Kind } from '../config';
 import type { CONFLICT_FILES } from './files';
+import type { Figures } from './figures';
 
 export type { Kind };
 type Extra = { [k: string]: unknown };
@@ -105,6 +106,8 @@ export interface SearchEntry { kind: Kind; id: string; ar: string; en: string; s
 export interface DB {
   raw: RawData;
   corrections: Correction[];
+  /** Open-data figures (M5); empty until the pipeline's files are present. */
+  figures: Figures;
   isUnverified(kind: Kind, id: string): boolean;
   features: Feature<Geometry, CountryProps>[];
   countries: Map<string, Country>;

@@ -17,6 +17,8 @@ export interface Filters {
   overviewMode: 'continent' | 'income' | 'population' | 'gdp';
   timelineCats: Set<string> | null;
   ethnicFamily: string | null;
+  region: string | null;        // conflict-file region id (middle-east, europe, asia, africa, americas)
+  inView: boolean;              // pulse figures follow what the map shows
 }
 export interface Layers { labels: boolean; graticule: boolean; boundaries: boolean; disputed: boolean; ethnic: boolean; conflicts: boolean; arcs: boolean }
 
@@ -44,7 +46,7 @@ export const initialState = (): AtlasState => ({
     relTypes: new Set(['alliance', 'military', 'economic', 'influence', 'proxy', 'rivalry', 'territorial', 'diplomatic']),
     relKinds: new Set(['treaty', 'assessed']),
     bloc: null, resourceClass: null, religionMode: 'majority', religionTradition: 'sunni',
-    overviewMode: 'continent', timelineCats: null, ethnicFamily: null,
+    overviewMode: 'continent', timelineCats: null, ethnicFamily: null, region: null, inView: false,
   },
   layers: { labels: true, graticule: true, boundaries: true, disputed: true, ethnic: false, conflicts: false, arcs: false },
 });

@@ -9,6 +9,8 @@ export interface Events {
   toast: string;
   starttour: string | { id: string; focus?: boolean };
   ready: DB;
+  /** The countries the map shows once it settles (canvas engine and detailed map). */
+  viewport: { iso3: string[] };
 }
 
 type Listener<E extends keyof Events> = (payload: Events[E]) => void;

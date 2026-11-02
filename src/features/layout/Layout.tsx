@@ -10,7 +10,9 @@ import { Dossier } from '../dossier';
 import { MapStage } from '../map';
 import { LensRail, ShellOverlays, TopBar } from '../shell';
 import { TourPlayer } from '../tours/TourPlayer';
+import { AskPanel } from '../ask';
 import { ViewPanel } from '../views';
+import { Welcome } from '../welcome';
 import { Scrubber } from '../views/timeline';
 
 // The dossier retries on the next selection, so one bad record does not disable the panel for the visit.
@@ -41,7 +43,8 @@ export function Layout() {
       </div>
       <div id="tooltip" role="tooltip" hidden />
       <ErrorBoundary name="tour" fallback={<div id="tour" hidden />}><TourPlayer /></ErrorBoundary>
-      <div id="ask" hidden />
+      <ErrorBoundary name="ask" fallback={<div id="ask" hidden />}><AskPanel /></ErrorBoundary>
+      <ErrorBoundary name="welcome" fallback={null}><Welcome /></ErrorBoundary>
       <ErrorBoundary name="overlays" fallback={null}><ShellOverlays /></ErrorBoundary>
     </>
   );

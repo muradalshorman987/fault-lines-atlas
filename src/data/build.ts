@@ -5,6 +5,7 @@ import type { Feature, FeatureCollection } from 'geojson';
 import { RELIGION_FAMILIES, RESOURCE_CLASSES, SEVERITY_RANK } from '../config';
 import { normalize, type Lang } from '../i18n/format';
 import { CONFLICT_FILES } from './files';
+import { emptyFigures } from './figures';
 import type { Conflict, Country, DB, Disputed, Group, IndexRow, Kind, RawData, SearchEntry } from './types';
 
 const EARTH_R = 6371;
@@ -40,7 +41,7 @@ function normalizeIsos(R: RawData) {
 export function build(input: RawData): DB {
   const R = structuredClone(input);
   normalizeIsos(R);
-  const DB = { raw: R, corrections: R.corrections ?? [] } as DB;
+  const DB = { raw: R, corrections: R.corrections ?? [], figures: emptyFigures() } as DB;
 
   // ---- countries (Natural Earth admin-0 + index)
   const idx = new Map(R.index.map((r) => [r.iso3, r]));
