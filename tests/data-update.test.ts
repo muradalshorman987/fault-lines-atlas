@@ -54,6 +54,22 @@ describe('runUpdate keeps the last good file', () => {
     expect(status().sources.wb).toMatchObject({ state: 'unavailable', message: 'Cloudflare challenge' });
   });
 
+  test('when the record count drops by more than 20% (e.g. a partly published year)', async () => {
+    const five = file({ SAU: { population: { value: 1, year: 2024 } }, QAT: { population: { value: 2, year: 2024 } }, KOS: { population: { value: 3, year: 2024 } }, TWN: { population: { value: 4, year: 2024 } }, FRA: { population: { value: 5, year: 2024 } } });
+    fs.writeFileSync(gen('wb.json'), formatJson(five));
+    const big = new Set(['SAU', 'QAT', 'KOS', 'TWN', 'FRA']);
+    const three = file({ SAU: { population: { value: 9, year: 2025 } }, QAT: { population: { value: 9, year: 2025 } }, KOS: { population: { value: 9, year: 2025 } } });
+    const r = await runUpdate({ dataDir: dir, fetchers: [fetcher(async () => three)], ctx: fakeCtx({ http: fakeHttp({}), isos: big }) });
+    expect(read('wb.json')).toBe(formatJson(five));
+    expect(status().sources.wb).toMatchObject({ state: 'error', fetchedAt: five.fetchedAt });
+    expect(status().sources.wb!.message).toMatch(/records fell from 5 to 3/);
+    expect(r).toMatchObject({ changed: false, failed: true });
+
+    const four = file({ SAU: { population: { value: 9, year: 2025 } }, QAT: { population: { value: 9, year: 2025 } }, KOS: { population: { value: 9, year: 2025 } }, TWN: { population: { value: 9, year: 2025 } } });
+    await runUpdate({ dataDir: dir, fetchers: [fetcher(async () => four)], ctx: fakeCtx({ http: fakeHttp({}), isos: big }) });
+    expect(read('wb.json')).toBe(formatJson(four)); // a 20% drop is still accepted
+  });
+
   test('when the fetcher is skipped (no key)', async () => {
     const r = await runUpdate({ dataDir: dir, fetchers: [fetcher(async () => ({ skip: 'EIA_API_KEY is not set' }))], ctx: ctx() });
     expect(read('wb.json')).toBe(formatJson(PREV));
@@ -93,6 +109,21 @@ describe('runUpdate writes new data', () => {
     const r = await runUpdate({ dataDir: dir, fetchers: [], ctx: ctx(), drift: async () => { throw new Error('SPARQL 429'); } });
     expect(r.driftError).toBe('SPARQL 429');
     expect(JSON.parse(read('_status.json')).drift).toMatchObject({ state: 'error', message: 'SPARQL 429' });
+  });
+
+  test('a run of some sources only (--only) keeps the other entries, including the last drift summary', async () => {
+    await runUpdate({ dataDir: dir, fetchers: [fetcher(async () => { throw new Error('down'); }, 'other')], ctx: ctx(), drift: async () => [] });
+    await runUpdate({ dataDir: dir, fetchers: [fetcher(async () => PREV)], ctx: ctx() });
+    const s = JSON.parse(read('_status.json'));
+    expect(Object.keys(s.sources)).toEqual(['wb', 'other']);
+    expect(s.drift).toMatchObject({ state: 'ok', differences: 0 });
+  });
+
+  test('_status.json lists the real sources in pipeline order, whichever ran last', async () => {
+    const real = (id: string) => fetcher(async () => ({ skip: 'test' }), id);
+    await runUpdate({ dataDir: dir, fetchers: ['eia', 'worldbank', 'ucdp', 'usgs'].map(real), ctx: ctx() });
+    await runUpdate({ dataDir: dir, fetchers: [real('unhcr')], ctx: ctx() });
+    expect(Object.keys(JSON.parse(read('_status.json')).sources)).toEqual(['worldbank', 'ucdp', 'unhcr', 'usgs', 'eia']);
   });
 });
 

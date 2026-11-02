@@ -1,6 +1,6 @@
 // Runs every open-data fetcher, validates each new file and writes it to public/data/generated/<source>.json.
-// A source that fails, or whose output fails validation, keeps its previous file; the error goes to _status.json and the
-// run still succeeds for the other sources. Values that did not change leave the file untouched (no churn in pull requests).
+// A source that fails, whose output fails validation, or whose record count drops by more than 20% keeps its previous
+// file; the error goes to _status.json and the run still succeeds for the other sources. Values that did not change leave the file untouched (no churn in pull requests).
 //
 //   npm run data:update                         all sources
 //   npm run data:update -- --only ucdp,unhcr    some sources
@@ -38,6 +38,8 @@ export interface UpdateResult { runs: SourceRun[]; drift: BlocDrift[] | null; dr
 const readJson = (file: string): unknown => {
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return null; } // missing or unreadable: treated as "no previous file"
 };
+/** A new file with this much fewer records than the last good one is treated as a failure (the previous file stays). */
+const MAX_SHRINK = 0.2;
 const isFailure = (r: SourceRun) => r.state === 'error' || r.state === 'unavailable';
 const message = (e: unknown) => (e instanceof Error ? e.message : String(e)).slice(0, 500);
 const sameData = (a: GeneratedFile, b: GeneratedFile) =>
@@ -50,7 +52,9 @@ export async function runUpdate({ dataDir, fetchers, ctx, drift }: {
   fs.mkdirSync(dir, { recursive: true });
   const statusPath = path.join(dir, '_status.json');
   const old = statusFile.safeParse(readJson(statusPath));
-  const status: Status = { updatedAt: ctx.now.toISOString(), sources: old.success ? { ...(old.data as Status).sources } : {} };
+  const last = old.success ? (old.data as Status) : null;
+  // Sources and the drift summary that this run does not touch (--only) keep their last entries.
+  const status: Status = { updatedAt: ctx.now.toISOString(), sources: { ...last?.sources }, ...(last?.drift ? { drift: last.drift } : {}) };
   const before = { ...status.sources };
   const checkedAt = ctx.now.toISOString();
   const refs = {
@@ -80,6 +84,10 @@ export async function runUpdate({ dataDir, fetchers, ctx, drift }: {
       return keep('error', `failed validation (${problems.length} problem${problems.length > 1 ? 's' : ''}): ${list}`);
     }
     const records = Object.keys(next.records).length;
+    const had = prev ? Object.keys(prev.records).length : 0;
+    if (records < had * (1 - MAX_SHRINK)) {
+      return keep('error', `records fell from ${had} to ${records}, more than ${MAX_SHRINK * 100}%; kept the previous file (the newest year may be only partly published)`);
+    }
     if (prev && sameData(prev, next)) {
       status.sources[f.id] = { state: 'unchanged', checkedAt, fetchedAt: prev.fetchedAt, records };
       ctx.log(`${f.id}: no change`);
@@ -102,9 +110,16 @@ export async function runUpdate({ dataDir, fetchers, ctx, drift }: {
       status.drift = { state: 'error', checkedAt, message: driftError };
     }
   }
-  // Sources in fetcher order, then any others from earlier runs, so the file diffs cleanly.
-  const order = [...fetchers.map((f) => f.id), ...Object.keys(status.sources).filter((id) => !fetchers.some((f) => f.id === id)).sort()];
-  status.sources = Object.fromEntries(order.filter((id) => status.sources[id]).map((id) => [id, status.sources[id]!]));
+  // Sources in FETCHERS order whatever ran this time (--only), then any others, so the file diffs cleanly.
+  const rank = (id: string) => {
+    const i = FETCHERS.findIndex((f) => f.id === id), j = fetchers.findIndex((f) => f.id === id);
+    return [i < 0 ? FETCHERS.length : i, j < 0 ? fetchers.length : j] as const;
+  };
+  const order = Object.keys(status.sources).sort((a, b) => {
+    const [ra, sa] = rank(a), [rb, sb] = rank(b);
+    return ra - rb || sa - sb || a.localeCompare(b);
+  });
+  status.sources = Object.fromEntries(order.map((id) => [id, status.sources[id]!]));
   fs.writeFileSync(statusPath, formatJson(status));
   return {
     runs, drift: driftOut, driftError, status,

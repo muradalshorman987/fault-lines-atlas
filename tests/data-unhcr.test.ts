@@ -12,7 +12,7 @@ describe('UNHCR parser', () => {
 
   test('refugees by origin and by asylum, IDPs by origin; zero and unknown values are left out', () => {
     const from = [
-      { coo_iso: 'AFG', refugees: 2671560, idps: 3199023 },
+      { coo_iso: 'AFG', refugees: 2671560, idps: 3199023, oip: '-' },
       { coo_iso: 'SYR', refugees: '5000', idps: '0' },
       { coo_iso: 'XKX', refugees: 30, idps: '-' },
       { coo_iso: 'UNK', refugees: 10, idps: 0 },
@@ -23,6 +23,17 @@ describe('UNHCR parser', () => {
       SYR: { refugeesFrom: { value: 5000, year: 2025 } },
       KOS: { refugeesFrom: { value: 30, year: 2025 } },
       TUR: { refugeesIn: { value: 2900000, year: 2025 } },
+    });
+  });
+
+  test('"refugees" includes other people in need of international protection (oip), by origin and by asylum', () => {
+    // 2025 API values: most Venezuelans abroad are counted as oip, not as refugees.
+    const from = [{ coo_iso: 'VEN', refugees: 417010, oip: 6042706, idps: '0' }, { coo_iso: 'AFG', refugees: '0', oip: '1030958' }];
+    const into = [{ coa_iso: 'COL', refugees: 1464, oip: 2810778 }, { coa_iso: 'TUR', refugees: '-', oip: '-' }];
+    expect(unhcrRecords(from, into, 2025, new Set(['VEN', 'AFG', 'COL', 'TUR']))).toEqual({
+      VEN: { refugeesFrom: { value: 6459716, year: 2025 } },
+      AFG: { refugeesFrom: { value: 1030958, year: 2025 } },
+      COL: { refugeesIn: { value: 2812242, year: 2025 } },
     });
   });
 
@@ -43,5 +54,8 @@ describe('UNHCR parser', () => {
       TUR: { refugeesIn: { value: 8, year: 2025 } },
     });
     expect(http.calls.some((u) => u.includes('yearFrom=2026'))).toBe(true);
+    expect(file.indicators.refugeesFrom!.label.en).toBe('Refugees and others in need of international protection, from this state (UNHCR)');
+    expect(file.indicators.refugeesIn!.label.en).toBe('Refugees and others in need of international protection, hosted (UNHCR)');
+    expect(file.citation).toMatch(/UNRWA.*not included/);
   });
 });

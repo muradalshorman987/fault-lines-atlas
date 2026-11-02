@@ -3,16 +3,22 @@
   "name": "UNHCR",
   "licence": "CC BY 4.0",
   "url": "https://www.unhcr.org/refugee-statistics/",
-  "fetchedAt": "2026-11-02T13:55:22.698Z",
+  "fetchedAt": "2026-11-02T14:31:02.101Z",
   "keys": "iso3",
-  "citation": "UNHCR Refugee Data Finder (Refugee Population Statistics Database), via the UNHCR population API.",
+  "citation": "UNHCR Refugee Data Finder (Refugee Population Statistics Database), via the UNHCR population API. Refugee figures are refugees under UNHCR’s mandate plus other people in need of international protection. Palestine refugees registered with UNRWA are not included (they fall under UNRWA’s mandate, not UNHCR’s).",
   "indicators": {
     "refugeesFrom": {
-      "label": { "ar": "اللاجئون من هذه الدولة", "en": "Refugees from this state" },
+      "label": {
+        "ar": "اللاجئون وغيرهم ممّن يحتاجون إلى حماية دولية، من هذه الدولة (المفوضية)",
+        "en": "Refugees and others in need of international protection, from this state (UNHCR)"
+      },
       "unit": "people"
     },
     "refugeesIn": {
-      "label": { "ar": "اللاجئون في هذه الدولة", "en": "Refugees hosted" },
+      "label": {
+        "ar": "اللاجئون وغيرهم ممّن يحتاجون إلى حماية دولية، المستضافون (المفوضية)",
+        "en": "Refugees and others in need of international protection, hosted (UNHCR)"
+      },
       "unit": "people"
     },
     "idps": {
@@ -22,7 +28,7 @@
   },
   "records": {
     "AFG": {
-      "refugeesFrom": { "value": 2671560, "year": 2025 },
+      "refugeesFrom": { "value": 3702518, "year": 2025 },
       "idps": { "value": 3199023, "year": 2025 },
       "refugeesIn": { "value": 20869, "year": 2025 }
     },
@@ -46,7 +52,7 @@
     },
     "ARG": {
       "refugeesFrom": { "value": 542, "year": 2025 },
-      "refugeesIn": { "value": 4941, "year": 2025 }
+      "refugeesIn": { "value": 179157, "year": 2025 }
     },
     "ARM": {
       "refugeesFrom": { "value": 15578, "year": 2025 },
@@ -108,7 +114,7 @@
     },
     "BOL": {
       "refugeesFrom": { "value": 710, "year": 2025 },
-      "refugeesIn": { "value": 1147, "year": 2025 }
+      "refugeesIn": { "value": 9406, "year": 2025 }
     },
     "BWA": {
       "refugeesFrom": { "value": 384, "year": 2025 },
@@ -116,7 +122,7 @@
     },
     "BRA": {
       "refugeesFrom": { "value": 6306, "year": 2025 },
-      "refugeesIn": { "value": 278966, "year": 2025 }
+      "refugeesIn": { "value": 828500, "year": 2025 }
     },
     "BRN": { "refugeesFrom": { "value": 5, "year": 2025 } },
     "BIH": {
@@ -157,7 +163,7 @@
     },
     "CHL": {
       "refugeesFrom": { "value": 5358, "year": 2025 },
-      "refugeesIn": { "value": 2631, "year": 2025 }
+      "refugeesIn": { "value": 665135, "year": 2025 }
     },
     "CMR": {
       "refugeesFrom": { "value": 140366, "year": 2025 },
@@ -180,17 +186,20 @@
     "COL": {
       "refugeesFrom": { "value": 79669, "year": 2025 },
       "idps": { "value": 7157716, "year": 2025 },
-      "refugeesIn": { "value": 1464, "year": 2025 }
+      "refugeesIn": { "value": 2812242, "year": 2025 }
     },
     "CRI": {
       "refugeesFrom": { "value": 367, "year": 2025 },
-      "refugeesIn": { "value": 36395, "year": 2025 }
+      "refugeesIn": { "value": 55515, "year": 2025 }
     },
     "CUB": {
       "refugeesFrom": { "value": 29395, "year": 2025 },
       "refugeesIn": { "value": 115, "year": 2025 }
     },
-    "CUW": { "refugeesFrom": { "value": 8, "year": 2025 } },
+    "CUW": {
+      "refugeesFrom": { "value": 8, "year": 2025 },
+      "refugeesIn": { "value": 6903, "year": 2025 }
+    },
     "CPV": { "refugeesFrom": { "value": 15, "year": 2025 } },
     "CYP": {
       "refugeesFrom": { "value": 15, "year": 2025 },
@@ -211,11 +220,11 @@
     "DMA": { "refugeesFrom": { "value": 97, "year": 2025 } },
     "DOM": {
       "refugeesFrom": { "value": 1240, "year": 2025 },
-      "refugeesIn": { "value": 20, "year": 2025 }
+      "refugeesIn": { "value": 99504, "year": 2025 }
     },
     "ECU": {
       "refugeesFrom": { "value": 5723, "year": 2025 },
-      "refugeesIn": { "value": 26428, "year": 2025 }
+      "refugeesIn": { "value": 459316, "year": 2025 }
     },
     "GNQ": { "refugeesFrom": { "value": 424, "year": 2025 } },
     "ERI": {
@@ -289,7 +298,7 @@
     },
     "GUY": {
       "refugeesFrom": { "value": 342, "year": 2025 },
-      "refugeesIn": { "value": 35, "year": 2025 }
+      "refugeesIn": { "value": 23436, "year": 2025 }
     },
     "HTI": {
       "refugeesFrom": { "value": 180702, "year": 2025 },
@@ -330,7 +339,7 @@
     },
     "IRN": {
       "refugeesFrom": { "value": 157912, "year": 2025 },
-      "refugeesIn": { "value": 770514, "year": 2025 }
+      "refugeesIn": { "value": 1650014, "year": 2025 }
     },
     "IRQ": {
       "refugeesFrom": { "value": 270671, "year": 2025 },
@@ -356,7 +365,7 @@
     },
     "KAZ": {
       "refugeesFrom": { "value": 4144, "year": 2025 },
-      "refugeesIn": { "value": 4377, "year": 2025 }
+      "refugeesIn": { "value": 52768, "year": 2025 }
     },
     "KEN": {
       "refugeesFrom": { "value": 13325, "year": 2025 },
@@ -364,7 +373,7 @@
     },
     "KGZ": {
       "refugeesFrom": { "value": 3337, "year": 2025 },
-      "refugeesIn": { "value": 1150, "year": 2025 }
+      "refugeesIn": { "value": 55018, "year": 2025 }
     },
     "KIR": { "refugeesFrom": { "value": 5, "year": 2025 } },
     "KOR": {
@@ -437,7 +446,7 @@
     "MEX": {
       "refugeesFrom": { "value": 41307, "year": 2025 },
       "idps": { "value": 262411, "year": 2025 },
-      "refugeesIn": { "value": 152002, "year": 2025 }
+      "refugeesIn": { "value": 216162, "year": 2025 }
     },
     "MLI": {
       "refugeesFrom": { "value": 519738, "year": 2025 },
@@ -523,11 +532,11 @@
     },
     "PAK": {
       "refugeesFrom": { "value": 90497, "year": 2025 },
-      "refugeesIn": { "value": 1159038, "year": 2025 }
+      "refugeesIn": { "value": 1299596, "year": 2025 }
     },
     "PAN": {
       "refugeesFrom": { "value": 375, "year": 2025 },
-      "refugeesIn": { "value": 2694, "year": 2025 }
+      "refugeesIn": { "value": 59980, "year": 2025 }
     },
     "PRY": {
       "refugeesFrom": { "value": 162, "year": 2025 },
@@ -535,7 +544,7 @@
     },
     "PER": {
       "refugeesFrom": { "value": 7885, "year": 2025 },
-      "refugeesIn": { "value": 6788, "year": 2025 }
+      "refugeesIn": { "value": 1104802, "year": 2025 }
     },
     "PHL": {
       "refugeesFrom": { "value": 807, "year": 2025 },
@@ -668,11 +677,11 @@
     },
     "TJK": {
       "refugeesFrom": { "value": 4163, "year": 2025 },
-      "refugeesIn": { "value": 8620, "year": 2025 }
+      "refugeesIn": { "value": 10170, "year": 2025 }
     },
     "TKM": {
       "refugeesFrom": { "value": 1864, "year": 2025 },
-      "refugeesIn": { "value": 9, "year": 2025 }
+      "refugeesIn": { "value": 3209, "year": 2025 }
     },
     "TLS": { "refugeesFrom": { "value": 15, "year": 2025 } },
     "TGO": {
@@ -683,7 +692,7 @@
     "TON": { "refugeesFrom": { "value": 65, "year": 2025 } },
     "TTO": {
       "refugeesFrom": { "value": 576, "year": 2025 },
-      "refugeesIn": { "value": 1877, "year": 2025 }
+      "refugeesIn": { "value": 5733, "year": 2025 }
     },
     "TUN": {
       "refugeesFrom": { "value": 3711, "year": 2025 },
@@ -708,7 +717,7 @@
     },
     "URY": {
       "refugeesFrom": { "value": 126, "year": 2025 },
-      "refugeesIn": { "value": 3195, "year": 2025 }
+      "refugeesIn": { "value": 24028, "year": 2025 }
     },
     "USA": {
       "refugeesFrom": { "value": 3667, "year": 2025 },
@@ -716,12 +725,12 @@
     },
     "UZB": {
       "refugeesFrom": { "value": 5164, "year": 2025 },
-      "refugeesIn": { "value": 5, "year": 2025 }
+      "refugeesIn": { "value": 7705, "year": 2025 }
     },
     "VUT": { "refugeesFrom": { "value": 13, "year": 2025 } },
     "VCT": { "refugeesFrom": { "value": 194, "year": 2025 } },
     "VEN": {
-      "refugeesFrom": { "value": 417010, "year": 2025 },
+      "refugeesFrom": { "value": 6459716, "year": 2025 },
       "refugeesIn": { "value": 14333, "year": 2025 }
     },
     "WSM": { "refugeesFrom": { "value": 17, "year": 2025 } },
@@ -742,6 +751,7 @@
     "ISL": { "refugeesIn": { "value": 8459, "year": 2025 } },
     "LIE": { "refugeesIn": { "value": 987, "year": 2025 } },
     "SXM": { "refugeesIn": { "value": 17, "year": 2025 } },
+    "ABW": { "refugeesIn": { "value": 11470, "year": 2025 } },
     "CYM": { "refugeesIn": { "value": 53, "year": 2025 } },
     "VGB": { "refugeesIn": { "value": 6, "year": 2025 } },
     "MCO": { "refugeesIn": { "value": 17, "year": 2025 } }

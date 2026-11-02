@@ -1,5 +1,7 @@
-// UNHCR Refugee Data Finder API: refugees by country of origin and of asylum, and internally displaced people,
-// for the latest year that has data. Licence CC BY 4.0. https://api.unhcr.org/docs/refugee-statistics.html
+// UNHCR Refugee Data Finder API: refugees and other people in need of international protection, by country of origin
+// and of asylum, and internally displaced people, for the latest year that has data. Licence CC BY 4.0.
+// UNRWA-registered Palestine refugees are outside UNHCR's statistics and are not included.
+// https://api.unhcr.org/docs/refugee-statistics.html
 
 import { atlasIso } from '../refs';
 import type { Fetcher, GeneratedFile, Http, Records } from '../types';
@@ -12,20 +14,24 @@ export const num = (v: unknown): number | null => {
   return Number.isFinite(n) ? n : null;
 };
 
-interface FromRow { coo_iso?: string; refugees?: unknown; idps?: unknown }
-interface InRow { coa_iso?: string; refugees?: unknown }
+interface FromRow { coo_iso?: string; refugees?: unknown; oip?: unknown; idps?: unknown }
+interface InRow { coa_iso?: string; refugees?: unknown; oip?: unknown }
 interface Page<T> { page: number; maxPages: number; items: T[] }
+
+/** Refugees under UNHCR's mandate plus other people in need of international protection (oip): UNHCR counts most
+ *  Venezuelans abroad as oip, so refugees alone would show about 0.4 million instead of about 6.5 million. */
+const inNeed = (r: { refugees?: unknown; oip?: unknown }) => (num(r.refugees) ?? 0) + (num(r.oip) ?? 0);
 
 /** Zero counts are left out: the atlas shows "no figure" rather than ranking every state at zero. */
 export function unhcrRecords(from: FromRow[], into: InRow[], year: number, isos: Set<string>): Records {
   const out: Records = {};
-  const put = (code: string | undefined, id: string, raw: unknown) => {
-    const iso = atlasIso(code ?? ''), v = num(raw);
+  const put = (code: string | undefined, id: string, v: number | null) => {
+    const iso = atlasIso(code ?? '');
     if (!isos.has(iso) || !v) return;
     (out[iso] ??= {})[id] = { value: v, year };
   };
-  for (const r of from) { put(r.coo_iso, 'refugeesFrom', r.refugees); put(r.coo_iso, 'idps', r.idps); }
-  for (const r of into) put(r.coa_iso, 'refugeesIn', r.refugees);
+  for (const r of from) { put(r.coo_iso, 'refugeesFrom', inNeed(r)); put(r.coo_iso, 'idps', num(r.idps)); }
+  for (const r of into) put(r.coa_iso, 'refugeesIn', inNeed(r));
   return out;
 }
 
@@ -63,10 +69,18 @@ export const unhcr: Fetcher = {
       url: 'https://www.unhcr.org/refugee-statistics/',
       fetchedAt: now.toISOString(),
       keys: 'iso3',
-      citation: 'UNHCR Refugee Data Finder (Refugee Population Statistics Database), via the UNHCR population API.',
+      citation: 'UNHCR Refugee Data Finder (Refugee Population Statistics Database), via the UNHCR population API. '
+        + 'Refugee figures are refugees under UNHCR’s mandate plus other people in need of international protection. '
+        + 'Palestine refugees registered with UNRWA are not included (they fall under UNRWA’s mandate, not UNHCR’s).',
       indicators: {
-        refugeesFrom: { label: { ar: 'اللاجئون من هذه الدولة', en: 'Refugees from this state' }, unit: 'people' },
-        refugeesIn: { label: { ar: 'اللاجئون في هذه الدولة', en: 'Refugees hosted' }, unit: 'people' },
+        refugeesFrom: {
+          label: { ar: 'اللاجئون وغيرهم ممّن يحتاجون إلى حماية دولية، من هذه الدولة (المفوضية)', en: 'Refugees and others in need of international protection, from this state (UNHCR)' },
+          unit: 'people',
+        },
+        refugeesIn: {
+          label: { ar: 'اللاجئون وغيرهم ممّن يحتاجون إلى حماية دولية، المستضافون (المفوضية)', en: 'Refugees and others in need of international protection, hosted (UNHCR)' },
+          unit: 'people',
+        },
         idps: { label: { ar: 'النازحون داخلياً', en: 'Internally displaced people' }, unit: 'people' },
       },
       records: unhcrRecords(from, into, year, refs.isos),

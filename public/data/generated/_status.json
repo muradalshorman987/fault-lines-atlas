@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T13:59:06.435Z",
+  "updatedAt": "2026-11-02T14:31:45.801Z",
   "sources": {
     "worldbank": {
       "state": "ok",
@@ -15,9 +15,9 @@
     },
     "unhcr": {
       "state": "unchanged",
-      "checkedAt": "2026-11-02T13:59:06.435Z",
-      "fetchedAt": "2026-11-02T13:55:22.698Z",
-      "records": 199
+      "checkedAt": "2026-11-02T14:31:45.801Z",
+      "fetchedAt": "2026-11-02T14:31:02.101Z",
+      "records": 200
     },
     "usgs": {
       "state": "unavailable",

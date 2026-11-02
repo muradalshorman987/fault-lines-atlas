@@ -27,7 +27,10 @@ Sources we do not use, because their licences forbid republishing in a public re
 - **UCDP:**
   - `deaths`: GED, the final yearly release. The value is the sum of each event's `best` estimate over the conflict's UCDP ids, per year. It has a yearly `series`.
   - `deathsPreliminary`: Candidate events, this year so far. These are preliminary and UCDP revises them, so they are kept out of the yearly series.
-- **UNHCR:** `refugeesFrom` (by country of origin), `refugeesIn` (by country of asylum) and `idps` (internally displaced, by country), for the latest year the API has. Refugees are people under UNHCR's mandate. Zero counts are left out.
+- **UNHCR:** `refugeesFrom` (by country of origin), `refugeesIn` (by country of asylum) and `idps` (internally displaced, by country), for the latest year the API has. Zero counts are left out.
+  - `refugeesFrom` and `refugeesIn` are **refugees and others in need of international protection**: the API's `refugees` (under UNHCR's mandate) plus `oip`. Without `oip`, Venezuela would show 0.4 million people abroad instead of 6.5 million.
+  - Asylum seekers are not included.
+  - **Palestine refugees registered with UNRWA (about 5.9 million) are not included.** They fall under UNRWA's mandate, not UNHCR's, and UNRWA publishes no open, machine-readable feed we could use. Palestine's figure (about 48,000) counts only Palestinians under UNHCR's mandate. The note travels in the file's `citation` and shows on the Sources view.
 - **USGS:** `prod:<type>` and `reserves:<type>` for lithium, cobalt, coltan (tantalum), rare earths, phosphate, gold, copper, potash, bromine and nickel. Mine production only, not refinery output. It covers only the resource types already in `resources.json` (spec D12).
 - **EIA:** `prod:oil` (thousand barrels per day) and `prod:gas` (billion cubic metres). Coal is not an atlas resource type, so it is not fetched. The `/international` route offers no reserves facet, so only production is fetched.
 
@@ -90,7 +93,12 @@ npm run data:update -- --only worldbank,ucdp # some sources (ids: worldbank, ucd
 npm run data:update -- --report report.md    # also write the pull request text
 ```
 
-- **One source failing never breaks the run.** If a source throws, or its output fails the same checks as `check-data`, its previous file stays and the error goes to `_status.json`. The other sources still update.
+- **One source failing never breaks the run.** The previous file stays and the error goes to `_status.json` when a source:
+  - throws
+  - produces output that fails the same checks as `check-data`
+  - comes back with more than 20% fewer records than the last good file, as happens when the newest year is only partly published
+  
+  The other sources still update.
 - **EIA:** set `EIA_API_KEY` (free from [eia.gov/opendata](https://www.eia.gov/opendata/register.php)). Without it, EIA is skipped. The key is never written to a file or a log.
 - **USGS by hand:** download `MCS2026_ALLchapters_Reconcile.csv` from the [data release](https://doi.org/10.5066/P1WKQ63T) in a browser, then run `USGS_MCS_CSV=path/to/file.csv npm run data:update -- --only usgs`.
   - When USGS publishes a new edition, set `USGS_ITEM` in `scripts/data/fetchers/usgs.ts` to the new ScienceBase item id, and update the DOI and citation there.
