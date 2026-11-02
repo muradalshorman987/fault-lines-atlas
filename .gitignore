@@ -5,3 +5,4 @@ coverage
 .omc/
 test-results
 playwright-report
+.env*.local

@@ -2,8 +2,8 @@
 
 export const LENSES = [
   { id: 'overview',    ar: 'النظرة العامة',          en: 'Overview',               icon: 'globe',   sub: { ar: 'الدول والأقاليم والاقتصاد', en: 'States, regions and economy' } },
-  { id: 'conflicts',   ar: 'النزاعات ونقاط الاشتعال', en: 'Conflicts & flashpoints', icon: 'flame',   sub: { ar: '40 ملفاً بخمس مناطق', en: '40 files across five regions' } },
-  { id: 'religion',    ar: 'التوزيع الديني',          en: 'Religion',               icon: 'pie',     sub: { ar: 'التركيب الديني لـ75 دولة', en: 'Religious composition, 75 countries' } },
+  { id: 'conflicts',   ar: 'النزاعات ونقاط الاشتعال', en: 'Conflicts & flashpoints', icon: 'flame',   sub: { ar: 'ملفات النزاع في خمس مناطق', en: 'Conflict files across five regions' } },
+  { id: 'religion',    ar: 'التوزيع الديني',          en: 'Religion',               icon: 'pie',     sub: { ar: 'التركيب الديني حسب الدولة', en: 'Religious composition by country' } },
   { id: 'ethnic',      ar: 'المجموعات العرقية',       en: 'Ethnic groups',          icon: 'people',  sub: { ar: 'نطاقات تقريبية إرشادية', en: 'Indicative core extents' } },
   { id: 'disputed',    ar: 'الأقاليم المتنازع عليها',  en: 'Disputed territories',   icon: 'hatch',   sub: { ar: 'من Natural Earth', en: 'From Natural Earth' } },
   { id: 'powers',      ar: 'القوى والتحالفات',        en: 'Powers & alliances',     icon: 'network', sub: { ar: 'التكتلات وشبكة العلاقات', en: 'Blocs and the relations web' } },
