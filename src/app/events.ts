@@ -11,6 +11,8 @@ export interface Events {
   ready: DB;
   /** The countries the map shows once it settles (canvas engine and detailed map). */
   viewport: { iso3: string[] };
+  /** Reopen the "Start here" panel (help dialog, command palette). */
+  welcome: null;
 }
 
 type Listener<E extends keyof Events> = (payload: Events[E]) => void;
