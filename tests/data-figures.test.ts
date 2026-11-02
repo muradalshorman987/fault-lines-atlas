@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { afterEach, describe, expect, test, vi } from 'vitest';
-import { FILES, GENERATED } from '../src/data/files';
+import { FILES, GENERATED, GENERATED_STATUS } from '../src/data/files';
 import { buildFigures, isGeneratedFile, type GeneratedFile } from '../src/data/join';
 import { loadAll } from '../src/data/load';
 import { DATA_DIR } from './helpers/readRaw';
@@ -66,18 +66,65 @@ describe('db.figures from generated files', () => {
 describe('loadAll and the optional generated files', () => {
   afterEach(() => vi.unstubAllGlobals());
 
-  test('a missing, broken or unreachable generated file never breaks loading', async () => {
-    const answers: Record<string, () => Response> = {
+  /** A status file in which the given sources have a file in place (fetchedAt set) and the others do not. */
+  const status = (withFile: string[]) => Response.json({
+    updatedAt: '2026-11-02T04:00:00.000Z',
+    sources: Object.fromEntries(Object.keys(GENERATED).map((id) => [id, {
+      state: withFile.includes(id) ? 'ok' : 'skipped', checkedAt: '2026-11-02T04:00:00.000Z', fetchedAt: withFile.includes(id) ? '2026-11-02T04:00:00.000Z' : null,
+    }])),
+  });
+  /** Fake fetch: answers by path under /base/, falls back to the real core files, and records every request. */
+  const serve = (answers: Record<string, () => Response>) => {
+    const requested: string[] = [];
+    vi.stubGlobal('fetch', async (url: string) => {
+      const rel = url.replace('/base/', '');
+      requested.push(rel);
+      if (answers[rel]) return answers[rel]();
+      if (rel.startsWith('generated/')) throw new Error(`unexpected request for ${rel}`);
+      return new Response(fs.readFileSync(path.join(DATA_DIR, rel)), { status: 200 });
+    });
+    return requested;
+  };
+
+  test('only the generated files that _status.json lists as present are requested', async () => {
+    const requested = serve({
+      [GENERATED_STATUS]: () => status(['worldbank', 'ucdp', 'unhcr']),
+      [GENERATED.worldbank]: () => Response.json(WB),
+      [GENERATED.ucdp]: () => Response.json(UCDP),
+      [GENERATED.unhcr]: () => Response.json({ ...WB, source: 'unhcr', name: 'UNHCR', records: {} }),
+    });
+    let last = 0;
+    const db = await loadAll((p) => { last = p; }, '/base/');
+    expect(requested.filter((f) => f.startsWith('generated/')).sort()).toEqual([GENERATED_STATUS, GENERATED.ucdp, GENERATED.unhcr, GENERATED.worldbank].sort());
+    expect(requested).not.toContain(GENERATED.usgs);
+    expect(requested).not.toContain(GENERATED.eia);
+    expect(db.figures.sources.map((s) => s.id)).toEqual(['worldbank', 'ucdp', 'unhcr']);
+    expect(last).toBe(1); // progress still ends at 1: skipped files count as done (Boot's total is core + GENERATED)
+  });
+
+  test.each([
+    ['missing', () => new Response('Not found', { status: 404 })],
+    ['not JSON', () => new Response('<!doctype html><title>atlas</title>', { status: 200 })],
+    ['unreachable', () => { throw new TypeError('Failed to fetch'); }],
+    ['the wrong shape', () => Response.json(['worldbank'])],
+  ])('a %s _status.json loads no generated files and the atlas still loads', async (_, answer) => {
+    const requested = serve({ [GENERATED_STATUS]: answer });
+    let last = 0;
+    const db = await loadAll((p) => { last = p; }, '/base/');
+    expect(requested.filter((f) => f.startsWith('generated/'))).toEqual([GENERATED_STATUS]);
+    expect(db.figures.sources).toEqual([]);
+    expect(db.countries.get('SAU')!.popSource).toBeUndefined(); // Natural Earth fallback
+    expect(last).toBe(1);
+  });
+
+  test('a listed file that is missing, broken or unreachable never breaks loading', async () => {
+    serve({
+      [GENERATED_STATUS]: () => status(Object.keys(GENERATED)),
       [GENERATED.worldbank]: () => Response.json(WB),
       [GENERATED.ucdp]: () => new Response('Not found', { status: 404 }),
       [GENERATED.unhcr]: () => new Response('<!doctype html><title>atlas</title>', { status: 200 }),
       [GENERATED.usgs]: () => { throw new TypeError('Failed to fetch'); },
       [GENERATED.eia]: () => Response.json({ source: 'eia' }),
-    };
-    vi.stubGlobal('fetch', async (url: string) => {
-      const rel = url.replace('/base/', '');
-      if (answers[rel]) return answers[rel]();
-      return new Response(fs.readFileSync(path.join(DATA_DIR, rel)), { status: 200 });
     });
     const seen: string[] = [];
     let last = 0;

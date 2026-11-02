@@ -32,4 +32,8 @@ export const GENERATED = {
   usgs: 'generated/usgs.json',
   eia: 'generated/eia.json',
 } as const;
+
+/** Written by every pipeline run. The loader fetches only the GENERATED files it lists with a `fetchedAt` (a file in place),
+ *  so a source that has never produced one (blocked, or no API key) costs no request and no 404. */
+export const GENERATED_STATUS = 'generated/_status.json';
 export const CONFLICT_FILES = ['cMideast', 'cEurope', 'cAsia', 'cAfrica', 'cAmericas'] as const;

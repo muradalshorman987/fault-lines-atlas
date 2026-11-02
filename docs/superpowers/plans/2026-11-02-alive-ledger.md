@@ -144,3 +144,4 @@ Final: fixed (review 3, Important) UNHCR refugees omitted 'oip' — refugeesFrom
   - The Ask chunk loads at startup.
   - `POP_RANGE`/`GDP_RANGE` are fixed (D10 asks for recomputed breaks).
 - Security L1/L2/L4/L5 fixed (80f991d). L3: CSP checked on the Vercel preview before the production switch.
+Final: fixed (preview CSP pass) loader requested missing generated files (usgs/eia 404 in the console on every visit) — reads generated/_status.json first and fetches only sources with fetchedAt — tests RED→GREEN, suite 440/440. CSP pass on a local server with the vercel.json headers: globe, pulse, Ask panel, detailed map — no CSP violations.

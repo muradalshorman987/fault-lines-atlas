@@ -1,9 +1,9 @@
 // Fetches every data file and builds the model. Progress is reported per file (0–1).
-// Core files must all load. Generated open-data files load after them and are optional: a missing, unreachable
-// or malformed one is skipped, so the atlas falls back to Natural Earth's figures (D10).
+// Core files must all load. Generated open-data files load after them and are optional: only those _status.json lists
+// are requested, and a missing, unreachable or malformed one is skipped, so the atlas falls back to Natural Earth (D10).
 
 import { build } from './build';
-import { FILES, GENERATED } from './files';
+import { FILES, GENERATED, GENERATED_STATUS } from './files';
 import { isGeneratedFile, type GeneratedFile } from './join';
 import type { DB, RawData } from './types';
 
@@ -22,9 +22,28 @@ export async function loadAll(onProgress: (p: number, file: string) => void = ()
   return build(raw as unknown as RawData, generated);
 }
 
-/** The generated files that loaded and look right, in GENERATED order. Never throws. */
+/** Source ids that _status.json lists with a file in place (a `fetchedAt` date). Empty when the status file is missing or odd. */
+async function presentSources(base: string): Promise<Set<string>> {
+  try {
+    const res = await fetch(base + GENERATED_STATUS);
+    if (!res.ok) return new Set();
+    const data: unknown = await res.json();
+    const sources = data && typeof data === 'object' && !Array.isArray(data) ? (data as { sources?: unknown }).sources : null;
+    if (!sources || typeof sources !== 'object' || Array.isArray(sources)) return new Set();
+    return new Set(Object.entries(sources)
+      .filter(([, s]) => !!s && typeof s === 'object' && typeof (s as { fetchedAt?: unknown }).fetchedAt === 'string')
+      .map(([id]) => id));
+  } catch {
+    return new Set(); // unreachable or not JSON: load no generated files, the atlas falls back to Natural Earth
+  }
+}
+
+/** The generated files that _status.json lists, loaded and checked, in GENERATED order. Never throws.
+ *  `onEach` fires once per GENERATED entry, requested or skipped, so progress still ends at 1. */
 export async function loadGenerated(base: string, onEach: (file: string) => void = () => {}): Promise<GeneratedFile[]> {
-  const got = await Promise.all(Object.values(GENERATED).map(async (file) => {
+  const present = await presentSources(base);
+  const got = await Promise.all(Object.entries(GENERATED).map(async ([id, file]) => {
+    if (!present.has(id)) { onEach(file); return null; }
     try {
       const res = await fetch(base + file);
       if (!res.ok) return null;
