@@ -1,0 +1,61 @@
+name: Data correction / تصحيح بيانات
+description: Something in the atlas is wrong, out of date or not neutral. / معلومة في الأطلس خاطئة أو قديمة أو غير محايدة.
+title: "Correction: "
+labels: ["data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Every correction needs a public source with a date. If you are comfortable editing JSON, you can also open a pull request directly ([CONTRIBUTING.md](https://github.com/muradalshorman987/fault-lines-atlas/blob/main/CONTRIBUTING.md)).
+
+        شكراً لك. كل تصحيح يحتاج إلى مصدر منشور مع تاريخه. وإن كنت تعرف تعديل ملفات JSON، فيمكنك فتح طلب دمج مباشرة ([دليل المساهمة](https://github.com/muradalshorman987/fault-lines-atlas/blob/main/CONTRIBUTING.ar.md)).
+  - type: input
+    id: record
+    attributes:
+      label: Which record? / أيّ سجلّ؟
+      description: The share link is best (the link button in the top bar), or the name as the atlas shows it. / رابط المشاركة هو الأفضل (زر الرابط في الشريط العلوي)، أو الاسم كما يظهر في الأطلس.
+      placeholder: "https://fault-lines-atlas.vercel.app/#conflict-sudan"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem? / ما نوع المشكلة؟
+      options:
+        - A fact is wrong / معلومة خاطئة
+        - It is out of date / معلومة قديمة
+        - A disputed point is shown as settled / أمر خلافي يُعرض كأنه محسوم
+        - The wording is not neutral / الصياغة غير محايدة
+        - The Arabic and English texts disagree / النصّان العربي والإنجليزي مختلفان
+        - Other / غير ذلك
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What does the atlas say now? / ماذا يقول الأطلس الآن؟
+      description: Quote the text or the number. / انقل النص أو الرقم كما هو.
+    validations:
+      required: true
+  - type: textarea
+    id: right
+    attributes:
+      label: What should it say? / ماذا ينبغي أن يقول؟
+      description: If the point is disputed, say who claims what. / إن كان الأمر خلافياً، فاذكر من يقول ماذا.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources / المصادر
+      description: A link and a date for each source. / رابط وتاريخ لكل مصدر.
+      placeholder: "- https://… (2026-10-27)"
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you send / قبل الإرسال
+      options:
+        - label: The sources are public and support the correction as written. / المصادر منشورة وتؤيّد التصحيح كما كتبته.
+          required: true

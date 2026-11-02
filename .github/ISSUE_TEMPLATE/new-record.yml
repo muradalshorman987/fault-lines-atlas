@@ -1,0 +1,70 @@
+name: New record / سجلّ جديد
+description: Suggest an event, a recent development, a conflict or another record the atlas is missing. / اقترح حدثاً أو تطوّراً أخيراً أو نزاعاً أو سجلّاً آخر غائباً عن الأطلس.
+title: "New: "
+labels: ["data", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Describe what happened in neutral words and give public sources with dates. If you'd rather open a pull request, the guide shows the shape of each record ([CONTRIBUTING.md](https://github.com/muradalshorman987/fault-lines-atlas/blob/main/CONTRIBUTING.md#add-a-record)).
+
+        شكراً لك. صِف ما حدث بصياغة محايدة، واذكر مصادر منشورة مع تواريخها. وإن فضّلت فتح طلب دمج، فدليل المساهمة يشرح شكل كل سجلّ ([دليل المساهمة](https://github.com/muradalshorman987/fault-lines-atlas/blob/main/CONTRIBUTING.ar.md)).
+  - type: dropdown
+    id: type
+    attributes:
+      label: What kind of record? / ما نوع السجلّ؟
+      options:
+        - Timeline event / حدث في الخط الزمني
+        - Recent development in a conflict / تطوّر أخير في نزاع
+        - New conflict / نزاع جديد
+        - Chokepoint / مضيق أو ممرّ بحري
+        - Resource site / موقع موارد
+        - Alliance, bloc or rivalry / تحالف أو تكتّل أو خصومة
+        - Other / غير ذلك
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Name, in Arabic and English if you can / الاسم، بالعربية والإنجليزية إن أمكن
+      placeholder: "اتفاقية بريتوريا / The Pretoria Agreement"
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Date / التاريخ
+      description: YYYY, YYYY-MM or YYYY-MM-DD
+      placeholder: "2022-11-02"
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Countries and related conflicts / الدول والنزاعات المرتبطة
+      placeholder: "Ethiopia (ETH); the Tigray war"
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened / ماذا حدث
+      description: Two or three neutral sentences. Attribute any disputed claim to whoever makes it. / جملتان أو ثلاث بصياغة محايدة، مع نسبة كل ادّعاء خلافي إلى قائله.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources / المصادر
+      description: A link and a date for each source. / رابط وتاريخ لكل مصدر.
+      placeholder: "- https://… (2022-11-02)"
+    validations:
+      required: true
+  - type: dropdown
+    id: confirmed
+    attributes:
+      label: How well is it confirmed? / ما درجة التأكّد منه؟
+      description: Records not yet independently confirmed are published with an "unverified" badge. / السجلّات التي لم تُؤكَّد من جهات مستقلة تُنشر مع شارة تبيّن ذلك.
+      options:
+        - Confirmed by more than one independent source / تؤكّده أكثر من جهة مستقلة
+        - A single report, or not independently confirmed / تقرير واحد، أو لم يُؤكَّد بصورة مستقلة
+    validations:
+      required: true

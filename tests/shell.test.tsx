@@ -401,4 +401,50 @@ describe('review fixes', () => {
     expect(atlas.get().selection).toBeNull();
     expect(document.activeElement).toBe(document.querySelector('#topbar [data-k="search"]'));
   });
+
+  test('once focus has left the crumb, a later Esc does not pull focus to search', () => {
+    renderShell();
+    act(() => { atlas.select('country', 'SAU', { fly: false }); });
+    const x = q('#topbar [data-k="crumb-clear"]')!;
+    x.focus();
+    act(() => { x.blur(); }); // focus leaves with no relatedTarget, as when the reader clicks the map canvas
+    expect(document.activeElement).toBe(document.body);
+    key(document.body, { key: 'Escape' });
+    expect(atlas.get().selection).toBeNull();
+    expect(document.activeElement).toBe(document.body);
+  });
+});
+
+describe('Start here', () => {
+  const welcomes = () => {
+    const seen: unknown[] = [];
+    const off = on('welcome', (p) => { seen.push(p); });
+    return { seen, off };
+  };
+
+  test('the help dialog reopens the Start here panel', () => {
+    const { seen, off } = welcomes();
+    renderShell();
+    fireEvent.click(q('#topbar [data-k="help"]')!);
+    const item = q('#help [data-k="help-welcome"]')!;
+    expect(item).toHaveTextContent('ابدأ من هنا');
+    fireEvent.click(item);
+    off();
+    expect(seen).toEqual([null]);
+    expect(q('#help')!.hidden).toBe(true);
+  });
+
+  test('the palette lists Start here with the actions, and choosing it reopens the panel', () => {
+    const { seen, off } = welcomes();
+    renderShell();
+    act(() => { atlas.set({ lang: 'en' }); });
+    key(document.body, { key: '/', code: 'Slash' });
+    fireEvent.change(q('#pal-in')!, { target: { value: 'start here' } });
+    const opt = [...document.querySelectorAll<HTMLElement>('#pal-list .pal-opt')].find((o) => o.textContent?.includes('Start here'))!;
+    expect(opt).toBeTruthy();
+    fireEvent.click(opt);
+    off();
+    expect(seen).toEqual([null]);
+    expect(palOpen()).toBe(false);
+  });
 });

@@ -1,0 +1,91 @@
+name: Data update
+
+# Weekly open-data refresh (docs/DATA.md; design spec §6 and D11).
+# Job 1 fetches the sources and runs the same checks as CI (check-data, typecheck, unit tests) with a read-only token.
+# Job 2 opens or updates one pull request with the new files. It never pushes to main and installs no packages.
+#
+# Repository setup:
+# - Settings › Actions › General › "Allow GitHub Actions to create and approve pull requests" must be on.
+# - Secret EIA_API_KEY (optional): a free EIA API key. Without it the EIA source is skipped.
+# - Secret DATA_PR_TOKEN (optional): a fine-grained token with Contents and Pull requests write access to this repo.
+#   Pull requests opened with the default GITHUB_TOKEN do not trigger ci.yml; with this token they do.
+
+on:
+  schedule:
+    - cron: '23 5 * * 1' # Mondays 05:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: data-update
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      changed: ${{ steps.update.outputs.changed }}
+      new_failure: ${{ steps.update.outputs.new_failure }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Fetch the open-data sources
+        id: update
+        run: npm run data:update -- --report "$RUNNER_TEMP/data-report.md"
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+      - run: npm run check-data
+      - run: npm run typecheck
+      - run: npm test
+      - name: Keep the new files for the pull request job
+        if: steps.update.outputs.changed == 'true' || steps.update.outputs.new_failure == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: generated
+          path: public/data/generated/
+          retention-days: 7
+      - name: Keep the report
+        if: steps.update.outputs.changed == 'true' || steps.update.outputs.new_failure == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: report
+          path: ${{ runner.temp }}/data-report.md
+          retention-days: 7
+
+  pull-request:
+    needs: fetch
+    if: needs.fetch.outputs.changed == 'true' || needs.fetch.outputs.new_failure == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
+        with:
+          name: generated
+          path: public/data/generated/
+      - uses: actions/download-artifact@v8
+        with:
+          name: report
+          path: ${{ runner.temp }}/report/
+      - name: Open or update the data pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.DATA_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          branch: data/weekly-update
+          delete-branch: true
+          add-paths: public/data/generated/**
+          commit-message: 'Data: weekly open-data update'
+          title: 'Data: weekly open-data update'
+          body-path: ${{ runner.temp }}/report/data-report.md

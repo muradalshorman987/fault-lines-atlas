@@ -10,7 +10,7 @@ import { normalize, type Lang } from '../../i18n/format';
 import { esc } from '../../ui/dom';
 import { Icon } from '../../ui/Icon';
 import { availableTours, stepsLabel, type Tour } from '../tours/tours';
-import { copyLink, cycleTheme, KIND_ICON, nextTheme, pickRecord, setLens, startTour, THEME_ICON, toggleLang, toggleProjection } from './actions';
+import { copyLink, cycleTheme, KIND_ICON, nextTheme, openWelcome, pickRecord, setLens, startTour, THEME_ICON, toggleLang, toggleProjection } from './actions';
 import { markMatch } from './markMatch';
 import { closePalette, openHelp, paletteReturn, trapTab, useShellUi } from './ui';
 
@@ -122,6 +122,7 @@ function commands(T: T, s: CommandState, tours: Tour[]): Command[] {
   const out: Command[] = [];
   LENSES.forEach((l, i) => out.push({ group: 'lens', label: L(l), sub: L(l.sub), ic: l.icon, kbd: String(i + 1), on: s.lens === l.id, run: () => setLens(l.id) }));
   VIEWS.forEach((v) => out.push({ group: 'view', label: L(v), ic: v.icon, on: s.view === v.id, run: () => atlas.openView(v.id) }));
+  out.push({ group: 'action', label: t('sh.welcome'), sub: t('sh.welcomeSub'), ic: 'compass', run: openWelcome });
   out.push({ group: 'action', label: t('sh.actTheme', { mode: t('sh.theme.' + next) }), ic: THEME_ICON[next], kbd: 'T', run: cycleTheme });
   out.push({ group: 'action', label: t('sh.actLang'), ic: 'lang', kbd: 'L', run: toggleLang });
   out.push({ group: 'action', label: t(s.projection === 'globe' ? 'sh.actFlat' : 'sh.actGlobe'), ic: s.projection === 'globe' ? 'flat' : 'globe', kbd: 'G', run: toggleProjection });

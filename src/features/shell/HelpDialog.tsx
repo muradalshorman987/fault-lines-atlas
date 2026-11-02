@@ -4,7 +4,7 @@ import { useLayoutEffect, useRef, type KeyboardEvent, type ReactNode } from 'rea
 import { atlas } from '../../app/store';
 import { useDb, useT } from '../../app/useT';
 import { Icon } from '../../ui/Icon';
-import { MOD } from './actions';
+import { MOD, openWelcome } from './actions';
 import { keyOf } from './keyboard';
 import { Mark } from './marks';
 import { closeHelp, helpReturnTo, restoreFocus, trapTab, useShellUi } from './ui';
@@ -49,6 +49,12 @@ function HelpBox() {
     restoreFocus(ret);
   };
 
+  // Focus goes back to where help was opened from; the panel takes it if it wants it.
+  const openStart = () => {
+    closeHelp();
+    openWelcome();
+  };
+
   const link = (
     <>
       <a href={ORIGINAL.url} target="_blank" rel="noopener"><bdi lang="ar">«{ORIGINAL.ar}»</bdi></a>
@@ -79,9 +85,14 @@ function HelpBox() {
             <p className="help-about">{t('sh.about')}</p>
             <p className="help-credit">{fill(t('sh.credit'), 'link', link)}</p>
             <p className="caveat"><Icon name="info" size={16} /><span>{fill(t('sh.asOf'), 'date', <span className="num">{fmt.date(db.conflictsAsOf)}</span>)}</span></p>
-            <button type="button" className="btn" data-k="help-sources" onClick={openSources}>
-              <Icon name="book" size={16} /><span>{t('sh.openSources')}</span>
-            </button>
+            <div className="chips">
+              <button type="button" className="btn" data-k="help-welcome" onClick={openStart}>
+                <Icon name="compass" size={16} /><span>{t('sh.welcome')}</span>
+              </button>
+              <button type="button" className="btn" data-k="help-sources" onClick={openSources}>
+                <Icon name="book" size={16} /><span>{t('sh.openSources')}</span>
+              </button>
+            </div>
           </section>
         </div>
       </div>

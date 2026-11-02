@@ -1,5 +1,5 @@
 // The top bar: brand, search button, breadcrumb (lens › selection), view buttons, tools and the phone menu button.
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 
 import { emit } from '../../app/events';
 import { atlas, useAtlas } from '../../app/store';
@@ -23,7 +23,13 @@ function Crumb() {
   const lens = LENSES.find((l) => l.id === lensId) ?? LENSES[0];
   const sel = selection && db.exists(selection.kind, selection.id) ? selection : null;
   // When the crumb's buttons disappear under keyboard focus (× or Esc), focus goes to search, as in v2.
+  // Whether focus was in the crumb is read when the selection changes, before React removes the buttons
+  // (store listeners run inside atlas.set; the re-render comes after).
+  const crumbRef = useRef<HTMLDivElement>(null);
   const hadFocus = useRef(false);
+  useEffect(() => useAtlas.subscribe((s, prev) => {
+    if (s.selection !== prev.selection) hadFocus.current = !!crumbRef.current?.contains(document.activeElement);
+  }), []);
   useLayoutEffect(() => {
     if (sel) return;
     if (hadFocus.current && (!document.activeElement || document.activeElement === document.body)) {
@@ -32,9 +38,7 @@ function Crumb() {
     hadFocus.current = false;
   }, [sel]);
   return (
-    <div className={`tb-crumb${sel ? ' has-sel' : ''}`} role="group" aria-label={t('sh.context')}
-      onFocus={() => { hadFocus.current = true; }}
-      onBlur={(e) => { if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget)) hadFocus.current = false; }}>
+    <div ref={crumbRef} className={`tb-crumb${sel ? ' has-sel' : ''}`} role="group" aria-label={t('sh.context')}>
       <span className="cr-lens"><Icon name={lens.icon} size={15} /><span className="cr-lens-name">{L(lens)}</span></span>
       {sel && (
         <>

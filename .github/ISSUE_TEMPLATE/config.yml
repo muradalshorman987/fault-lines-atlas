@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security problem / ثغرة أمنية
+    url: https://github.com/muradalshorman987/fault-lines-atlas/security/policy
+    about: Please report vulnerabilities privately, not in a public issue. / أبلغ عن الثغرات بصورة خاصة، لا في بلاغ علني.
+  - name: Contributing guide / دليل المساهمة
+    url: https://github.com/muradalshorman987/fault-lines-atlas/blob/main/CONTRIBUTING.md
+    about: Small data fixes can go straight to a pull request; the guide shows how. / التصحيحات الصغيرة يمكن إرسالها مباشرة في طلب دمج، والدليل يشرح الطريقة.

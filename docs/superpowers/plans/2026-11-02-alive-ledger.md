@@ -47,3 +47,22 @@ Rulings:
 - `sh.ask` string registered in ask/strings.ts.
 
 Coupling: `vercel.json` CSP holds the sha256 of index.html's inline pre-paint script. Changing that script requires updating the hash; tests/ask-csp.test.tsx guards it.
+
+## os-builder: complete
+- 96 tests across 5 files; tsc clean.
+- Bundle, startup gz: 213.1 kB → 186.4 kB. Lazy chunks: network 13.7, compare 6.6, timeline 6.1, sources 3.6, tour 3.5, pulse 11.9, welcome 3.3, ask 14.9 kB.
+- Browser: cold loads of #view-network, #tour-energy, #compare-USA-CHN and #view-pulse all work. Help → Start here opens the panel.
+
+Rulings:
+- LazyArea holds starttour/welcome events sent before its chunk mounts and re-sends them once (lastOf would replay old commands).
+- No d3 manualChunks.
+- curated.test.ts asserts rules, plus 3 checks on D4 corrections.
+- The view fallback is an empty aria-busy div.
+- Timeline split into Scrubber.tsx, TimelineView.tsx and shared.ts.
+
+Follow-ups (lead):
+- config.ts lens subtitle hard-codes "40 files across five regions".
+- .gitignore lacks .env*.local.
+- README should link CONTRIBUTING and ARCHITECTURE.
+- The Ask chunk loads at startup (askReady is set on mount).
+- Owner, on GitHub: enable private vulnerability reporting; create a `data` label.

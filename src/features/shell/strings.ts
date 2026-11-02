@@ -1,4 +1,4 @@
-// The shell's UI strings, copied verbatim from legacy/js/shell.js.
+// The shell's UI strings, copied verbatim from legacy/js/shell.js (sh.welcome* came later, with the Start here panel).
 
 import { registerStrings } from '../../i18n/strings';
 
@@ -23,6 +23,8 @@ registerStrings({
     'sh.actGlobe': 'اعرض الكرة الأرضية',
     'sh.actLink': 'انسخ رابط هذا العرض',
     'sh.actTour': 'ابدأ جولة: {title}',
+    'sh.welcome': 'ابدأ من هنا',
+    'sh.welcomeSub': 'أسئلة تبدأ منها، والجولات الموجّهة',
     'sh.views': 'العروض',
     'sh.lenses': 'العدسات',
     'sh.key': 'المفتاح',
@@ -98,6 +100,8 @@ registerStrings({
     'sh.actGlobe': 'Show the globe',
     'sh.actLink': 'Copy a link to this view',
     'sh.actTour': 'Start tour: {title}',
+    'sh.welcome': 'Start here',
+    'sh.welcomeSub': 'Questions to begin with, and the guided tours',
     'sh.views': 'Views',
     'sh.lenses': 'Lenses',
     'sh.key': 'Key',

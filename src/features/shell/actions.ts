@@ -29,6 +29,8 @@ export const toggleView = (id: ViewId) => (atlas.get().view === id ? atlas.close
 export const toggleLang = () => { atlas.set({ lang: atlas.get().lang === 'ar' ? 'en' : 'ar' }); };
 // Started from a menu: the tour card takes focus (v2 sent the same {id, focus} payload).
 export const startTour = (id: string) => { emit('starttour', { id, focus: true }); };
+// The "Start here" panel (features/welcome) listens for this; the shell never imports it.
+export const openWelcome = () => { emit('welcome', null); };
 
 export function cycleTheme(): void {
   const next = nextTheme();

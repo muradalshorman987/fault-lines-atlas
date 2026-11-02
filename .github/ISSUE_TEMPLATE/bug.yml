@@ -1,0 +1,50 @@
+name: Bug / خلل
+description: Something on the site doesn't work or looks broken. / شيء في الموقع لا يعمل أو يظهر بشكل خاطئ.
+title: "Bug: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened? / ماذا حدث؟
+      description: What you did, what you expected, and what you saw instead. / ماذا فعلت، وماذا توقّعت، وماذا ظهر لك بدلاً من ذلك.
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Link / الرابط
+      description: The address in your browser when it happened. / العنوان في متصفحك عند حدوث المشكلة.
+      placeholder: "https://fault-lines-atlas.vercel.app/#view-network"
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language / اللغة
+      options:
+        - Arabic / العربية
+        - English / الإنجليزية
+        - Both / كلتاهما
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device / الجهاز
+      options:
+        - Desktop or laptop / حاسوب
+        - Phone / هاتف
+        - Tablet / جهاز لوحي
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version / المتصفح وإصداره
+      placeholder: "Edge 141, Safari on iOS…"
+  - type: textarea
+    id: console
+    attributes:
+      label: Errors from the browser console, if any / أخطاء وحدة التحكّم في المتصفح إن وُجدت
+      render: text
+  - type: markdown
+    attributes:
+      value: |
+        Screenshots help: paste them into the first box. Never include an API key.
+
+        لقطات الشاشة مفيدة، فالصقها في الحقل الأول. ولا تُرفق أي مفتاح API أبداً.

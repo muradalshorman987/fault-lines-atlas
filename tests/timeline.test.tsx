@@ -1,5 +1,5 @@
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
-import type { ReactNode } from 'react';
+import { Profiler, type ReactNode } from 'react';
 import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import { emit } from '../src/app/events';
 import { atlas } from '../src/app/store';
@@ -163,6 +163,21 @@ describe('full timeline view', () => {
     expect(atlas.get().filters.timelineCats?.has(first)).toBe(false);
     expect(q(`.tl-cats [data-cat="${first}"]`)).toHaveAttribute('aria-pressed', 'false');
     expect(q('.tl-cats [data-all]')).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  test('play ticks move the cursor without re-rendering the view', () => {
+    fakeClock();
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(800); // a width, so the chart and its cursor exist
+    const renders = vi.fn();
+    wrap(<Profiler id="timeline" onRender={renders}><TimelineView /></Profiler>);
+    tick(100); // let the chart report its first visible range
+    expect(q('.tl-cursor text')).toHaveTextContent('2026');
+    const before = renders.mock.calls.length;
+    for (const year of [1950, 1951, 1952]) act(() => { atlas.set({ year }); });
+    tick(100);
+    expect(renders.mock.calls.length).toBe(before);
+    expect(q('.tl-cursor text')).toHaveTextContent('1952');
+    expect(q('.tl-cursor')!.getAttribute('transform')).not.toBe('');
   });
 
   test('switching language re-renders in place', () => {

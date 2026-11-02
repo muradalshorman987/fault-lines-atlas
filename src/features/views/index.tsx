@@ -1,7 +1,8 @@
 // View host: one full panel over the stage (pulse, network, timeline, compare, sources). Layout mounts the year scrubber itself.
+// The host is always loaded; each view body is a lazy chunk.
 // Esc is the shell's job; this file owns opening, closing, focus and re-rendering on state changes.
 
-import { Component, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { Component, lazy, Suspense, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { atlas, useAtlas } from '../../app/store';
 import { useDb, useT } from '../../app/useT';
 import { VIEWS, type ViewId } from '../../config';
@@ -9,11 +10,14 @@ import { registerStrings } from '../../i18n/strings';
 import { esc, reducedMotion } from '../../ui/dom';
 import { Icon } from '../../ui/Icon';
 import { hideTip } from '../../ui/tooltip';
-import { PulseView } from '../pulse';
-import { CompareView } from './compare';
-import { NetworkView } from './network';
-import { SourcesView } from './sources';
-import { TimelineView } from './timeline';
+
+// Each view body is its own chunk, fetched the first time that view opens (a #view-… or #compare-… link included).
+// The panel frame below stays in the main bundle, so the title shows at once.
+const PulseView = lazy(() => import('../pulse').then((m) => ({ default: m.PulseView })));
+const NetworkView = lazy(() => import('./network').then((m) => ({ default: m.NetworkView })));
+const TimelineView = lazy(() => import('./timeline/TimelineView').then((m) => ({ default: m.TimelineView })));
+const CompareView = lazy(() => import('./compare').then((m) => ({ default: m.CompareView })));
+const SourcesView = lazy(() => import('./sources').then((m) => ({ default: m.SourcesView })));
 
 registerStrings({
   ar: {
@@ -57,7 +61,7 @@ function ViewBody({ id }: { id: ViewId }) {
   }
 }
 
-/** A view that throws while rendering shows the "no data" line instead of taking the app down. */
+/** A view that throws while rendering (or whose code fails to load) shows the "no data" line instead of taking the app down. */
 class ViewBoundary extends Component<{ id: ViewId; fallback: string; children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
@@ -134,7 +138,11 @@ export function ViewPanel() {
           )}
         </header>
         <div className="vp-body scroll" ref={bodyRef}>
-          {shown && <ViewBoundary key={bodyKey} id={shown} fallback={t('noData')}><ViewBody id={shown} /></ViewBoundary>}
+          {shown && (
+            <ViewBoundary key={bodyKey} id={shown} fallback={t('noData')}>
+              <Suspense fallback={<div className="vp-wait" aria-busy="true" />}><ViewBody id={shown} /></Suspense>
+            </ViewBoundary>
+          )}
         </div>
       </div>
     </section>
