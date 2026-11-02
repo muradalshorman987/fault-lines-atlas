@@ -87,3 +87,19 @@ describe('count-up', () => {
     expect(result.current).toBe(240);
   });
 });
+
+describe('count-up timing', () => {
+  test('a first frame stamped before the hook started never shows a negative value', async () => {
+    const { act } = await import('@testing-library/react');
+    vi.stubGlobal('matchMedia', () => ({ matches: false, addEventListener() {}, removeEventListener() {} }));
+    const frames: FrameRequestCallback[] = [];
+    vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => { frames.push(cb); return frames.length; });
+    vi.stubGlobal('cancelAnimationFrame', () => {});
+    vi.spyOn(performance, 'now').mockReturnValue(5000);
+    const { result } = renderHook(() => useCountUp(100, 700));
+    act(() => { frames.shift()?.(1000); });   // rAF time is earlier than performance.now() at start
+    expect(result.current).toBeGreaterThanOrEqual(0);
+    act(() => { frames.shift()?.(1000 + 700); });
+    expect(result.current).toBe(100);
+  });
+});

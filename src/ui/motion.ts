@@ -12,9 +12,10 @@ export function useCountUp(target: number, ms = 700): number {
     if (reduced || typeof requestAnimationFrame !== 'function') return;
     let raf = 0;
     const start = last.current;
-    const t0 = performance.now();
+    let t0: number | null = null; // taken from the first frame: rAF timestamps and performance.now() can disagree
     const tick = (now: number) => {
-      const k = Math.min(1, (now - t0) / ms);
+      t0 ??= now;
+      const k = Math.min(1, Math.max(0, (now - t0) / ms));
       const v = start + (target - start) * (1 - (1 - k) ** 3);
       last.current = v;
       setShown(v);
