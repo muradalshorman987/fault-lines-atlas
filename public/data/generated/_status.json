@@ -1,36 +1,36 @@
 {
-  "updatedAt": "2026-11-02T14:31:45.801Z",
+  "updatedAt": "2026-11-09T14:04:40.989Z",
   "sources": {
     "worldbank": {
-      "state": "ok",
-      "checkedAt": "2026-11-02T13:59:06.435Z",
+      "state": "unchanged",
+      "checkedAt": "2026-11-09T14:04:40.989Z",
       "fetchedAt": "2026-11-02T13:59:06.435Z",
       "records": 215
     },
     "ucdp": {
       "state": "unchanged",
-      "checkedAt": "2026-11-02T13:59:06.435Z",
+      "checkedAt": "2026-11-09T14:04:40.989Z",
       "fetchedAt": "2026-11-02T13:55:22.698Z",
       "records": 33
     },
     "unhcr": {
       "state": "unchanged",
-      "checkedAt": "2026-11-02T14:31:45.801Z",
+      "checkedAt": "2026-11-09T14:04:40.989Z",
       "fetchedAt": "2026-11-02T14:31:02.101Z",
       "records": 200
     },
     "usgs": {
-      "state": "unavailable",
-      "checkedAt": "2026-11-02T13:59:06.435Z",
+      "state": "error",
+      "checkedAt": "2026-11-09T14:04:40.989Z",
       "fetchedAt": null,
-      "message": "ScienceBase answers scripts with a Cloudflare challenge (HTTP 403); set USGS_MCS_CSV to a downloaded copy"
+      "message": "ScienceBase item 69837e43b66b01367d7ec7c7 lists no world-production CSV"
     },
     "eia": {
       "state": "skipped",
-      "checkedAt": "2026-11-02T13:59:06.435Z",
+      "checkedAt": "2026-11-09T14:04:40.989Z",
       "fetchedAt": null,
       "message": "EIA_API_KEY is not set"
     }
   },
-  "drift": { "state": "ok", "checkedAt": "2026-11-02T13:59:06.435Z", "differences": 11 }
+  "drift": { "state": "ok", "checkedAt": "2026-11-09T14:04:40.989Z", "differences": 11 }
 }
